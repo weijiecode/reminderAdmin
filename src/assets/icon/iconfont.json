@@ -1,0 +1,37 @@
+{
+  "id": "3449455",
+  "name": "reminderAdmin",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2455951",
+      "name": "待办提醒",
+      "font_class": "daibantixing",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "1411020",
+      "name": "2流量",
+      "font_class": "liuliang",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "16017219",
+      "name": "29my",
+      "font_class": "my",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "1411038",
+      "name": "流量统计23",
+      "font_class": "liuliangtongji",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    }
+  ]
+}

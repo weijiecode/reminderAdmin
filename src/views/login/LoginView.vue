@@ -3,8 +3,6 @@
     <div class="toptitle">reminderAdmin</div>
     <img class="bgimg" :src="bgSvg" alt="" />
     <Account />
-    <button @click="changecolor">换肤</button>
-    <div>登录</div>
   </div>
 </template>
 <script lang="ts">
@@ -33,7 +31,7 @@ export default defineComponent({
   margin: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--theme_bg_color);
+  background-color: #f5f5ff;
 }
 
 .bgimg {

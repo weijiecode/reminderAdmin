@@ -8,7 +8,7 @@
 }
 
 :root {
-    --theme_bg_color: #f5f5ff;
+    --theme_bg_color: #f8f8f8;
 }
 
 html,
@@ -26,3 +26,15 @@ body,
 	overflow: hidden;
 	position: relative;
 }
+/*全局滚动条样式*/
+::-webkit-scrollbar {
+  width: 5px;
+  height: 14px;
+}
+
+::-webkit-scrollbar-thumb {
+/* background-color: #01c8dc;
+border-radius: 3px; */
+  background-color: #b6b6b6;
+}
+/*全局滚动条样式结束*/

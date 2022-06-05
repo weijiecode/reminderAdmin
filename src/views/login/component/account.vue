@@ -3,27 +3,49 @@
     <div class="content-box">
       <h4 class="login-title">reminder后台管理系统</h4>
       <el-tabs v-model="activeName" class="demo-tabs">
-        <el-tab-pane label="用户名登录" name="first">
-
-          <el-form hide-required-asterisk="false" ref="loginFormRef" :rules="loginRules" :model="loginForm" class="demo-dynamic">
-            <el-form-item prop="username">
-              <el-input size="large" maxlength="8" clearable :prefix-icon="User" v-model="loginForm.username" />
-            </el-form-item>
-            <el-form-item prop="password">
-              <el-input size="large" maxlength="15" show-password :prefix-icon="Lock" v-model="loginForm.password" />
-            </el-form-item>
-            <el-form-item>
-              <el-input class="inputcode" size="large" maxlength="4" clearable :prefix-icon="Position" v-model="loginForm.code" />
-              <el-button size="large" class="codebtn">Default</el-button>
-            </el-form-item>
-            <el-form-item>
-              <el-button size="large" class="loginbtn" round type="primary" @click="submitForm(loginFormRef)">登录</el-button>
-            </el-form-item>
-          </el-form>
-        </el-tab-pane>
-
-
-        <el-tab-pane label="手机号登录" name="second">手机号登录</el-tab-pane>
+        <transition name="mytrans">
+          <el-tab-pane label="用户名登录" name="first">
+            <el-form ref="loginFormRef" :rules="loginRules" :model="loginForm" class="demo-dynamic">
+              <el-form-item prop="username">
+                <el-input placeholder="请输入用户名" size="large" maxlength="8" clearable :prefix-icon="User"
+                  v-model="loginForm.username" />
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input placeholder="请输入密码" size="large" maxlength="15" show-password :prefix-icon="Lock"
+                  v-model="loginForm.password" />
+              </el-form-item>
+              <el-form-item>
+                <el-input placeholder="请输入验证码" class="inputcode" size="large" maxlength="4" clearable
+                  :prefix-icon="Position" v-model="code" />
+                <el-button @click="changecode" size="large" class="codebtn">{{ subcode }}</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button v-loading.fullscreen.lock="fullscreenLoading" size="large" class="loginbtn" round type="primary" @click="submitForm(loginFormRef)">登录
+                </el-button>
+              </el-form-item>
+            </el-form>
+            <div class="tip">* 温馨提示：建议使用谷歌、Microsoft Edge，版本 79.0.1072.62 及以上浏览器，360浏览器请使用极速模式</div>
+          </el-tab-pane>
+        </transition>
+        <transition name="mytrans">
+          <el-tab-pane label="手机号登录" name="second">
+            <el-form :rules="loginRules" :model="loginForm" class="demo-dynamic">
+              <el-form-item>
+                <el-input placeholder="请输入手机号" size="large" maxlength="8" clearable :prefix-icon="Iphone" />
+              </el-form-item>
+              <el-form-item>
+                <el-input placeholder="请输入手机验证码" class="inputcode" size="large" maxlength="4" clearable
+                  :prefix-icon="Position" />
+                <el-button size="large" class="codebtn1">获取验证码</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button size="large" class="loginbtn" round type="primary">登录
+                </el-button>
+              </el-form-item>
+            </el-form>
+            <div class="tip">* 温馨提示：建议使用谷歌、Microsoft Edge，版本 79.0.1072.62 及以上浏览器，360浏览器请使用极速模式</div>
+          </el-tab-pane>
+        </transition>
       </el-tabs>
     </div>
   </div>
@@ -32,19 +54,32 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from "vue";
 import { loginFormState } from "@/types/login";
+import { signIn } from "@/api/login/index";
 import type { FormInstance, FormRules } from 'element-plus';
+import { ElMessage } from 'element-plus'
 // 输入框图标
-import { User, Lock, Position } from '@element-plus/icons-vue'
+import { User, Lock, Position, Iphone } from '@element-plus/icons-vue';
+import { useRouter } from "vue-router";
 export default defineComponent({
   name: "LoginBox",
   setup() {
     const activeName = ref('first');
+    const router = useRouter();
     const loginFormRef = ref<FormInstance>();
     const loginForm = reactive<loginFormState>({
       username: '',
-      password: '',
-      code: ''
+      password: ''
     });
+    // 验证码
+    let code = ref<string>();
+    let subcode = ref<string>();
+    subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
+    // 更改验证码
+    const changecode = () => {
+      subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
+    };
+
+    // code.value = '123'
     const loginRules = reactive<FormRules>({
       username: [
         { required: true, message: "请输入账号", trigger: "blur" },
@@ -55,11 +90,36 @@ export default defineComponent({
         { min: 6, max: 15, message: "密码长度需要在6-15位", trigger: "blur" },
       ]
     })
+    const fullscreenLoading = ref(false)
+    // 登录提交
     const submitForm = async (formEl: FormInstance | undefined) => {
       if (!formEl) return
       await formEl.validate((valid, fields) => {
         if (valid) {
           console.log('submit!')
+          console.log(code.value)
+          console.log(subcode.value)
+          if (code.value === subcode.value) {
+            signIn(loginForm).then((res: any) => {
+              console.log(res)
+              if (res.code == 200) {
+                  fullscreenLoading.value = true
+                  setTimeout(() => {
+                    fullscreenLoading.value = false
+                    router.push('/main');
+                  }, 1000)
+                loginForm.username = '';
+                loginForm.password = '';
+                localStorage.setItem('token', res.token);
+              } else {
+                subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
+                ElMessage.error('用户名或密码输入有误，请重新输入');
+              }
+            })
+          }else{
+            subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
+            ElMessage.error('验证码输入错误，请重新输入');
+          }
         } else {
           console.log('error submit!', fields)
         }
@@ -69,10 +129,15 @@ export default defineComponent({
       User,
       Lock,
       Position,
+      Iphone,
       activeName,
       loginForm,
+      code,
+      subcode,
       loginFormRef,
       loginRules,
+      fullscreenLoading,
+      changecode,
       ...toRefs(loginRules),
       submitForm
     };
@@ -124,15 +189,24 @@ export default defineComponent({
 }
 
 .el-input {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
-.inputcode{
+.inputcode {
   width: 225px;
 }
+
 .codebtn {
   width: 115px;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-left: 20px;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+.codebtn1 {
+  width: 115px;
+  margin-top: 5px;
   margin-left: 20px;
 }
 
@@ -140,4 +214,24 @@ export default defineComponent({
   width: 360px;
 }
 
+.tip {
+  font-size: 12px;
+  color: #a8abb2;
+}
+
+.mytrans-enter-active,
+.mytrans-leave-active {
+  transition: all .5s;
+  opacity: 1;
+}
+
+.mytrans-enter {
+  transition: all .5s;
+  opacity: 0;
+}
+
+.mytrans-leave-to {
+  transition: all .5s;
+  opacity: 0;
+}
 </style>
