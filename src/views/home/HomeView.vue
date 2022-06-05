@@ -51,7 +51,7 @@ export default defineComponent({
         name: '/main',
       },
     ])
-
+    // 移除关闭tab页
     const removeTab = (targetName: string) => {
       // console.log(targetName)
       const tabs = editableTabs.value
@@ -74,8 +74,8 @@ export default defineComponent({
 
     const route: any = useRoute();
     const router = useRouter();
-
     let flag = ref<number>(0)
+    // 监测路由变化（点击菜单栏的改变），并改变其对应tab页
     watch(route, () => {
       flag.value = 0
       console.log(route.path, '1111')
@@ -97,10 +97,11 @@ export default defineComponent({
       }
 
     });
+    // tab页的切换
     const tabClick = (tab: any) => {
       router.push(tab.paneName)
     };
-
+    // 刷新页面时的操作
     onMounted(() => {
       // 刷新时以当前路由做为tab加入tabs
       // 当前路由不是首页时，添加首页以及另一页到store里，并设置激活状态
@@ -145,12 +146,17 @@ export default defineComponent({
 
 .el-header {
   height: 50px;
+  background-color: #ffffff;
 }
 
 .el-main {
-  // background-color: bisque;
+  background-color: #f8f8f8;
   border-top: 1px solid #f1f2f3;
-  padding: 5px 20px;
+  padding: 0px;
+}
+
+::v-deep .el-tabs__nav-scroll {
+  margin: 6px 0 0 5px;
 }
 
 // .el-aside {
@@ -171,6 +177,10 @@ export default defineComponent({
 ::v-deep .el-tabs__item {
   height: 30px;
   line-height: 30px;
+}
+
+::v-deep .el-tabs__header {
+  background-color: #ffffff;
 }
 
 .el-empty {

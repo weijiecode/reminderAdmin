@@ -20,7 +20,7 @@ import request from '@/api/http';
 // };
 export const signIn = (params: object) => {
 	return request({
-		url: '/account/adminlogin',
+		url: '/admin/adminlogin',
 		method: 'post',
 		data: params,
 	});

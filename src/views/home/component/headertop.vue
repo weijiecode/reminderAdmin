@@ -15,7 +15,7 @@
       </el-breadcrumb>
     </div>
     <div class="rightbox">
-      <el-icon :size="16" color="#606266">
+      <el-icon :size="16" color="#606266" @click="changecolor">
         <Sunny />
       </el-icon>
       <el-icon :size="16" color="#606266">
@@ -24,14 +24,14 @@
       <el-icon :size="16" color="#606266">
         <Bell />
       </el-icon>
-      <el-icon :size="16" color="#606266" @click="changecolor">
+      <el-icon :size="16" color="#606266">
         <FullScreen />
       </el-icon>
 
       <el-dropdown>
         <div class="user">
           <img src="@/assets/t.jpeg" alt="">
-          <div class="nickname">你吃晚饭了吗</div>
+          <div class="nickname">{{nickname}}</div>
           <el-icon :size="12" color="#606266">
             <ArrowDown />
           </el-icon>
@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Bell, Sunny, Search, FullScreen, ArrowDown, Expand, Fold, ArrowRight } from '@element-plus/icons-vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -77,6 +77,13 @@ export default defineComponent({
     //   console.log(route)
     // });
     const isCollapse = ref<boolean>(false);
+    let nickname = ref();
+    // 获取用户信息并显示
+    onMounted(() => {
+      nickname.value =  JSON.parse(localStorage.getItem('admindata') as any).nickname;
+      console.log(nickname.value)
+    }); 
+    // 退出
     const outaccount = () => {
       ElMessageBox.confirm(
         '此操作将退出登录, 是否继续?',
@@ -112,6 +119,7 @@ export default defineComponent({
       outaccount,
       isCollapse,
       chmn,
+      nickname,
       ArrowRight,
       route
     }

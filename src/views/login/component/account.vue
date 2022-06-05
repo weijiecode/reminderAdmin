@@ -110,6 +110,7 @@ export default defineComponent({
                   }, 1000)
                 loginForm.username = '';
                 loginForm.password = '';
+                localStorage.setItem('admindata',JSON.stringify(res.data));
                 localStorage.setItem('token', res.token);
               } else {
                 subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()

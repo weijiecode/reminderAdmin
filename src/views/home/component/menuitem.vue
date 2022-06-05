@@ -1,28 +1,28 @@
 <template>
     <div class="menubox">
         <el-menu :collapse-transition="false" active-text-color="#409eff" background-color="#545c64"
-            class="el-menu-vertical-demo" :default-active="route.path" text-color="#fff" :collapse="isCollapse" @open="handleOpen"
-            @close="handleClose" router>
+            class="el-menu-vertical-demo" :default-active="route.path" text-color="#fff" :collapse="isCollapse"
+            @open="handleOpen" @close="handleClose" router>
             <div class="titlebox">
                 <div v-if="!isCollapse" class="name"><span class="dot"></span>reminderAdmin</div>
             </div>
             <el-menu-item index="/main">
                 <el-icon>
-                    <icon-menu />
+                    <House />
                 </el-icon>
                 <template #title>首页</template>
             </el-menu-item>
             <el-menu-item index="/mycenter">
-                <el-icon>
-                    <icon-menu />
-                </el-icon>
+                <el-icon><User /></el-icon>
                 <template #title>个人中心</template>
+            </el-menu-item>
+            <el-menu-item index="">
+                <el-icon><Operation /></el-icon>
+                <template #title>用户管理</template>
             </el-menu-item>
             <el-sub-menu index="3">
                 <template #title>
-                    <el-icon>
-                        <document />
-                    </el-icon>
+                    <el-icon><Unlock /></el-icon>
                     <span>权限管理</span>
                 </template>
                 <el-menu-item index="1-1">权限管理1</el-menu-item>
@@ -44,6 +44,18 @@
                 </el-icon>
                 <template #title>设置</template>
             </el-menu-item>
+            <el-sub-menu index="">
+                <template #title>
+                    <el-icon><Link /></el-icon>
+                    <span>外链</span>
+                </template>
+                <el-menu-item index="1-1">外链1</el-menu-item>
+                <el-menu-item index="1-2">外链2</el-menu-item>
+            </el-sub-menu>
+            <el-menu-item index="">
+                <el-icon><SetUp /></el-icon>
+                <template #title>内嵌 iframe</template>
+            </el-menu-item>
         </el-menu>
     </div>
 </template>
@@ -53,16 +65,26 @@ import { defineComponent, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {
     Document,
-    Menu as IconMenu,
     Setting,
+    House,
+    Unlock,
+    User,
+    SetUp,
+    Link,
+    Operation
 } from '@element-plus/icons-vue'
 
 export default defineComponent({
     name: 'MenuItem',
     components: {
+        House,
         Document,
-        IconMenu,
-        Setting
+        Setting,
+        Unlock,
+        User,
+        SetUp,
+        Link,
+        Operation
     },
     props: {
         isCollapse: Boolean

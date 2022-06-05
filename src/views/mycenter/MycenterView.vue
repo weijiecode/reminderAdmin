@@ -1,6 +1,6 @@
 <template>
   <div class="mycenter">
-    <h1>mycenter</h1>
+    <div class="userdata"></div>
   </div>
 </template>
 

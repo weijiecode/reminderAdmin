@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3449455 */
-  src: url('iconfont.woff2?t=1654369456740') format('woff2'),
-       url('iconfont.woff?t=1654369456740') format('woff'),
-       url('iconfont.ttf?t=1654369456740') format('truetype');
+  src: url('iconfont.woff2?t=1654405504357') format('woff2'),
+       url('iconfont.woff?t=1654405504357') format('woff'),
+       url('iconfont.ttf?t=1654405504357') format('truetype');
 }
 
 .iconfont {
@@ -13,16 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-ren-duoren:before {
+  content: "\e704";
+}
+
 .icon-daibantixing:before {
   content: "\e627";
 }
 
 .icon-liuliang:before {
   content: "\e61b";
-}
-
-.icon-my:before {
-  content: "\e62f";
 }
 
 .icon-liuliangtongji:before {
