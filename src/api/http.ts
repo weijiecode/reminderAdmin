@@ -29,20 +29,22 @@ service.interceptors.request.use(
 // 添加响应拦截器
 service.interceptors.response.use(
 	(response) => {
-		return response.data;
-		// 对响应数据做点什么
-		// const res = response.data;
-		// if (res.code && res.code !== 0) {
-		// 	// `token` 过期或者账号已在别处登录
-		// 	if (res.code === 401 || res.code === 4001) {
-		// 		localStorage.clear(); // 清除浏览器全部临时缓存
-		// 		// window.location.href = '/'; // 去登录页
-		// 		// ElMessageBox.alert('你已被登出，请重新登录', '提示', {}).then(() => {}).catch(() => {});
-		// 	}
-		// 	return Promise.reject(service.interceptors.response);
-		// } else {
-		// 	return response.data;
-		// }
+		//return response.data;
+		//对响应数据做点什么
+		const res = response;
+		// console.log(res)
+		if (res.data.code !== 200 && res.data.code !== 201) {
+			ElMessage.error('网络异常');
+			// `token` 过期或者账号已在别处登录
+			// if (res.code === 401 || res.code === 4001) {
+			// 	localStorage.clear(); // 清除浏览器全部临时缓存
+			// 	// window.location.href = '/'; // 去登录页
+			// 	// ElMessageBox.alert('你已被登出，请重新登录', '提示', {}).then(() => {}).catch(() => {});
+			// }
+			return Promise.reject(service.interceptors.response);
+		} else {
+			return res;
+		}
 	},
 	(error) => {
 		// 对响应错误做点什么

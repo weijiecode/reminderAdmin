@@ -95,7 +95,8 @@ export default defineComponent({
         }
       )
         .then(() => {
-          localStorage.clear();
+          localStorage.removeItem('admindata');
+          localStorage.removeItem('token');
           router.push('/login');
           ElMessage({
             type: 'success',

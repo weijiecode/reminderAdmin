@@ -20,7 +20,8 @@
                 <el-button @click="changecode" size="large" class="codebtn">{{ subcode }}</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button v-loading.fullscreen.lock="fullscreenLoading" size="large" class="loginbtn" round type="primary" @click="submitForm(loginFormRef)">登录
+                <el-button v-loading.fullscreen.lock="fullscreenLoading" size="large" class="loginbtn" round
+                  type="primary" @click="submitForm(loginFormRef)">登录
                 </el-button>
               </el-form-item>
             </el-form>
@@ -53,8 +54,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from "vue";
-import { loginFormState } from "@/types/login";
-import { signIn } from "@/api/login/index";
+import { signIn, adminLoginData } from "@/api/login";
+import { loginData } from "@/types/login";
 import type { FormInstance, FormRules } from 'element-plus';
 import { ElMessage } from 'element-plus'
 // 输入框图标
@@ -66,9 +67,13 @@ export default defineComponent({
     const activeName = ref('first');
     const router = useRouter();
     const loginFormRef = ref<FormInstance>();
-    const loginForm = reactive<loginFormState>({
+    const loginForm = reactive({
       username: '',
       password: ''
+    });
+    const admininfo = reactive<loginData>({
+      username: '',
+      ip: ''
     });
     // 验证码
     let code = ref<string>();
@@ -96,28 +101,38 @@ export default defineComponent({
       if (!formEl) return
       await formEl.validate((valid, fields) => {
         if (valid) {
-          console.log('submit!')
-          console.log(code.value)
-          console.log(subcode.value)
+          // console.log('submit!')
+          // console.log(code.value)
+          // console.log(subcode.value)
           if (code.value === subcode.value) {
-            signIn(loginForm).then((res: any) => {
+            signIn(loginForm).then((res) => {
               console.log(res)
-              if (res.code == 200) {
-                  fullscreenLoading.value = true
-                  setTimeout(() => {
-                    fullscreenLoading.value = false
-                    router.push('/main');
-                  }, 1000)
+              if (res.data.code == 200) {
+
+                // 获取ip和username赋值给userinfo
+                if (localStorage.getItem('adminIP') !== null) {
+                  admininfo.username = loginForm.username
+                  admininfo.ip = JSON.parse(localStorage.getItem('adminIP') || '')
+                  adminLoginData(admininfo).then(res => {
+                    console.log(res, '1212')
+                  })
+                }
+
+                fullscreenLoading.value = true
+                setTimeout(() => {
+                  fullscreenLoading.value = false
+                  router.push('/main');
+                }, 1000);
                 loginForm.username = '';
                 loginForm.password = '';
-                localStorage.setItem('admindata',JSON.stringify(res.data));
-                localStorage.setItem('token', res.token);
+                localStorage.setItem('admindata', JSON.stringify(res.data.data));
+                localStorage.setItem('token', res.data.token);
               } else {
                 subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
                 ElMessage.error('用户名或密码输入有误，请重新输入');
               }
             })
-          }else{
+          } else {
             subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
             ElMessage.error('验证码输入错误，请重新输入');
           }
@@ -126,6 +141,10 @@ export default defineComponent({
         }
       })
     };
+    // 用户登录信息添加
+    // const addLoginData = () => {
+
+    // };
     return {
       User,
       Lock,

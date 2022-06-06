@@ -1,5 +1,5 @@
 import request from '@/api/http';
-
+import { loginFormState, loginData } from "@/types/login";
 // export function useLoginApi() {
 // 	return {
 // 		signIn: (params: object) => {
@@ -18,10 +18,18 @@ import request from '@/api/http';
 // 		},
 // 	};
 // };
-export const signIn = (params: object) => {
+export const signIn = (params: loginFormState) => {
 	return request({
 		url: '/admin/adminlogin',
 		method: 'post',
 		data: params,
 	});
 };
+
+export const adminLoginData = (params: loginData) => {
+	return request({
+		url: '/admin/logindata',
+		method: 'post',
+		data: params
+	})
+}

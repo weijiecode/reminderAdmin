@@ -78,16 +78,16 @@ export default defineComponent({
     // 监测路由变化（点击菜单栏的改变），并改变其对应tab页
     watch(route, () => {
       flag.value = 0
-      console.log(route.path, '1111')
+      //console.log(route.path, '1111')
       editableTabs.value.forEach(item => {
-        console.log(item.name, '0000')
+        //console.log(item.name, '0000')
         if (item.name === route.path) {
           flag.value = 1;
           editableTabsValue.value = route.path;
         }
       })
-      console.log(editableTabs.value,'666')
-      console.log(flag.value)
+      //console.log(editableTabs.value,'666')
+      //console.log(flag.value)
       if (flag.value === 0) {
         editableTabs.value.push({
           title: route.meta.title,

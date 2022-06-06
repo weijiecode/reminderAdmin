@@ -1,6 +1,11 @@
-export interface loginFormState{
+export interface loginFormState {
     username: string,
     password: string
+}
+
+export interface loginData {
+    username: string,
+    ip: string | null
 }
 
 // export interface loginDataState{
