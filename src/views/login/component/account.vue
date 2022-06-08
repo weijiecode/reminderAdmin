@@ -113,9 +113,8 @@ export default defineComponent({
                 if (localStorage.getItem('adminIP') !== null) {
                   admininfo.username = loginForm.username
                   admininfo.ip = JSON.parse(localStorage.getItem('adminIP') || '')
-                  adminLoginData(admininfo).then(res => {
-                    console.log(res, '1212')
-                  })
+                  // 添加登录信息
+                  adminLoginData(admininfo)
                 }
 
                 fullscreenLoading.value = true
@@ -125,6 +124,7 @@ export default defineComponent({
                 }, 1000);
                 loginForm.username = '';
                 loginForm.password = '';
+                subcode.value = '';
                 localStorage.setItem('admindata', JSON.stringify(res.data.data));
                 localStorage.setItem('token', res.data.token);
               } else {

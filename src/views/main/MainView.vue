@@ -61,7 +61,7 @@ export default defineComponent({
     CrossEcharts,
     PieEcharts
   },
-  setup(){
+  setup() {
     return {
     }
   }
@@ -98,15 +98,18 @@ export default defineComponent({
   .oneitem {
     flex-wrap: wrap;
   }
+
   .subone {
     width: 47%;
     overflow: auto;
   }
 }
+
 @media screen and (max-width: 880px) {
   .oneitem {
     flex-wrap: wrap;
   }
+
   .subone {
     width: 97%;
     overflow: auto;
@@ -133,8 +136,11 @@ export default defineComponent({
   color: #303133;
   font-size: 14px;
 }
-.oneechartsview {
-  display: flex;
-  justify-content: space-around;
+
+@media screen and (min-width: 1060px) {
+  .oneechartsview {
+    display: flex;
+    justify-content: space-around;
+  }
 }
 </style>

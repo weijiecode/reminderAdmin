@@ -19,6 +19,10 @@ export default defineComponent({
       var chartDom = document.getElementById('echartone')!;
       var myChart = echarts.init(chartDom);
       var option: EChartsOption;
+      // 解决重新渲染时的变形
+      setTimeout(() => {
+        myChart.resize();
+      })
       // 窗口宽度变化时图表不会变形
       window.onresize = () => {
         return (() => {
@@ -135,6 +139,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .echarts {
   width: calc(100% - 410px);
+  // float: left;
 }
 
 #echartone {
@@ -152,5 +157,11 @@ export default defineComponent({
   transition: all ease 0.3s;
 }
 
-// @media and screen (max-width: )
+@media screen and (max-width: 1060px) {
+  .echarts {
+    float: left;
+    width: 100%;
+    min-width: 670px;
+  }
+}
 </style>

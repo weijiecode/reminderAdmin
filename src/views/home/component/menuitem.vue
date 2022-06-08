@@ -1,8 +1,7 @@
 <template>
     <div class="menubox">
         <el-menu :collapse-transition="false" active-text-color="#409eff" background-color="#545c64"
-            class="el-menu-vertical-demo" :default-active="route.path" text-color="#fff" :collapse="isCollapse"
-            @open="handleOpen" @close="handleClose" router>
+            class="el-menu-vertical-demo" :default-active="route.path" text-color="#fff" :collapse="isCollapse" router>
             <div class="titlebox">
                 <div v-if="!isCollapse" class="name"><span class="dot"></span>reminderAdmin</div>
             </div>
@@ -62,7 +61,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import {
     Document,
     Setting,
@@ -90,20 +89,17 @@ export default defineComponent({
         isCollapse: Boolean
     },
     setup() {
-        const handleOpen = (key: string, keyPath: string[]) => {
-            // console.log(key, keyPath)
-        };
-        const handleClose = (key: string, keyPath: string[]) => {
-            // console.log(key, keyPath)
-        };
+        // const handleOpen = (key: string, keyPath: string[]) => {
+        //     // console.log(key, keyPath)
+        // };
+        // const handleClose = (key: string, keyPath: string[]) => {
+        //     // console.log(key, keyPath)
+        // };
         const route = useRoute();
-        const router = useRouter();
         onMounted(() => {
             console.log(route.path)
         });
         return {
-            handleOpen,
-            handleClose,
             route
         }
     }

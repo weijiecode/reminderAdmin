@@ -20,7 +20,7 @@ export default defineComponent({
             var myChart = echarts.init(chartDom);
             var option: EChartsOption;
             option = {
-                color: ['#7766E7', '#518BF1','#FFCD00', '#1DBD84','#FE738A', '#C4C4C4'],
+                color: ['#7766E7', '#518BF1', '#FFCD00', '#1DBD84', '#FE738A', '#C4C4C4'],
                 tooltip: {
                     trigger: 'item'
                 },
@@ -90,5 +90,11 @@ export default defineComponent({
 #echarttwo:hover {
     box-shadow: 0 2px 12px #0000001a;
     transition: all ease 0.3s;
+}
+
+@media screen and (max-width: 1060px) {
+    .echarts {
+        float: left;
+    }
 }
 </style>

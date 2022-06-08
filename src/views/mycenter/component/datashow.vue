@@ -7,7 +7,7 @@
         <p>夜里好，admin，生活变的再糟糕，也不妨碍我变得更好！</p>
         <div class="both">
           <div class="left">
-            <div>昵称：<span>{{username}}</span></div>
+            <div>用户名：<span>{{username}}</span></div>
             <div>上次登录IP: <span>{{ip}}</span></div>
           </div>
           <div class="right">

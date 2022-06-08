@@ -82,7 +82,7 @@ export default defineComponent({
     onMounted(() => {
       nickname.value =  JSON.parse(localStorage.getItem('admindata') as any).nickname;
       console.log(nickname.value)
-    }); 
+    });  
     // 退出
     const outaccount = () => {
       ElMessageBox.confirm(
