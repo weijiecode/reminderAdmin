@@ -32,7 +32,7 @@ service.interceptors.response.use(
 		//return response.data;
 		//对响应数据做点什么
 		const res = response;
-		// console.log(res)
+		//console.log(res,'net')
 		if (res.data.code !== 200 && res.data.code !== 201) {
 			ElMessage.error('网络异常');
 			// `token` 过期或者账号已在别处登录

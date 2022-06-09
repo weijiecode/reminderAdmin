@@ -15,7 +15,7 @@
                 <el-icon><User /></el-icon>
                 <template #title>个人中心</template>
             </el-menu-item>
-            <el-menu-item index="">
+            <el-menu-item index="/usermanage">
                 <el-icon><Operation /></el-icon>
                 <template #title>用户管理</template>
             </el-menu-item>

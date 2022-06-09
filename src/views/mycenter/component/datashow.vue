@@ -4,15 +4,15 @@
     <div class="bottomcontent">
       <img class="imgphoto" src="../../../assets/t.jpeg" alt="">
       <div class="userdata">
-        <p>夜里好，admin，生活变的再糟糕，也不妨碍我变得更好！</p>
+        <p>{{dataname}}，admin，生活变的再糟糕，也不妨碍我变得更好！</p>
         <div class="both">
           <div class="left">
-            <div>用户名：<span>{{username}}</span></div>
-            <div>上次登录IP: <span>{{ip}}</span></div>
+            <div>用户名：<span>{{ username }}</span></div>
+            <div>上次登录IP: <span>{{ ip }}</span></div>
           </div>
           <div class="right">
             <div>身份：<span>超级管理员</span></div>
-            <div>上次登录时间: <span>{{createtime}}</span></div>
+            <div>上次登录时间: <span>{{ createtime }}</span></div>
           </div>
         </div>
       </div>
@@ -21,8 +21,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, toRefs } from 'vue';
-import { dataLogin } from '@/api/mycenter'
+import { defineComponent, onMounted, reactive, toRefs, ref } from 'vue';
+import { dataLogin } from '@/api/mycenter';
+import useDate from '@/hooks/useDate';
 
 export default defineComponent({
   name: 'DataShow',
@@ -32,9 +33,21 @@ export default defineComponent({
       createtime: '',
       ip: '',
     });
+    const dataname = ref<string>('')
+    const { hours } = useDate();
+    const nowhour = ref(hours);
     onMounted(() => {
       dataLogin().then(res => {
         // console.log(res)
+        if (nowhour.value >= 6 && nowhour.value < 12) {
+          dataname.value = '上午好';
+        } else if (nowhour.value >= 12 && nowhour.value < 18) {
+          dataname.value = '下午好';
+        } else if (nowhour.value >= 18 && nowhour.value < 24) {
+          dataname.value = '晚上好';
+        } else {
+          dataname.value = '凌晨好';
+        }
         if (res.data.code === 200) {
           logindata.username = res.data.data.pop().username
           logindata.createtime = res.data.data.pop().createtime
@@ -43,7 +56,8 @@ export default defineComponent({
       })
     });
     return {
-      ...toRefs(logindata)
+      ...toRefs(logindata),
+      dataname
     }
   }
 });

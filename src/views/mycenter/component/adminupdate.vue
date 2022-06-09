@@ -52,28 +52,28 @@
         <div class="safeitem">
           <div class="lefts">
             <p class="onep">密保手机</p>
-            <p class="twop">{{phoneShow}}</p>
+            <p class="twop">{{ phoneShow }}</p>
           </div>
           <div class="rights">
-            <el-button>立即绑定</el-button>
+            <el-button @click="dialogFormVisiblePhone = true">立即绑定</el-button>
           </div>
         </div>
         <div class="safeitem">
           <div class="lefts">
             <p class="onep">密保问题</p>
-            <p class="twop">当前密码强度： 中</p>
+            <p class="twop">{{ questionShow }}</p>
           </div>
           <div class="rights">
-            <el-button>立即设置</el-button>
+            <el-button @click="dialogFormVisibleQuestion = true">立即设置</el-button>
           </div>
         </div>
         <div class="safeitem">
           <div class="lefts">
             <p class="onep">绑定QQ</p>
-            <p class="twop">当前密码强度： 中</p>
+            <p class="twop">{{ qqShow }}</p>
           </div>
           <div class="rights">
-            <el-button>立即绑定</el-button>
+            <el-button @click="dialogFormVisibleQq = true">立即绑定</el-button>
           </div>
         </div>
       </div>
@@ -99,11 +99,11 @@
         </span>
       </template>
     </el-dialog>
-     <!-- 修改密保手机 -->
+    <!-- 修改密保手机 -->
     <el-dialog v-model="dialogFormVisiblePhone" title="密码修改">
-      <el-form :model="phoneForm">
-        <el-form-item label="手机号码">
-          <el-input maxlength="11" v-model="phoneForm.phonenumber" autocomplete="off" />
+      <el-form>
+        <el-form-item label="手机号">
+          <el-input maxlength="11" v-model="phone" autocomplete="off" />
         </el-form-item>
         <el-form-item label="验证码">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
@@ -114,6 +114,45 @@
         <span class="dialog-footer">
           <el-button @click="dialogFormVisiblePhone = false">取消</el-button>
           <el-button type="primary" @click="submitPhone">确认修改</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <!-- 修改密保问题 -->
+    <el-dialog v-model="dialogFormVisibleQuestion" title="密码修改">
+      <el-form>
+        <el-form-item label-width="54px" label="问题">
+          <el-input maxlength="30" v-model="questionForm.question" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label-width="54px" label="答案">
+          <el-input maxlength="30" v-model="questionForm.answer" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label-width="54px" label="验证码">
+          <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
+          <el-button @click="changecode" class="codebtn">{{ subcode }}</el-button>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisibleQuestion = false">取消</el-button>
+          <el-button type="primary" @click="submitQuestion">确认修改</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <!-- 修改qq -->
+    <el-dialog v-model="dialogFormVisibleQq" title="密码修改">
+      <el-form>
+        <el-form-item label-width="70px" label="QQ号码">
+          <el-input maxlength="13" v-model="qq" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label-width="70px" label="验证码">
+          <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
+          <el-button @click="changecode" class="codebtn">{{ subcode }}</el-button>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisibleQq = false">取消</el-button>
+          <el-button type="primary" @click="submitQq">确认修改</el-button>
         </span>
       </template>
     </el-dialog>
@@ -137,6 +176,8 @@ export default defineComponent({
     const dialogFormVisibleQuestion = ref(false);
     const dialogFormVisibleQq = ref(false);
     const phoneShow = ref<string>('暂无绑定手机');
+    const questionShow = ref<string>('暂无设置密保问题');
+    const qqShow = ref<string>('暂无设置QQ绑定');
     // 管理员表单信息
     const adminForm = reactive<adminFrom>({
       nickname: '',
@@ -158,19 +199,22 @@ export default defineComponent({
       qq: ''
     });
     // 手机密保
-    const phoneForm = reactive({
-      phonenumber: ''
-    });
+    const phone = ref('');
     // 密保问题
     const questionForm = reactive({
       question: '',
       answer: ''
     });
     // QQ
-    const qqForm = reactive({
-      qqnumber: ''
+    const qq = ref('');
+    // 保存账号安全的信息
+    const safeData = reactive({
+      phone: '',
+      question: '',
+      answer: '',
+      qq: ''
     });
-    const isaddsafe = ref<boolean>(false)
+    const isaddsafe = ref<boolean>(false);
     onMounted(() => {
       adminForm.nickname = JSON.parse(localStorage.getItem('admindata') || '{}').nickname
       adminForm.sex = JSON.parse(localStorage.getItem('admindata') || '{}').sex
@@ -178,12 +222,27 @@ export default defineComponent({
       adminForm.email = JSON.parse(localStorage.getItem('admindata') || '{}').email
       adminForm.introduction = JSON.parse(localStorage.getItem('admindata') || '{}').introduction
       selectSafe().then(res => {
-        // console.log(res)
+        console.log(res, '333')
         if (res.data.code === 201) {
           isaddsafe.value = false
           phoneShow.value = '暂无绑定手机'
+          console.log(isaddsafe.value, '1')
         } else {
+          safeData.phone = res.data.data[0].phone;
+          safeData.question = res.data.data[0].question;
+          safeData.answer = res.data.data[0].answer;
+          safeData.qq = res.data.data[0].qq;
           isaddsafe.value = true
+          console.log(isaddsafe.value, '2')
+          if (res.data.data[0].phone !== '') {
+            phoneShow.value = res.data.data[0].phone.substring(0, 3) + '****' + res.data.data[0].phone.substring(7, 11);
+          }
+          if (res.data.data[0].question !== '') {
+            questionShow.value = '已设置密保问题，账号安全大幅度提升';
+          }
+          if (res.data.data[0].qq !== '') {
+            qqShow.value = '已绑定QQ：' + res.data.data[0].qq.substring(0, 4) + '*****';
+          }
         }
       })
     });
@@ -227,7 +286,7 @@ export default defineComponent({
               message: '修改密码成功',
               type: 'success',
             })
-          }else {
+          } else {
             subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
             ElMessage.error('旧密码错误，请重新输入');
           }
@@ -239,19 +298,138 @@ export default defineComponent({
     };
     // 修改绑定手机号
     const submitPhone = () => {
-      if(isaddsafe.value) {
-        updatePhone(phoneForm.phonenumber).then(res => {
-          console.log(res)
+      if (phone.value.length !== 11) { ElMessage.error('请输入正确的手机号'); } else {
+        if (isaddsafe.value) {
+          updatePhone({ phone: phone.value }).then(res => {
+            console.log(res);
+            if (res.data.code === 200) {
+              ElMessage({
+                message: '修改密保手机成功',
+                type: 'success',
+              });
+              safeData.phone = phone.value
+              phoneShow.value = phone.value.substring(0, 3) + '****' + phone.value.substring(7, 11);
+              phone.value = ''
+              code.value = ''
+              isaddsafe.value = true;
+              dialogFormVisiblePhone.value = false
+            } else {
+              ElMessage.error('绑定失败，请重试');
+            }
+          })
+        } else {
+          allForm.phone = phone.value;
+          allForm.question = safeData.question;
+          allForm.answer = safeData.answer;
+          allForm.qq = safeData.qq;
+          addsafe(allForm).then(res => {
+            console.log(res);
+            if (res.data.code === 200) {
+              ElMessage({
+                message: '绑定密保手机成功',
+                type: 'success',
+              });
+              safeData.phone = phone.value
+              phoneShow.value = phone.value.substring(0, 3) + '****' + phone.value.substring(7, 11);
+              phone.value = ''
+              code.value = ''
+              isaddsafe.value = true;
+              dialogFormVisiblePhone.value = false
+            }
+          });
+        }
+      }
+
+    };
+    // 修改密保问题
+    const submitQuestion = () => {
+      if (questionForm.question.length === 0 || questionForm.answer.length === 0) { ElMessage.error('请输入正确格式的问题和答案'); }
+      if (isaddsafe.value && questionForm.question.length !== 0 && questionForm.answer.length !== 0) {
+        updateQuestion(questionForm).then(res => {
+          console.log(res);
+          if (res.data.code === 200) {
+            ElMessage({
+              message: '修改密保问题成功',
+              type: 'success',
+            });
+            safeData.question = questionForm.question;
+            safeData.answer = questionForm.answer;
+            questionShow.value = '已设置密保问题，账号安全大幅度提升';
+            questionForm.question = '';
+            questionForm.answer = '';
+            code.value = '';
+            isaddsafe.value = true;
+            dialogFormVisibleQuestion.value = false;
+          } else {
+            ElMessage.error('修改密保问题失败，请重试');
+          }
         })
-      }else {
-        allForm.phone = phoneForm.phonenumber;
+      } else {
+        allForm.question = questionForm.question;
+        allForm.answer = questionForm.answer;
+        allForm.phone = safeData.phone;
+        allForm.qq = safeData.qq;
         addsafe(allForm).then(res => {
-          console.log(res)
-          if(res.data.code === 200){
-            isaddsafe.value = true
+          console.log(res);
+          if (res.data.code === 200) {
+            ElMessage({
+              message: '设置密保问题成功',
+              type: 'success',
+            });
+            questionShow.value = '已设置密保问题，账号安全大幅度提升';
+            questionForm.question = '';
+            questionForm.answer = '';
+            code.value = ''
+            isaddsafe.value = true;
+            dialogFormVisibleQuestion.value = false
           }
         });
       }
+    };
+    // 修改qq
+    const submitQq = () => {
+      if (qq.value.length === 0) { ElMessage.error('请输入正确的QQ号码'); } else {
+        if (isaddsafe.value) {
+          updateQq({ qq: qq.value }).then(res => {
+            console.log(res);
+            if (res.data.code === 200) {
+              ElMessage({
+                message: '修改QQ号码绑定成功',
+                type: 'success',
+              });
+              safeData.qq = qq.value
+              qqShow.value = '已绑定QQ：' + qq.value.substring(0, 4) + '*****';
+              qq.value = ''
+              code.value = ''
+              isaddsafe.value = true;
+              dialogFormVisibleQq.value = false
+            } else {
+              ElMessage.error('绑定QQ号码失败，请重试');
+            }
+          })
+        } else {
+          allForm.phone = phone.value;
+          allForm.question = safeData.question;
+          allForm.answer = safeData.answer;
+          allForm.qq = qq.value;
+          addsafe(allForm).then(res => {
+            console.log(res);
+            if (res.data.code === 200) {
+              ElMessage({
+                message: '绑定QQ号码成功',
+                type: 'success',
+              });
+              safeData.phone = phone.value
+              qqShow.value = '已绑定QQ：' + qq.value.substring(0, 4) + '*****';
+              qq.value = ''
+              code.value = ''
+              isaddsafe.value = true;
+              dialogFormVisibleQq.value = false
+            }
+          });
+        }
+      }
+
     };
     return {
       EditPen,
@@ -264,14 +442,17 @@ export default defineComponent({
       dialogFormVisibleQq,
       submitPass,
       submitPhone,
+      submitQuestion,
+      submitQq,
       changecode,
       code,
       subcode,
-      phoneForm,
+      phone,
       questionForm,
-      qqForm,
+      qq,
       phoneShow,
-
+      questionShow,
+      qqShow
     }
   }
 });

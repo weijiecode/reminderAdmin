@@ -31,8 +31,10 @@ export const addsafe = (params: addsafeinter) => {
         data: params
     })
 }
+
 // 修改管理员手机绑定信息
-export const updatePhone = (params: string) => {
+export const updatePhone = (params: any) => {
+    console.log('787',params)
     return request({
         url: '/admin/updatephone',
         method: 'post',
@@ -48,7 +50,7 @@ export const updateQuestion = (params: questioninter ) => {
     })
 }
 // 修改管理员qq信息
-export const updateQq = (params: string) => {
+export const updateQq = (params: any) => {
     return request({
         url: '/admin/updateqq',
         method: 'post',

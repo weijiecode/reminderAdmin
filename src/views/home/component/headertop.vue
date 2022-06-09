@@ -11,6 +11,7 @@
         <el-breadcrumb-item :to="{ path: '/main' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item v-if="route.path == '/mycenter'">个人中心</el-breadcrumb-item>
         <el-breadcrumb-item v-if="route.path == '/setting'">设置</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="route.path == '/usermanage'">用户管理</el-breadcrumb-item>
         <!-- <el-breadcrumb-item v-if="route.path == '/mycenter'"></el-breadcrumb-item> -->
       </el-breadcrumb>
     </div>
