@@ -124,7 +124,7 @@ export default defineComponent({
                 }, 1000);
                 loginForm.username = '';
                 loginForm.password = '';
-                subcode.value = '';
+                code.value = '';
                 //console.log(res.data)
                 localStorage.setItem('admindata', JSON.stringify(res.data.data));
                 localStorage.setItem('token', res.data.token);

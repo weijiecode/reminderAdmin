@@ -35,6 +35,7 @@ service.interceptors.response.use(
 		//console.log(res,'net')
 		if (res.data.code !== 200 && res.data.code !== 201) {
 			ElMessage.error('网络异常');
+			console.log(res.data)
 			// `token` 过期或者账号已在别处登录
 			// if (res.code === 401 || res.code === 4001) {
 			// 	localStorage.clear(); // 清除浏览器全部临时缓存
