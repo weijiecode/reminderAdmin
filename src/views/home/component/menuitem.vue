@@ -51,7 +51,7 @@
                 <el-menu-item index="1-1">外链1</el-menu-item>
                 <el-menu-item index="1-2">外链2</el-menu-item>
             </el-sub-menu>
-            <el-menu-item index="">
+            <el-menu-item index="/iframe">
                 <el-icon><SetUp /></el-icon>
                 <template #title>内嵌 iframe</template>
             </el-menu-item>

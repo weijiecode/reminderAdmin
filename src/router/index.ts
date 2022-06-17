@@ -59,6 +59,14 @@ const routes: Array<RouteRecordRaw> = [
           title: '设置'
         },
         component: () => import('@/views/setting/SettingView.vue')
+      },
+      {
+        path: '/iframe',
+        name: 'iframe',
+        meta: {
+          title: 'iframe'
+        },
+        component: () => import('@/views/iframe/IframeView.vue')
       }
     ]
   },
