@@ -186,4 +186,8 @@ export default defineComponent({
 .el-empty {
   margin-top: 15%;
 }
+
+.el-tabs__item {
+  background-color: aqua !important;
+}
 </style>

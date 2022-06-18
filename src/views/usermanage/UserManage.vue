@@ -3,9 +3,9 @@
         <div class="tabheader">
             <!-- <el-input placeholder="请输入搜索内容" clearable /> -->
             <!-- <el-button type="primary" :icon="Search">查询</el-button> -->
-            <el-input style="width: 350px;" v-model="searchData" placeholder="请输入搜索内容" class="input-with-select">
+            <el-input style="width: 330px;" v-model="searchData" placeholder="请输入搜索内容" class="input-with-select">
                 <template #prepend>
-                    <el-select v-model="searchType" placeholder="请选择搜索类别" style="width: 90px">
+                    <el-select v-model="searchType" placeholder="请选择搜索类别" style="width: 85px">
                         <el-option label="ID" value="ID" />
                         <el-option label="用户名" value="username" />
                         <el-option label="昵称" value="nickname" />
@@ -34,7 +34,7 @@
                 </template>
             </el-table-column>
             <el-table-column prop="phone" label="手机号码" width="110px" />
-            <el-table-column show-overflow-tooltip prop="email" label="邮箱" width="120px" />
+            <el-table-column show-overflow-tooltip prop="email" label="邮箱" width="185px" />
             <el-table-column sortable prop="createtime" label="创建时间" />
             <el-table-column show-overflow-tooltip prop="introduction" label="简介" />
             <!-- <el-table-column prop="status" label="状态" /> -->
@@ -158,7 +158,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, toRefs, ref } from 'vue';
 import { Search, CirclePlus, Male, Female, Check, Close } from '@element-plus/icons-vue';
-import { getUserData, deluser, edituser, searchUser, addUserData } from '@/api/usermanage';
+import { getUserData, deluser, edituser, searchUser, addUserData, isusername } from '@/api/usermanage';
 import { ElMessage } from 'element-plus';
 import { userArray, userData, editUserData, search, addUserInt } from '@/types/usermanager';
 import type { FormInstance, FormRules } from 'element-plus';
@@ -431,30 +431,29 @@ export default defineComponent({
             if (!formEl) return
             await formEl.validate((valid, fields) => {
                 if (valid) {
-                    addState.sex === '男' ? addState.sex=0 : addState.sex=1;
-                    addUserData(addState).then((res : any) => {
-                        console.log(res.code)
-                        console.log(res.code == '-201')
-                        if(res.code == '-201') {
+                    addState.sex === '男' ? addState.sex = 0 : addState.sex = 1;
+                    isusername({ username: addState.username }).then(res => {
+                        if (res.data.code === 200) {
                             ElMessage({
                                 type: 'error',
                                 message: '该用户名已注册，请尝试输入其他用户名称后重试'
                             });
-                        }else {
-                            if (res.data.code == 200) {
-                            getData();
-                            dialogFormVisibleAdd.value = false;
-                            ElMessage({
-                                type: 'success',
-                                message: '添加用户成功'
-                            });
                         } else {
-                            ElMessage.error('添加用户失败，请重新输入');
-                        }
+                            addUserData(addState).then((res: any) => {
+                                if (res.data.code == 200) {
+                                    getData();
+                                    dialogFormVisibleAdd.value = false;
+                                    ElMessage({
+                                        type: 'success',
+                                        message: '添加用户成功'
+                                    });
+                                    initAdd();
+                                } else {
+                                    ElMessage.error('添加用户失败，请重新输入');
+                                }
+                            })
                         }
                     })
-                } else {
-                    console.log('error submit!', fields)
                 }
             })
         };
