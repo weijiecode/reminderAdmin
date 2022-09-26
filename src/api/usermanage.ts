@@ -53,3 +53,12 @@ export const addUserData = (params: addUserInt) => {
         data: params
     })
 }
+
+// 查询该用户名是否被占用
+export const isusername = (params: object) => {
+    return request({
+        url: 'account/selectusername',
+        method: 'post',
+        data: params
+    })
+}
