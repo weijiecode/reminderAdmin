@@ -108,7 +108,7 @@ export default defineComponent({
           if (code.value === subcode.value) {
             signIn(loginForm).then((res) => {
               console.log(res)
-              if (res.data.code == 200) {
+              if (res.code == 200) {
 
                 // 获取ip和username赋值给userinfo
                 if (localStorage.getItem('adminIP') !== null) {
@@ -120,15 +120,15 @@ export default defineComponent({
 
                 fullscreenLoading.value = true
                 setTimeout(() => {
-                  fullscreenLoading.value = false
+                  // fullscreenLoading.value = false
                   router.push('/main');
                 }, 1000);
                 loginForm.username = '';
                 loginForm.password = '';
                 code.value = '';
                 //console.log(res.data)
-                Cookies.set('token', res.data.token);
-                localStorage.setItem('admindata', JSON.stringify(res.data.data));
+                Cookies.set('token', res.token);
+                localStorage.setItem('admindata', JSON.stringify(res.data));
                 // localStorage.setItem('token', res.data.token);
               } else {
                 subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()

@@ -53,9 +53,9 @@
                 <el-menu-item index="1-1">外链1</el-menu-item>
                 <el-menu-item index="1-2">外链2</el-menu-item>
             </el-sub-menu>
-            <el-menu-item index="/iframe">
-                <el-icon><Grid /></el-icon>
-                <template #title>组件封装</template>
+            <el-menu-item index="/message">
+                <el-icon><Bell /></el-icon>
+                <template #title>通知管理</template>
             </el-menu-item>
             <el-menu-item index="/iframe">
                 <el-icon><SetUp /></el-icon>
@@ -84,7 +84,7 @@ import {
     Link,
     Operation,
     Guide,
-    Grid
+    Bell
 } from '@element-plus/icons-vue'
 
 export default defineComponent({
@@ -99,7 +99,7 @@ export default defineComponent({
         Link,
         Operation,
         Guide,
-        Grid
+        Bell
     },
     props: {
         isCollapse: Boolean

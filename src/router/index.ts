@@ -45,6 +45,14 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/mycenter/MycenterView.vue')
       },
       {
+        path: '/message',
+        name: 'message',
+        meta: {
+          title: '公告管理'
+        },
+        component: () => import('@/views/message/MessageView.vue')
+      },
+      {
         path: '/usermanage',
         name: 'usermanage',
         meta: {

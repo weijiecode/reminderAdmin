@@ -12,10 +12,9 @@
         <!-- <el-main><MainContent></MainContent></el-main> -->
         <el-main>
           <el-empty v-if="editableTabs.length == 0" description="description" />
-          <el-tabs v-if="editableTabs.length > 0" v-model="editableTabsValue" type="card" class="demo-tabs" closable
-            @tab-remove="removeTab" @tab-click="tabClick">
+          <el-tabs v-if="editableTabs.length > 0" v-model="editableTabsValue" type="card" class="demo-tabs" closable @tab-remove="removeTab" @tab-click="tabClick">
             <el-tab-pane v-for="item in editableTabs" :key="item.name" :label="item.title" :name="item.name">
-              <router-view></router-view>
+              <router-view v-if="item.name===editableTabsValue"></router-view>
             </el-tab-pane>
           </el-tabs>
         </el-main>
@@ -52,7 +51,7 @@ export default defineComponent({
       },
     ])
     // 移除关闭tab页
-    const removeTab = (targetName: string) => {
+    const removeTab = (targetName: any) => {
       // console.log(targetName)
       const tabs = editableTabs.value
       let activeName = editableTabsValue.value
@@ -69,7 +68,6 @@ export default defineComponent({
       }
       editableTabsValue.value = activeName
       editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
-      // console.log('剩余',editableTabs.value)
     }
 
     const route: any = useRoute();
