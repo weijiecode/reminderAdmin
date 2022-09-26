@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
+import Cookies from 'js-cookie'
 
-//axios.defaults.baseURL = 'http://localhost:5001/'
+axios.defaults.baseURL = 'http://localhost:5001/'
 // axios.defaults.baseURL = 'http://101.37.91.171:8887/'
 
 // 配置新建一个 axios 实例
@@ -15,8 +16,11 @@ const service = axios.create({
 service.interceptors.request.use(
 	(config) => {
 		// 在发送请求之前做些什么 token
-		if (localStorage.getItem('token')) {
-			(<any>config.headers).common['Authorization'] = `Bearer ${localStorage.token || ''}`;
+		// if (localStorage.getItem('token')) {
+		// 	(<any>config.headers).common['Authorization'] = `Bearer ${localStorage.token || ''}`;
+		// }
+		if (Cookies.get('token')) {
+			(<any>config.headers).common['Authorization'] = `Bearer ${Cookies.get('token') || ''}`;
 		}
 		return config;
 	},
@@ -48,7 +52,7 @@ service.interceptors.response.use(
 		}
 	},
 	(error) => {
-		// 对响应错误做点什么
+		// 响应错误提示
 		if (error.message.indexOf('timeout') != -1) {
 			ElMessage.error('网络超时');
 		} else if (error.message == 'Network Error') {

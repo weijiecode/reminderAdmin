@@ -16,6 +16,7 @@
       </el-breadcrumb>
     </div>
     <div class="rightbox">
+      <!-- 修改背景色 -->
       <el-icon :size="16" color="#606266" @click="changecolor">
         <Sunny />
       </el-icon>
@@ -25,7 +26,8 @@
       <el-icon :size="16" color="#606266">
         <Bell />
       </el-icon>
-      <el-icon :size="16" color="#606266">
+      <!-- 全屏切换 -->
+      <el-icon :size="16" color="#606266" @click="handleFullScreen">
         <FullScreen />
       </el-icon>
 
@@ -81,9 +83,9 @@ export default defineComponent({
     let nickname = ref();
     // 获取用户信息并显示
     onMounted(() => {
-      nickname.value =  JSON.parse(localStorage.getItem('admindata') as any).nickname;
+      nickname.value = JSON.parse(localStorage.getItem('admindata') as any).nickname;
       console.log(nickname.value)
-    });  
+    });
     // 退出
     const outaccount = () => {
       ElMessageBox.confirm(
@@ -116,9 +118,27 @@ export default defineComponent({
       isCollapse.value = !isCollapse.value
       emit('changemenu', data);
     };
+    // 是否全屏
+    const fullscreen = ref(false)
+    // 全屏事件
+    const handleFullScreen = () => {
+      let element = document.documentElement;
+      // 判断是否已经是全屏
+      // 如果是全屏，退出
+      if (fullscreen.value) {
+        document.exitFullscreen();
+        // console.log('已还原！');
+      } else {    // 否则，进入全屏
+        element.requestFullscreen();
+        // console.log('已全屏！');
+      }
+      // 改变当前全屏状态
+      fullscreen.value = !fullscreen.value;
+    }
     return {
       changecolor,
       outaccount,
+      handleFullScreen,
       isCollapse,
       chmn,
       nickname,

@@ -54,6 +54,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, toRefs } from "vue";
+import Cookies from 'js-cookie';
 import { signIn, adminLoginData } from "@/api/login";
 import { loginData } from "@/types/login";
 import type { FormInstance, FormRules } from 'element-plus';
@@ -126,8 +127,9 @@ export default defineComponent({
                 loginForm.password = '';
                 code.value = '';
                 //console.log(res.data)
+                Cookies.set('token', res.data.token);
                 localStorage.setItem('admindata', JSON.stringify(res.data.data));
-                localStorage.setItem('token', res.data.token);
+                // localStorage.setItem('token', res.data.token);
               } else {
                 subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
                 ElMessage.error('用户名或密码输入有误，请重新输入');

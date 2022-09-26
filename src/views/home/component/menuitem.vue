@@ -37,12 +37,14 @@
                 <el-menu-item index="1-1">统计视图1</el-menu-item>
                 <el-menu-item index="1-2">统计视图2</el-menu-item>
             </el-sub-menu>
-            <el-menu-item index="/setting">
-                <el-icon>
-                    <setting />
-                </el-icon>
-                <template #title>设置</template>
-            </el-menu-item>
+            <el-sub-menu index="">
+                <template #title>
+                    <el-icon><Guide /></el-icon>
+                    <span>路由参数</span>
+                </template>
+                <el-menu-item index="1-1">外链1</el-menu-item>
+                <el-menu-item index="1-2">外链2</el-menu-item>
+            </el-sub-menu>
             <el-sub-menu index="">
                 <template #title>
                     <el-icon><Link /></el-icon>
@@ -52,8 +54,18 @@
                 <el-menu-item index="1-2">外链2</el-menu-item>
             </el-sub-menu>
             <el-menu-item index="/iframe">
+                <el-icon><Grid /></el-icon>
+                <template #title>组件封装</template>
+            </el-menu-item>
+            <el-menu-item index="/iframe">
                 <el-icon><SetUp /></el-icon>
                 <template #title>内嵌 iframe</template>
+            </el-menu-item>
+            <el-menu-item index="/setting">
+                <el-icon>
+                    <setting />
+                </el-icon>
+                <template #title>设置</template>
             </el-menu-item>
         </el-menu>
     </div>
@@ -70,7 +82,9 @@ import {
     User,
     SetUp,
     Link,
-    Operation
+    Operation,
+    Guide,
+    Grid
 } from '@element-plus/icons-vue'
 
 export default defineComponent({
@@ -83,7 +97,9 @@ export default defineComponent({
         User,
         SetUp,
         Link,
-        Operation
+        Operation,
+        Guide,
+        Grid
     },
     props: {
         isCollapse: Boolean

@@ -3,7 +3,7 @@
     <div class="oneitem">
       <div class="subone">
         <div class="databox">
-          <p class="pone">2639,63</p>
+          <p class="pone">1039,63</p>
           <p class="ptwo">+12.10%</p>
           <p class="pthree">平台总流量</p>
         </div>
@@ -13,7 +13,7 @@
       </div>
       <div class="subone">
         <div class="databox">
-          <p class="pone">1002,10</p>
+          <p class="pone">326</p>
           <p class="ptwo" style="color: #6690f9;">-12.10%</p>
           <p class="pthree">今日总流量</p>
         </div>
@@ -23,8 +23,8 @@
       </div>
       <div class="subone">
         <div class="databox">
-          <p class="pone">7639,63</p>
-          <p class="ptwo">+12.10%</p>
+          <p class="pone">237</p>
+          <p class="ptwo">+8.10%</p>
           <p class="pthree">用户数量</p>
         </div>
         <div class="iconbox" style="background-color: #fdf6ec;">
@@ -33,7 +33,7 @@
       </div>
       <div class="subone">
         <div class="databox">
-          <p class="pone">2229,20</p>
+          <p class="pone">23</p>
           <p class="ptwo">+12.10%</p>
           <p class="pthree">今日待办总数量</p>
         </div>
