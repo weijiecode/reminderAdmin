@@ -15,7 +15,7 @@ const service = axios.create({
 // 添加请求拦截器
 service.interceptors.request.use(
 	config => {
-		// 在发送请求之前做些什么 token
+		// 发送请求之前 token
 		// if (localStorage.getItem('token')) {
 		// 	(<any>config.headers).common['Authorization'] = `Bearer ${localStorage.token || ''}`;
 		// }
@@ -24,7 +24,7 @@ service.interceptors.request.use(
 		}
 		return config;
 	}, error => {
-		// 对请求错误做些什么
+		// 请求错误
 		return Promise.reject(error);
 	}
 );
@@ -33,7 +33,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
 	response => {
 		return response.data;
-		//对响应数据做点什么
+		//响应数据
 		// const res = response;
 		//console.log(res,'net')
 		// if (res.data.code !== 200 && res.data.code !== 201) {

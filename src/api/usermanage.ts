@@ -1,15 +1,8 @@
 import request from '@/api/http';
-import { pageData, editUserData, addUserInt } from '@/types/usermanager'
+import { PromiseRes, userData, pageData, editUserData, addUserInt } from '@/types/usermanager'
 
 // 获取指定页数的用户数据
-export const getUserData = (params:pageData) => {
-    console.log(params)
-    return request({
-        url: 'adminuser/selectuser',
-        method: 'post',
-        data: params
-    })
-}
+export const getUserData = (params:pageData):PromiseRes<userData> => request.post("adminuser/selectuser", params)
 
 // 删除指定ID的用户
 // export const deleteUser = (params: number) => {

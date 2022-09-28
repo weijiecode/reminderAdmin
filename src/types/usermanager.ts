@@ -1,3 +1,14 @@
+export type PromiseRes<T = {}> = Promise<ManageRes<T>>
+
+export interface ManageRes<T = {}> {
+    code: number,
+    data: T[],
+    count: {
+        num: number 
+    },
+    msg: string
+}
+
 // 用户数据
 export interface userData{
     id: number,

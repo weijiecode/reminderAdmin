@@ -160,7 +160,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, onMounted, ref, toRefs } from 'vue';
+import { defineComponent, reactive, onMounted, ref } from 'vue';
 import { EditPen } from '@element-plus/icons-vue';
 import { updateAdmin, selectSafe, updatepassword, addsafe, updatePhone, updateQuestion, updateQq } from '@/api/mycenter';
 import { ElMessage } from 'element-plus';
@@ -214,7 +214,7 @@ export default defineComponent({
       answer: '',
       qq: ''
     });
-    const isaddsafe = ref<boolean>(false);
+    const isaddsafe = ref(false);
     onMounted(() => {
       adminForm.nickname = JSON.parse(localStorage.getItem('admindata') || '').nickname
       adminForm.sex = JSON.parse(localStorage.getItem('admindata') || '').sex
@@ -222,26 +222,32 @@ export default defineComponent({
       adminForm.email = JSON.parse(localStorage.getItem('admindata') || '').email
       adminForm.introduction = JSON.parse(localStorage.getItem('admindata') || '').introduction
       selectSafe().then(res => {
-        // console.log(res, '333')
-        if (res.data.code === 201) {
+        console.log("安全信息：",res)
+        if (res.code === 201) {
           isaddsafe.value = false
           phoneShow.value = '暂无绑定手机'
           console.log(isaddsafe.value, '1')
         } else {
-          safeData.phone = res.data.data[0].phone;
-          safeData.question = res.data.data[0].question;
-          safeData.answer = res.data.data[0].answer;
-          safeData.qq = res.data.data[0].qq;
+          safeData.phone = res.data.phone || '';
+          safeData.question = res.data.question || '';
+          safeData.answer = res.data.answer || '';
+          safeData.qq = res.data.qq || '';
           isaddsafe.value = true
           console.log(isaddsafe.value, '2')
-          if (res.data.data[0].phone !== '') {
-            phoneShow.value = res.data.data[0].phone.substring(0, 3) + '****' + res.data.data[0].phone.substring(7, 11);
+          if (res.data.phone === null || res.data.phone === '') {
+            phoneShow.value = '暂无绑定手机';
+          }else {
+            phoneShow.value = res.data.phone.substring(0, 3) + '****' + res.data.phone.substring(7, 11);
           }
-          if (res.data.data[0].question !== '') {
+          if (res.data.question === null || res.data.question === '') {
+            questionShow.value = '暂无设置密保问题';
+          }else {
             questionShow.value = '已设置密保问题，账号安全大幅度提升';
           }
-          if (res.data.data[0].qq !== '') {
-            qqShow.value = '已绑定QQ：' + res.data.data[0].qq.substring(0, 4) + '*****';
+          if (res.data.qq === null || res.data.qq === '') {
+            qqShow.value = '暂无设置QQ绑定';
+          }else {
+            qqShow.value = '已绑定QQ：' + res.data.qq.substring(0, 4) + '*****';
           }
         }
       })
@@ -277,7 +283,7 @@ export default defineComponent({
       if (code.value === subcode.value && passForm.newpassword !== '' && passForm.oldpassword !== '') {
         updatepassword(passForm).then(res => {
           console.log(res)
-          if (res.data.code === 200) {
+          if (res.code === 200) {
             passForm.newpassword = '';
             passForm.oldpassword = '';
             code.value = '';
@@ -302,7 +308,7 @@ export default defineComponent({
         if (isaddsafe.value) {
           updatePhone({ phone: phone.value }).then(res => {
             console.log(res);
-            if (res.data.code === 200) {
+            if (res.code === 200) {
               ElMessage({
                 message: '修改密保手机成功',
                 type: 'success',
@@ -323,8 +329,8 @@ export default defineComponent({
           allForm.answer = safeData.answer;
           allForm.qq = safeData.qq;
           addsafe(allForm).then(res => {
-            console.log(res);
-            if (res.data.code === 200) {
+            console.log("添加返回信息：",res);
+            if (res.code === 200) {
               ElMessage({
                 message: '绑定密保手机成功',
                 type: 'success',
@@ -347,7 +353,7 @@ export default defineComponent({
       if (isaddsafe.value && questionForm.question.length !== 0 && questionForm.answer.length !== 0) {
         updateQuestion(questionForm).then(res => {
           console.log(res);
-          if (res.data.code === 200) {
+          if (res.code === 200) {
             ElMessage({
               message: '修改密保问题成功',
               type: 'success',
@@ -371,7 +377,7 @@ export default defineComponent({
         allForm.qq = safeData.qq;
         addsafe(allForm).then(res => {
           console.log(res);
-          if (res.data.code === 200) {
+          if (res.code === 200) {
             ElMessage({
               message: '设置密保问题成功',
               type: 'success',
@@ -392,7 +398,7 @@ export default defineComponent({
         if (isaddsafe.value) {
           updateQq({ qq: qq.value }).then(res => {
             console.log(res);
-            if (res.data.code === 200) {
+            if (res.code === 200) {
               ElMessage({
                 message: '修改QQ号码绑定成功',
                 type: 'success',
@@ -414,7 +420,7 @@ export default defineComponent({
           allForm.qq = qq.value;
           addsafe(allForm).then(res => {
             console.log(res);
-            if (res.data.code === 200) {
+            if (res.code === 200) {
               ElMessage({
                 message: '绑定QQ号码成功',
                 type: 'success',

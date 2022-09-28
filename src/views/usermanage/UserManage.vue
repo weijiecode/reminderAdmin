@@ -177,22 +177,11 @@ export default defineComponent({
         const editFormRef = ref<FormInstance>();
         const addFormRef = ref<FormInstance>();
         // 用户信息
-        const state = reactive<userArray>({
-            userDatas: [
-                {
-                    id: 0,
-                    username: '',
-                    nickname: '',
-                    sex: 0,
-                    email: '',
-                    phone: '',
-                    introduction: '',
-                    createtime: '',
-                    status: 0
-                }
-            ],
+        const state = reactive({
+            userDatas: [],
             stateLength: 0
         });
+        let { userDatas } = toRefs(state)
         // 提交表单的数据
         const saveState = reactive<editUserData>({
             id: 0,
@@ -280,9 +269,10 @@ export default defineComponent({
         // 封装获取用户列表的方法
         const getData = () => {
             getUserData(pageData).then(res => {
-                if (res.data.code === 200) {
-                    state.stateLength = res.data.count.match(/\d+/g)[0] * 1
-                    state.userDatas = res.data.data;
+                console.log('用户列表数据：',res)
+                if (res.code === 200) {
+                    state.stateLength = res.count.num
+                    userDatas.value = res.data;
                     state.userDatas.forEach(item => {
                         item.createtime = item.createtime.substring(0, 10) + ' ' + item.createtime.substring(11, 19);
                         item.status === 0 ? item.status = false : item.status = true
