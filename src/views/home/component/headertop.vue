@@ -55,6 +55,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
+import Cookies from "js-cookie"
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Bell, Sunny, Search, FullScreen, ArrowDown, Expand, Fold, ArrowRight } from '@element-plus/icons-vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -100,7 +101,8 @@ export default defineComponent({
       )
         .then(() => {
           localStorage.removeItem('admindata');
-          localStorage.removeItem('token');
+          Cookies.remove('token')
+          // localStorage.removeItem('token');
           router.push('/login');
           ElMessage({
             type: 'success',

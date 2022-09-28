@@ -1,3 +1,23 @@
+
+export type PromiseRes<T = {}> = Promise<ManageRes<T>>
+
+export interface ManageRes<T = {}> {
+    code : number,
+    data: T[]
+}
+
+export interface loginDataState {
+    createtime: string,
+    id: number,
+    username: string,
+    ip: string
+}
+
+export interface updateInfo {
+    code: number,
+    msg: string
+}
+
 export interface adminFrom{
     nickname: string | null,
     sex: string,

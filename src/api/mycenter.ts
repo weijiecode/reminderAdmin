@@ -1,28 +1,15 @@
 import request from '@/api/http';
-import { adminFrom, questioninter, passwordinter, addsafeinter } from '@/types/mycenter';
+import { PromiseRes, loginDataState, adminFrom, updateInfo, questioninter, passwordinter, addsafeinter } from '@/types/mycenter';
 
 // 查询登录信息
-export const dataLogin = () => {
-    return request({
-        url: 'admin/selectlogindata',
-        method: 'post'
-    })
-}
+export const dataLogin = ():PromiseRes<loginDataState> => request.post("admin/selectlogindata")
+
 // 修改管理员基本信息
-export const updateAdmin = ( params: adminFrom ) => {
-    return request({
-        url: 'admin/updateadmin',
-        method: 'post',
-        data: params
-    })
-}
+export const updateAdmin = ( params: adminFrom ):Promise<updateInfo> => request.post("admin/updateadmin", params)
+
 // 查询是否已添加账号安全信息
-export const selectSafe = () => {
-    return request({
-        url: 'adminsafe/selectsafe',
-        method: 'post'
-    })
-}
+export const selectSafe = () => request.post("adminsafe/selectsafe")
+
 // 查询有没有记录则添加信息
 export const addsafe = (params: addsafeinter) => {
     return request({

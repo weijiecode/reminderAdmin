@@ -29,16 +29,17 @@ export default defineComponent({
   name: 'DataShow',
   setup() {
     const logindata = reactive({
-      username: '',
-      createtime: '',
-      ip: '',
+        username: '',
+        createtime: '',
+        ip: '',
+        id: 0
     });
     const dataname = ref<string>('')
     const { hours } = useDate();
     const nowhour = ref(hours);
     onMounted(() => {
       dataLogin().then(res => {
-        // console.log(res)
+        console.log("登录基础信息", res.data)
         if (nowhour.value >= 6 && nowhour.value < 12) {
           dataname.value = '上午好';
         } else if (nowhour.value >= 12 && nowhour.value < 18) {
@@ -48,10 +49,10 @@ export default defineComponent({
         } else {
           dataname.value = '凌晨好';
         }
-        if (res.data.code === 200) {
-          logindata.username = res.data.data.pop().username
-          logindata.createtime = res.data.data.pop().createtime
-          logindata.ip = res.data.data.pop().ip
+        if (res.code === 200) {
+          logindata.username = res.data[res.data.length-1].username
+          logindata.createtime = res.data[res.data.length-1].createtime
+          logindata.ip = res.data[res.data.length-1].ip
         }
       })
     });

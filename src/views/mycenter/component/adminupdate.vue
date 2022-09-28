@@ -164,7 +164,7 @@ import { defineComponent, reactive, onMounted, ref, toRefs } from 'vue';
 import { EditPen } from '@element-plus/icons-vue';
 import { updateAdmin, selectSafe, updatepassword, addsafe, updatePhone, updateQuestion, updateQq } from '@/api/mycenter';
 import { ElMessage } from 'element-plus';
-import { adminFrom } from '@/types/mycenter';
+
 
 export default defineComponent({
   name: 'AdminUpdate',
@@ -175,11 +175,11 @@ export default defineComponent({
     const dialogFormVisiblePhone = ref(false);
     const dialogFormVisibleQuestion = ref(false);
     const dialogFormVisibleQq = ref(false);
-    const phoneShow = ref<string>('暂无绑定手机');
-    const questionShow = ref<string>('暂无设置密保问题');
-    const qqShow = ref<string>('暂无设置QQ绑定');
+    const phoneShow = ref('暂无绑定手机');
+    const questionShow = ref('暂无设置密保问题');
+    const qqShow = ref('暂无设置QQ绑定');
     // 管理员表单信息
-    const adminForm = reactive<adminFrom>({
+    const adminForm = reactive({
       nickname: '',
       sex: '0',
       phone: '',
@@ -216,13 +216,13 @@ export default defineComponent({
     });
     const isaddsafe = ref<boolean>(false);
     onMounted(() => {
-      adminForm.nickname = JSON.parse(localStorage.getItem('admindata') || '{}').nickname
-      adminForm.sex = JSON.parse(localStorage.getItem('admindata') || '{}').sex
-      adminForm.phone = JSON.parse(localStorage.getItem('admindata') || '{}').phone
-      adminForm.email = JSON.parse(localStorage.getItem('admindata') || '{}').email
-      adminForm.introduction = JSON.parse(localStorage.getItem('admindata') || '{}').introduction
+      adminForm.nickname = JSON.parse(localStorage.getItem('admindata') || '').nickname
+      adminForm.sex = JSON.parse(localStorage.getItem('admindata') || '').sex
+      adminForm.phone = JSON.parse(localStorage.getItem('admindata') || '').phone
+      adminForm.email = JSON.parse(localStorage.getItem('admindata') || '').email
+      adminForm.introduction = JSON.parse(localStorage.getItem('admindata') || '').introduction
       selectSafe().then(res => {
-        console.log(res, '333')
+        // console.log(res, '333')
         if (res.data.code === 201) {
           isaddsafe.value = false
           phoneShow.value = '暂无绑定手机'
@@ -249,8 +249,8 @@ export default defineComponent({
     // 更新表单数据
     const submitAdminForm = () => {
       updateAdmin(adminForm).then(res => {
-        // console.log(res)
-        if (res.data.code === 200) {
+        console.log("更新结果：",res)
+        if (res.code === 200) {
           localStorage.setItem('admindata', JSON.stringify(adminForm));
           ElMessage({
             message: '更新信息成功',
@@ -265,8 +265,8 @@ export default defineComponent({
       });
     };
     // 验证码
-    let code = ref<string>();
-    let subcode = ref<string>();
+    let code = ref();
+    let subcode = ref();
     subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
     // 更改验证码
     const changecode = () => {

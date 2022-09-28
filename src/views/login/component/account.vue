@@ -127,7 +127,7 @@ export default defineComponent({
                 loginForm.password = '';
                 code.value = '';
                 //console.log(res.data)
-                Cookies.set('token', res.token);
+                Cookies.set('token', res.token, { expires: 7 });
                 localStorage.setItem('admindata', JSON.stringify(res.data));
                 // localStorage.setItem('token', res.data.token);
               } else {
