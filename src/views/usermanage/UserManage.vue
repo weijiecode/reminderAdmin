@@ -17,7 +17,7 @@
             </el-input>
             <el-button type="success" :icon="CirclePlus" @click="dialogFormVisibleAdd = true">新增用户</el-button>
         </div>
-        <el-table :data="userDatas" style="width: 100%" :cell-style="{ height: '70px', maxHeight: '70px' }">
+        <el-table :data="userDatas" :cell-style="{ height: '70px', maxHeight: '70px' }">
             <el-table-column type="index" prop="id" label="序号" width="60px" />
             <el-table-column prop="id" label="用户ID" width="70px" />
             <el-table-column prop="username" label="用户名" width="80px" />
@@ -51,7 +51,7 @@
             <el-table-column label="操作" width="180px">
                 <template #default="scope">
                     <!-- <el-button size="small" type="primary" :icon="Edit" @click="handleEdit(scope.$index)" /> -->
-                    <el-button size="small" type="primary" @click="handleEdit(scope)">编辑</el-button>
+                    <el-button size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
                     <el-popconfirm @confirm="handleDelete(scope.row.id)" title="你确定删除该用户吗?">
                         <template #reference>
                             <el-button size="small" type="danger">删除</el-button>
@@ -160,7 +160,7 @@ import { defineComponent, onMounted, reactive, toRefs, ref } from 'vue';
 import { Search, CirclePlus, Male, Female, Check, Close } from '@element-plus/icons-vue';
 import { getUserData, deluser, edituser, searchUser, addUserData } from '@/api/usermanage';
 import { ElMessage } from 'element-plus';
-import { userArray, userData, editUserData, search, addUserInt } from '@/types/usermanager';
+import { userData, editUserData, search, addUserInt } from '@/types/usermanager';
 import type { FormInstance, FormRules } from 'element-plus';
 
 export default defineComponent({
@@ -178,13 +178,26 @@ export default defineComponent({
         const addFormRef = ref<FormInstance>();
         // 用户信息
         const state = reactive({
-            userDatas: [],
+            userDatas: [
+                {
+                    id: 0,
+                    username: '',
+                    nickname: '',
+                    sex: 0,
+                    email: '',
+                    phone: '',
+                    introduction: '',
+                    createtime: '',
+                    status: 0
+                } as userData
+            ],
             stateLength: 0
         });
         let { userDatas } = toRefs(state)
         // 提交表单的数据
         const saveState = reactive<editUserData>({
             id: 0,
+            username: '',
             nickname: '',
             sex: 0,
             phone: '',
@@ -257,7 +270,7 @@ export default defineComponent({
                     introduction: '',
                     createtime: '',
                     status: 0
-                } as userData
+                } as editUserData
         });
         // 编辑框
         const isViewEdit = ref<boolean>(false);
@@ -295,17 +308,17 @@ export default defineComponent({
             getData();
         });
         // 编辑
-        const dialogFormVisibleEdit = ref<boolean>(false);
-        const handleEdit = (userData: any) => {
+        const dialogFormVisibleEdit = ref(false);
+        const handleEdit = (userData: editUserData) => {
             dialogFormVisibleEdit.value = true
-            editState.userDatasForm = userData.row
+            editState.userDatasForm = userData
             localStorage.setItem('editData', JSON.stringify(state.userDatas))
         };
         // 删除
         const handleDelete = (val: number) => {
             deluser({ id: val }).then(res => {
                 console.log(res)
-                if (res.data.code === 200) {
+                if (res.code === 200) {
                     ElMessage({
                         type: 'success',
                         message: '删除该用户成功'
@@ -348,7 +361,7 @@ export default defineComponent({
                     saveState.status = editState.userDatasForm.status === true ? 1 : 0;
                     edituser(saveState).then((res) => {
                         console.log(res)
-                        if (res.data.code == 200) {
+                        if (res.code == 200) {
                             getData();
                             dialogFormVisibleEdit.value = false;
                             ElMessage({
@@ -367,12 +380,13 @@ export default defineComponent({
         // 搜索
         const getSearchData = () => {
             searchUser().then(res => {
-                if (res.data.code === 200) {
-                    state.userDatas = res.data.data
+                console.log("搜索数据：",res)
+                if (res.code === 200) {
+                    state.userDatas = res.data
                     // id为空时显示所有数据
                     if (searchState.searchType === 'ID') {
                         if (searchState.searchData === '') {
-                            state.userDatas = res.data.data
+                            state.userDatas = res.data
                         } else {
                             state.userDatas = state.userDatas.filter(item => {
                                 return item.id == searchState.searchData
@@ -422,16 +436,16 @@ export default defineComponent({
             await formEl.validate((valid, fields) => {
                 if (valid) {
                     addState.sex === '男' ? addState.sex=0 : addState.sex=1;
-                    addUserData(addState).then((res : any) => {
+                    addUserData(addState).then( res => {
                         console.log(res.code)
-                        console.log(res.code == '-201')
-                        if(res.code == '-201') {
+                        console.log(res.code == -201)
+                        if(res.code == -201) {
                             ElMessage({
                                 type: 'error',
                                 message: '该用户名已注册，请尝试输入其他用户名称后重试'
                             });
                         }else {
-                            if (res.data.code == 200) {
+                            if (res.code == 200) {
                             getData();
                             dialogFormVisibleAdd.value = false;
                             ElMessage({
