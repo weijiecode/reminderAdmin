@@ -38,7 +38,7 @@ export interface userid {
 }
 // 删除操作返回的数据
 export interface userInfo {
-    code : number,
+    code: number,
     msg: string
 }
 // 所有用户数据

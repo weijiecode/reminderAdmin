@@ -194,6 +194,21 @@ export default defineComponent({
             stateLength: 0
         });
         let { userDatas } = toRefs(state)
+        // 封装获取用户列表的方法
+        const getData = () => {
+            getUserData(pageData).then(res => {
+                console.log('用户列表数据：', res)
+                if (res.code === 200) {
+                    userDatas.value = res.data;
+                    state.stateLength = res.count.num
+                    state.userDatas.forEach(item => {
+                        item.createtime = item.createtime.substring(0, 10) + ' ' + item.createtime.substring(11, 19);
+                        item.status === 0 ? item.status = false : item.status = true
+                        item.sex === 0 ? item.sex = '男' : item.sex = '女'
+                    });
+                }
+            });
+        }
         // 提交表单的数据
         const saveState = reactive<editUserData>({
             id: 0,
@@ -279,21 +294,6 @@ export default defineComponent({
             searchType: 'username',
             searchData: ''
         });
-        // 封装获取用户列表的方法
-        const getData = () => {
-            getUserData(pageData).then(res => {
-                console.log('用户列表数据：',res)
-                if (res.code === 200) {
-                    state.stateLength = res.count.num
-                    userDatas.value = res.data;
-                    state.userDatas.forEach(item => {
-                        item.createtime = item.createtime.substring(0, 10) + ' ' + item.createtime.substring(11, 19);
-                        item.status === 0 ? item.status = false : item.status = true
-                        item.sex === 0 ? item.sex = '男' : item.sex = '女'
-                    });
-                }
-            });
-        }
         // 改变每页显示的数量
         const handleSizeChange = (val: number) => {
             pageData.pageSize = val;
@@ -380,7 +380,7 @@ export default defineComponent({
         // 搜索
         const getSearchData = () => {
             searchUser().then(res => {
-                console.log("搜索数据：",res)
+                console.log("搜索数据：", res)
                 if (res.code === 200) {
                     state.userDatas = res.data
                     // id为空时显示所有数据
@@ -435,26 +435,26 @@ export default defineComponent({
             if (!formEl) return
             await formEl.validate((valid, fields) => {
                 if (valid) {
-                    addState.sex === '男' ? addState.sex=0 : addState.sex=1;
-                    addUserData(addState).then( res => {
+                    addState.sex === '男' ? addState.sex = 0 : addState.sex = 1;
+                    addUserData(addState).then(res => {
                         console.log(res.code)
                         console.log(res.code == -201)
-                        if(res.code == -201) {
+                        if (res.code == -201) {
                             ElMessage({
                                 type: 'error',
                                 message: '该用户名已注册，请尝试输入其他用户名称后重试'
                             });
-                        }else {
-                            if (res.code == 200) {
-                            getData();
-                            dialogFormVisibleAdd.value = false;
-                            ElMessage({
-                                type: 'success',
-                                message: '添加用户成功'
-                            });
                         } else {
-                            ElMessage.error('添加用户失败，请重新输入');
-                        }
+                            if (res.code == 200) {
+                                getData();
+                                dialogFormVisibleAdd.value = false;
+                                ElMessage({
+                                    type: 'success',
+                                    message: '添加用户成功'
+                                });
+                            } else {
+                                ElMessage.error('添加用户失败，请重新输入');
+                            }
                         }
                     })
                 } else {
@@ -462,7 +462,7 @@ export default defineComponent({
                 }
             })
         };
-        // 封装初始化
+        // 封装初始化方法
         const initAdd = () => {
             addState.username = '';
             addState.nickname = '';
