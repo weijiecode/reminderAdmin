@@ -41,7 +41,7 @@
           </el-icon>
         </div>
         <template #dropdown>
-          <el-dropdown-menu>
+          <el-dropdown-menu style="backgroundColor:var(--menucolor)">
             <el-dropdown-item>首页</el-dropdown-item>
             <el-dropdown-item>个人中心</el-dropdown-item>
             <el-dropdown-item>代码仓库</el-dropdown-item>
@@ -59,6 +59,8 @@ import Cookies from "js-cookie"
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Bell, Sunny, Search, FullScreen, ArrowDown, Expand, Fold, ArrowRight } from '@element-plus/icons-vue';
 import { useRouter, useRoute } from 'vue-router';
+import { addColor } from '../../../theme/configColor'
+
 export default defineComponent({
   name: 'HeaderTop',
   components: {
@@ -72,9 +74,15 @@ export default defineComponent({
   },
   emit: ["changemenu"],
   setup(props, { emit }) {
+    const themetype = ref('light')
     const changecolor = () => {
-      document.documentElement.style.setProperty("--theme_bg_color", '#1E90FF');
-      document.documentElement.style.setProperty("--theme_font_color", '#aaa');
+      if (themetype.value === 'light') {
+        addColor("dark")
+        themetype.value = 'dark'
+      } else {
+        addColor("light")
+        themetype.value = 'light'
+      }
     };
     const router = useRouter();
     const route = useRoute();
@@ -152,10 +160,19 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="scss">
+::v-deep .el-dropdown__popper .el-dropdown-menu {
+  color: '#ffffff' !important;
+  background-color: red !important;
+}
+
+::v-deep .el-dropdown-menu__item:not(.is-disabled):focus {
+  background-color: var(--menuli) !important;
+}
+
 .header {
   width: 100%;
   height: 50px;
-  background-color: #ffffff;
+  background-color: var(--themeColor);
   display: flex;
   align-items: center;
   justify-content: space-between;

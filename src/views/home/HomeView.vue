@@ -144,12 +144,12 @@ export default defineComponent({
 
 .el-header {
   height: 50px;
-  background-color: #ffffff;
+  background-color: var(--themeColor);
 }
 
 .el-main {
-  background-color: #f8f8f8;
-  border-top: 1px solid #f1f2f3;
+  background-color: var(--subthemeColor);
+  border-top: 1px solid var(--subthemeColor);
   padding: 0px;
 }
 
@@ -167,18 +167,39 @@ export default defineComponent({
 
 .demo-tabs>.el-tabs__content {
   padding: 26px;
-  color: #6b778c;
+  color: var(--subthemeColor);
   font-size: 32px;
   font-weight: 600;
+}
+
+::v-deep .el-tabs--card>.el-tabs__header .el-tabs__nav {
+  border: 1px solid var(--tabborder);
+}
+
+::v-deep .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+    border-bottom-color: var(--themeColor);
+}
+
+::v-deep .el-tabs--card>.el-tabs__header {
+    border-bottom: 1px solid var(--themeColor);
 }
 
 ::v-deep .el-tabs__item {
   height: 30px;
   line-height: 30px;
+  color: #8D8D8D;
+  border-left: 1px solid var(--tabborder) !important;
+  border-right: 1px solid var(--tabborder) !important;
+}
+
+::v-deep .el-tabs__item.is-active {
+    color: var(--el-color-primary) !important;
+    border-left-color: var(--tabborder) !important;
+    border-right-color: var(--tabborder) !important;
 }
 
 ::v-deep .el-tabs__header {
-  background-color: #ffffff;
+  background-color: var(--themeColor);
 }
 
 .el-empty {

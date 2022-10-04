@@ -67,8 +67,8 @@ export default defineComponent({
 .content {
   width: 98%;
   margin: 0 auto;
-  background-color: #ffffff;
-  border: 1px solid #f1f2f3;
+  background-color: var(--themeColor);
+  border: 1px solid var(--tabborder);
 }
 
 .content:hover {
@@ -79,7 +79,7 @@ export default defineComponent({
 .toptitle {
   padding: 15px 20px;
   color: #303133;
-  border-bottom: 1px solid #e4e7ed;
+  border-bottom: 1px solid var(--tabborder);
 }
 
 .bottomcontent {
@@ -99,7 +99,7 @@ export default defineComponent({
     flex-direction: column;
 
     p {
-      color: #303133;
+      color: var(--title);
       font-size: 18px;
     }
 
@@ -114,7 +114,7 @@ export default defineComponent({
           font-size: 13px;
 
           span {
-            color: #303133;
+            color: var(--title);
           }
         }
       }
@@ -128,7 +128,7 @@ export default defineComponent({
           font-size: 13px;
 
           span {
-            color: #303133;
+            color: var(--title);
           }
         }
       }

@@ -1,0 +1,20 @@
+{
+    "light": {
+        "--themeColor": "#ffffff",
+        "--subthemeColor": "#F8F8F8",
+        "--scrollbar": "#b6b6b6",
+        "--tabborder": "#ebebeb",
+        "--title": "#303133",
+        "--menucolor": "#ffffff",
+        "--menuli": "#ecf5ff"
+    },
+    "dark": {
+        "--themeColor": "#191919",
+        "--subthemeColor": "#1F1F1F",
+        "--scrollbar": "#3f3f3f",
+        "--tabborder": "#333333",
+        "--title": "#dadada",
+        "--menucolor": "#191919",
+        "--menuli": "#191919"
+    }
+}

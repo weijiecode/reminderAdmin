@@ -46,7 +46,7 @@
             <p class="twop">当前密码强度： 中</p>
           </div>
           <div class="rights">
-            <el-button @click="dialogFormVisiblePass = true">立即修改</el-button>
+            <el-button type="primary" @click="dialogFormVisiblePass = true">立即修改</el-button>
           </div>
         </div>
         <div class="safeitem">
@@ -55,7 +55,7 @@
             <p class="twop">{{ phoneShow }}</p>
           </div>
           <div class="rights">
-            <el-button @click="dialogFormVisiblePhone = true">立即绑定</el-button>
+            <el-button type="primary" @click="dialogFormVisiblePhone = true">立即绑定</el-button>
           </div>
         </div>
         <div class="safeitem">
@@ -64,7 +64,7 @@
             <p class="twop">{{ questionShow }}</p>
           </div>
           <div class="rights">
-            <el-button @click="dialogFormVisibleQuestion = true">立即设置</el-button>
+            <el-button type="primary" @click="dialogFormVisibleQuestion = true">立即设置</el-button>
           </div>
         </div>
         <div class="safeitem">
@@ -73,7 +73,7 @@
             <p class="twop">{{ qqShow }}</p>
           </div>
           <div class="rights">
-            <el-button @click="dialogFormVisibleQq = true">立即绑定</el-button>
+            <el-button type="primary" @click="dialogFormVisibleQq = true">立即绑定</el-button>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
         </el-form-item>
         <el-form-item label="验证码">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
-          <el-button @click="changecode" class="codebtn">{{ subcode }}</el-button>
+          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode" class="codebtn">{{ subcode }}</el-button>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -107,7 +107,7 @@
         </el-form-item>
         <el-form-item label="验证码">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
-          <el-button @click="changecode" class="codebtn">{{ subcode }}</el-button>
+          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode" class="codebtn">{{ subcode }}</el-button>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -128,7 +128,7 @@
         </el-form-item>
         <el-form-item label-width="54px" label="验证码">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
-          <el-button @click="changecode" class="codebtn">{{ subcode }}</el-button>
+          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode" class="codebtn">{{ subcode }}</el-button>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -146,7 +146,7 @@
         </el-form-item>
         <el-form-item label-width="70px" label="验证码">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
-          <el-button @click="changecode" class="codebtn">{{ subcode }}</el-button>
+          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode" class="codebtn">{{ subcode }}</el-button>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -464,12 +464,16 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="scss">
+
+::v-deep .el-dialog {
+  background-color: var(--themeColor) !important;
+}
 .content {
   width: 98%;
   margin: 0 auto;
   margin-top: 15px;
-  background-color: #ffffff;
-  border: 1px solid #f1f2f3;
+  background-color: var(--themeColor);
+  border: 1px solid var(--tabborder);
   margin-bottom: 10px;
 }
 
@@ -482,7 +486,13 @@ export default defineComponent({
   padding: 15px 20px;
   margin-bottom: 10px;
   color: #303133;
-  border-bottom: 1px solid #e4e7ed;
+  border-bottom: 1px solid var(--tabborder);
+}
+
+::v-deep .el-input__wrapper {
+  background-color: var(--themeColor);
+  border: 1px solid var(--tabborder) !important;
+  box-shadow: none;
 }
 
 .adminstate {
