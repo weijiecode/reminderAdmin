@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 // 引入封装的nprogress.ts
 import { start, close } from '@/utils/nprogress';
+import Cookies from 'js-cookie'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -85,7 +86,6 @@ const router = createRouter({
   routes
 })
 
-
 router.beforeEach((to, from, next) => {
   start();
   // 设置浏览器标题
@@ -94,8 +94,16 @@ router.beforeEach((to, from, next) => {
   } else {
     document.title = 'reminderAdmin';
   }
-  next();
-});
+  // 获取token
+  const TOKEN = Cookies.get('token')
+  if (TOKEN) {
+    next()
+  } else {
+    // 没有token 只能访问登录页面 其它页面无法访问
+    if (to.name === 'login') next()
+    else next('/login')
+  }
+})
 
 // 路由加载结束后执行
 router.afterEach(() => {

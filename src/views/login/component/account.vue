@@ -62,6 +62,8 @@ import { ElMessage } from 'element-plus'
 // 输入框图标
 import { User, Lock, Position, Iphone } from '@element-plus/icons-vue';
 import { useRouter } from "vue-router";
+import { useStore } from 'vuex'
+
 export default defineComponent({
   name: "LoginBox",
   setup() {
@@ -97,6 +99,8 @@ export default defineComponent({
       ]
     })
     const fullscreenLoading = ref(false)
+    // 获取vuex对象
+    let store = useStore()
     // 登录提交
     const submitForm = async (formEl: FormInstance | undefined) => {
       if (!formEl) return
@@ -109,11 +113,14 @@ export default defineComponent({
             signIn(loginForm).then((res) => {
               console.log(res)
               if (res.code == 200) {
-
                 // 获取ip和username赋值给userinfo
                 if (localStorage.getItem('adminIP') !== null) {
                   admininfo.username = loginForm.username
                   admininfo.ip = JSON.parse(localStorage.getItem('adminIP') || '')
+                  // 如果主题色未赋值则默认light
+                  if (!store.state.themetype) {
+                    store.commit("updatetheme","light")
+                  }
                   // 添加登录信息
                   adminLoginData(admininfo)
                 }
@@ -175,8 +182,8 @@ export default defineComponent({
   right: 200px;
   top: 50%;
   transform: translateY(-50%) translate3d(0, 0, 0);
-  background-color: #ffffff;
-  border: 5px solid #d8ebff;
+  background-color: var(--themeColor);
+  border: 5px solid var(--tabborder);
   border-radius: 5px;
   overflow: hidden;
   z-index: 1;

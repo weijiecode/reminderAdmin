@@ -7,7 +7,7 @@
           <p class="ptwo">+12.10%</p>
           <p class="pthree">平台总流量</p>
         </div>
-        <div class="iconbox" style="background-color: #ecf5ff;">
+        <div class="iconbox" style="background-color: var(--iconbox1);">
           <i class="iconfont icon-liuliangtongji" style="color: #409eff;font-size:34px;"></i>
         </div>
       </div>
@@ -17,7 +17,7 @@
           <p class="ptwo" style="color: #6690f9;">-12.10%</p>
           <p class="pthree">今日总流量</p>
         </div>
-        <div class="iconbox" style="background-color: #f0f9eb;">
+        <div class="iconbox" style="background-color: var(--iconbox2);">
           <i class="iconfont icon-liuliang" style="color: #67c23a;font-size:34px;"></i>
         </div>
       </div>
@@ -27,7 +27,7 @@
           <p class="ptwo">+8.10%</p>
           <p class="pthree">用户数量</p>
         </div>
-        <div class="iconbox" style="background-color: #fdf6ec;">
+        <div class="iconbox" style="background-color: var(--iconbox3);">
           <i class="iconfont icon-ren-duoren" style="color: #e6a23c;font-size:34px;"></i>
         </div>
       </div>
@@ -37,7 +37,7 @@
           <p class="ptwo">+12.10%</p>
           <p class="pthree">今日待办总数量</p>
         </div>
-        <div class="iconbox" style="background-color: #fef0f0;">
+        <div class="iconbox" style="background-color: var(--iconbox4);">
           <i class="iconfont icon-daibantixing" style="color: #f56c6c;font-size:34px;"></i>
         </div>
       </div>
@@ -86,10 +86,10 @@ export default defineComponent({
   width: 25%;
   cursor: default;
   height: 130px;
-  background-color: #ffffff;
+  background-color: var(--themeColor);
   margin: 10px;
   display: flex;
-  border: 1px solid #f1f2f3;
+  border: 1px solid var(--tabborder);
   align-items: center;
   justify-content: space-around;
 }

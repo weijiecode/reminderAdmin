@@ -89,7 +89,8 @@
         </el-form-item>
         <el-form-item label="验证码">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
-          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode" class="codebtn">{{ subcode }}</el-button>
+          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode"
+            class="codebtn">{{ subcode }}</el-button>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -107,7 +108,8 @@
         </el-form-item>
         <el-form-item label="验证码">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
-          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode" class="codebtn">{{ subcode }}</el-button>
+          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode"
+            class="codebtn">{{ subcode }}</el-button>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -128,7 +130,8 @@
         </el-form-item>
         <el-form-item label-width="54px" label="验证码">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
-          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode" class="codebtn">{{ subcode }}</el-button>
+          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode"
+            class="codebtn">{{ subcode }}</el-button>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -146,7 +149,8 @@
         </el-form-item>
         <el-form-item label-width="70px" label="验证码">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
-          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode" class="codebtn">{{ subcode }}</el-button>
+          <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode"
+            class="codebtn">{{ subcode }}</el-button>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -164,6 +168,7 @@ import { defineComponent, reactive, onMounted, ref } from 'vue';
 import { EditPen } from '@element-plus/icons-vue';
 import { updateAdmin, selectSafe, updatepassword, addsafe, updatePhone, updateQuestion, updateQq } from '@/api/mycenter';
 import { ElMessage } from 'element-plus';
+// import { useStore } from 'vuex'
 
 
 export default defineComponent({
@@ -178,6 +183,30 @@ export default defineComponent({
     const phoneShow = ref('暂无绑定手机');
     const questionShow = ref('暂无设置密保问题');
     const qqShow = ref('暂无设置QQ绑定');
+    // 获取主题类型
+    // const getTheme = computed(() => {
+    //   return store.state.themetype
+    // })
+    // let store = useStore()
+    // // 监听主题参数是否变化
+    // const themetype = ref('')
+    // const btntype = ref<any>('primary')
+    // watch(getTheme, (newValue) => {
+    //   // console.log('change', newValue)
+    //   if (newValue === 'light') {
+    //     btntype.value = 'primary'
+    //   } else if (newValue === 'dark') {
+    //     btntype.value = 'info'
+    //   }
+    // }, { immediate: true, deep: true })
+    // themetype.value = localStorage.getItem('theme') || ''
+    // // themetype.value = store.state.themetype
+    // if (themetype.value === 'light') {
+    //   btntype.value = 'primary'
+    // } else if (themetype.value === 'dark') {
+    //   btntype.value = 'info'
+    // }
+
     // 管理员表单信息
     const adminForm = reactive({
       nickname: '',
@@ -222,7 +251,7 @@ export default defineComponent({
       adminForm.email = JSON.parse(localStorage.getItem('admindata') || '').email
       adminForm.introduction = JSON.parse(localStorage.getItem('admindata') || '').introduction
       selectSafe().then(res => {
-        console.log("安全信息：",res)
+        console.log("安全信息：", res)
         if (res.code === 201) {
           isaddsafe.value = false
           phoneShow.value = '暂无绑定手机'
@@ -236,17 +265,17 @@ export default defineComponent({
           console.log(isaddsafe.value, '2')
           if (res.data.phone === null || res.data.phone === '') {
             phoneShow.value = '暂无绑定手机';
-          }else {
+          } else {
             phoneShow.value = res.data.phone.substring(0, 3) + '****' + res.data.phone.substring(7, 11);
           }
           if (res.data.question === null || res.data.question === '') {
             questionShow.value = '暂无设置密保问题';
-          }else {
+          } else {
             questionShow.value = '已设置密保问题，账号安全大幅度提升';
           }
           if (res.data.qq === null || res.data.qq === '') {
             qqShow.value = '暂无设置QQ绑定';
-          }else {
+          } else {
             qqShow.value = '已绑定QQ：' + res.data.qq.substring(0, 4) + '*****';
           }
         }
@@ -255,13 +284,14 @@ export default defineComponent({
     // 更新表单数据
     const submitAdminForm = () => {
       updateAdmin(adminForm).then(res => {
-        console.log("更新结果：",res)
+        console.log("更新结果：", res)
         if (res.code === 200) {
-          localStorage.setItem('admindata', JSON.stringify(adminForm));
+          console.log('@')
           ElMessage({
             message: '更新信息成功',
             type: 'success',
           })
+          localStorage.setItem('admindata', JSON.stringify(adminForm));
         } else {
           ElMessage({
             message: '更新信息失败,请重试',
@@ -329,7 +359,7 @@ export default defineComponent({
           allForm.answer = safeData.answer;
           allForm.qq = safeData.qq;
           addsafe(allForm).then(res => {
-            console.log("添加返回信息：",res);
+            console.log("添加返回信息：", res);
             if (res.code === 200) {
               ElMessage({
                 message: '绑定密保手机成功',
@@ -458,16 +488,18 @@ export default defineComponent({
       qq,
       phoneShow,
       questionShow,
-      qqShow
+      qqShow,
+      // btntype
     }
   }
 });
 </script>
 <style scoped lang="scss">
-
 ::v-deep .el-dialog {
   background-color: var(--themeColor) !important;
 }
+
+
 .content {
   width: 98%;
   margin: 0 auto;
@@ -564,7 +596,7 @@ export default defineComponent({
 
 .safeitem {
   height: 74px;
-  border-bottom: 1px solid #e4e7ed;
+  border-bottom: 1px solid var(--tabborder);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -588,7 +620,7 @@ export default defineComponent({
 
 .safeitem:nth-of-type(4) {
   height: 74px;
-  border-bottom: 1px solid #ffffff;
+  border-bottom: 1px solid var(--tabborder);
 }
 
 .codebtn {

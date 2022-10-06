@@ -4,17 +4,35 @@
         "--subthemeColor": "#F8F8F8",
         "--scrollbar": "#b6b6b6",
         "--tabborder": "#ebebeb",
+        "--loginbg": "#f5f5ff",
         "--title": "#303133",
         "--menucolor": "#ffffff",
-        "--menuli": "#ecf5ff"
+        "--menuli": "#ecf5ff",
+        "--btncolor": "#409EFF",
+        "--btntext": "#ffffff",
+        "--iconbox1": "#ecf5ff",
+        "--iconbox2": "#f0f9eb",
+        "--iconbox3": "#fdf6ec",
+        "--iconbox4": "#fef0f0",
+        "--echartbg": "#ffffff",
+        "--leftmenubg": "#545c64"
     },
     "dark": {
         "--themeColor": "#191919",
         "--subthemeColor": "#1F1F1F",
         "--scrollbar": "#3f3f3f",
         "--tabborder": "#333333",
+        "--loginbg": "#323234",
         "--title": "#dadada",
         "--menucolor": "#191919",
-        "--menuli": "#191919"
+        "--menuli": "#191919",
+        "--btncolor": "#333333",
+        "--btntext": "#909399",
+        "--iconbox1": "#455363",
+        "--iconbox2": "#6a6f68",
+        "--iconbox3": "#847968",
+        "--iconbox4": "#887070",
+        "--echartbg": "#0f0d28",
+        "--leftmenubg": "#191919"
     }
 }

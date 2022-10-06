@@ -5,20 +5,38 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, ref, computed, watch } from 'vue';
 import * as echarts from 'echarts';
+import { useStore } from "vuex"
 
 export default defineComponent({
     name: 'PieEcharts',
     components: {
     },
     setup() {
+        // 后去vuex对象
+        let store = useStore()
+        const themetype = ref('')
+        themetype.value = store.state.themetype
+        // 监听vuex的themetype参数
+        const getTheme = computed(() => {
+            return store.state.themetype
+        })
         // 渲染页面时加载图表
         onMounted(() => {
+            getcharts()
+        });
+        // 封装方法
+        const getcharts = () => {
             type EChartsOption = echarts.EChartsOption;
             var chartDom = document.getElementById('echarttwo')!;
-            var myChart = echarts.init(chartDom);
+            var myChart = echarts.init(chartDom, themetype.value === 'dark' ? "dark" : "light");
             var option: EChartsOption;
+            // 监听到主题切换，重新渲染
+            watch(getTheme, () => {
+                myChart.resize();
+                console.log('!!!')
+            })
             option = {
                 color: ['#7766E7', '#518BF1', '#FFCD00', '#1DBD84', '#FE738A', '#C4C4C4'],
                 tooltip: {
@@ -69,7 +87,7 @@ export default defineComponent({
             };
 
             option && myChart.setOption(option);
-        });
+        }
 
         return {
         }
@@ -81,8 +99,8 @@ export default defineComponent({
     margin-top: 20px;
     width: 360px;
     height: 400px;
-    background-color: #ffffff;
-    border: 1px solid #f1f2f3;
+    background-color: var(--echartbg);
+    border: 1px solid var(--tabborder);
     padding: 20px 20px 0 20px;
     margin-bottom: 30px;
 }

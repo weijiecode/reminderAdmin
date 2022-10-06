@@ -522,10 +522,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .content {
-    background-color: #ffffff;
+    background-color: var(--themeColor);
     padding: 20px;
     margin: 0 10px;
-    border: 1px solid #f1f2f3;
+    border: 1px solid var(--tabborder);
 }
 
 .tabheader {

@@ -6,19 +6,30 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import Account from "@/views/login/component/account.vue";
 import bgSvg from "@/assets/bg.svg";
+import { addColor } from '../../theme/configColor'
+import { useStore } from "vuex"
+
 export default defineComponent({
   components: {
     Account,
   },
   setup() {
-    const changecolor = () => {
-      document.documentElement.style.setProperty("--theme_bg_color", "#000");
-    };
+    // 获取vuex对象
+    let store = useStore()
+    const themetype = ref('light')
+    themetype.value = store.state.themetype
+    // themetype.value = localStorage.getItem('theme') || ''
+    if (themetype.value === 'light') {
+      addColor("light")
+      document.documentElement.classList.remove("dark");
+    } else if (themetype.value === 'dark') {
+      addColor("dark")
+      document.documentElement.classList.add("dark");
+    }
     return {
-      changecolor,
       bgSvg,
     };
   },
@@ -31,7 +42,7 @@ export default defineComponent({
   margin: 0;
   width: 100%;
   height: 100%;
-  background-color: #f5f5ff;
+  background-color: var(--loginbg);
 }
 
 .bgimg {

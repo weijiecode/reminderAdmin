@@ -41,7 +41,7 @@
           </el-icon>
         </div>
         <template #dropdown>
-          <el-dropdown-menu style="backgroundColor:var(--menucolor)">
+          <el-dropdown-menu>
             <el-dropdown-item>首页</el-dropdown-item>
             <el-dropdown-item>个人中心</el-dropdown-item>
             <el-dropdown-item>代码仓库</el-dropdown-item>
@@ -60,6 +60,7 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { Bell, Sunny, Search, FullScreen, ArrowDown, Expand, Fold, ArrowRight } from '@element-plus/icons-vue';
 import { useRouter, useRoute } from 'vue-router';
 import { addColor } from '../../../theme/configColor'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'HeaderTop',
@@ -74,14 +75,32 @@ export default defineComponent({
   },
   emit: ["changemenu"],
   setup(props, { emit }) {
+    // 获取vuex对象(用vuex存储，方便监听参数变化)
+    let store = useStore()
     const themetype = ref('light')
+    themetype.value = store.state.themetype
+    // themetype.value = localStorage.getItem('theme') || ''
+    if (themetype.value === 'light') {
+      addColor("light")
+      document.documentElement.classList.remove("dark");
+    } else if (themetype.value === 'dark') {
+      addColor("dark")
+      document.documentElement.classList.add("dark");
+    }
+
     const changecolor = () => {
       if (themetype.value === 'light') {
         addColor("dark")
+        document.documentElement.classList.add("dark");
         themetype.value = 'dark'
-      } else {
+        store.commit('updatetheme', 'dark')
+        // localStorage.setItem('theme', 'dark')
+      } else if (themetype.value === 'dark') {
         addColor("light")
+        document.documentElement.classList.remove("dark");
         themetype.value = 'light'
+        store.commit('updatetheme', 'light')
+        // localStorage.setItem('theme', 'light')
       }
     };
     const router = useRouter();
@@ -160,19 +179,14 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="scss">
-::v-deep .el-dropdown__popper .el-dropdown-menu {
-  color: '#ffffff' !important;
-  background-color: red !important;
-}
-
-::v-deep .el-dropdown-menu__item:not(.is-disabled):focus {
-  background-color: var(--menuli) !important;
-}
+// ::v-deep .el-dropdown-menu__item:not(.is-disabled):focus {
+//   background-color: var(--menuli) !important;
+// }
 
 .header {
   width: 100%;
   height: 50px;
-  background-color: var(--themeColor);
+  // background-color: var(--themeColor);
   display: flex;
   align-items: center;
   justify-content: space-between;

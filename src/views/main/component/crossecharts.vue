@@ -5,19 +5,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, computed, watch, ref } from 'vue';
 import * as echarts from 'echarts';
+import { useStore } from "vuex"
 
 export default defineComponent({
   name: 'CrossEcharts',
   components: {
   },
   setup() {
+    // 获取vuex对象
+    let store = useStore()
+    const themetype = ref('')
+    themetype.value = store.state.themetype
+    // 监听vuex的themetype参数
+    const getTheme = computed(() => {
+      return store.state.themetype
+    })
     // 渲染页面时加载图表
     onMounted(() => {
+      getcharts()
+    });
+    // 封装方法
+    const getcharts = () => {
       type EChartsOption = echarts.EChartsOption;
       var chartDom = document.getElementById('echartone')!;
-      var myChart = echarts.init(chartDom);
+      var myChart = echarts.init(chartDom, themetype.value === 'dark' ? "dark" : "light");
       var option: EChartsOption;
       // 解决重新渲染时的变形
       setTimeout(() => {
@@ -29,6 +42,10 @@ export default defineComponent({
           myChart.resize();
         })()
       }
+      watch(getTheme, () => {
+        myChart.resize();
+        console.log('!!!')
+      })
 
       option = {
         color: ['#80FFA5', '#00DDFF'],
@@ -129,7 +146,7 @@ export default defineComponent({
         ]
       };
       option && myChart.setOption(option);
-    });
+    }
 
     return {
     }
@@ -146,8 +163,8 @@ export default defineComponent({
   margin-top: 20px;
   width: 100%;
   height: 400px;
-  background-color: #ffffff;
-  border: 1px solid #f1f2f3;
+  background-color: var(--echartbg);
+  border: 1px solid var(--tabborder);
   padding: 20px;
   margin-bottom: 30px;
 }

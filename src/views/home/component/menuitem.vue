@@ -1,6 +1,6 @@
 <template>
     <div class="menubox">
-        <el-menu :collapse-transition="false" active-text-color="#409eff" background-color="#545c64"
+        <el-menu :collapse-transition="false" active-text-color="#409eff" background-color="var(--leftmenubg)"
             class="el-menu-vertical-demo" :default-active="route.path" text-color="#fff" :collapse="isCollapse" router>
             <div class="titlebox">
                 <div v-if="!isCollapse" class="name"><span class="dot"></span>reminderAdmin</div>
