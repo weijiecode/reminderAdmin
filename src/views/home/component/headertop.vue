@@ -24,7 +24,7 @@
       <el-icon :size="16" color="#606266">
         <Search />
       </el-icon>
-      <el-icon :size="16" color="#606266">
+      <el-icon :size="16" color="#606266" @click="changelan">
         <Bell />
       </el-icon>
       <!-- 全屏切换 -->
@@ -54,13 +54,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 import Cookies from "js-cookie"
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Bell, Sunny, Search, FullScreen, ArrowDown, Expand, Fold, ArrowRight } from '@element-plus/icons-vue';
 import { useRouter, useRoute } from 'vue-router';
 import { addColor } from '../../../theme/configColor'
 import { useStore } from 'vuex'
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: 'HeaderTop',
@@ -87,7 +88,7 @@ export default defineComponent({
       addColor("dark")
       document.documentElement.classList.add("dark");
     }
-
+    // 切换主题
     const changecolor = () => {
       if (themetype.value === 'light') {
         addColor("dark")
@@ -103,6 +104,13 @@ export default defineComponent({
         // localStorage.setItem('theme', 'light')
       }
     };
+    // 切换语言
+    const language = computed(() => store.state.language);
+    const { locale } = useI18n();
+    const changelan = () => {
+      locale.value = 'en';
+      store.commit("updatelanguage", 'en');
+    }
     const router = useRouter();
     const route = useRoute();
     // onMounted(() => {
@@ -167,6 +175,7 @@ export default defineComponent({
     }
     return {
       changecolor,
+      changelan,
       outaccount,
       handleFullScreen,
       isCollapse,

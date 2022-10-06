@@ -3,14 +3,19 @@ import createPersistedstate from 'vuex-persistedstate'
 
 export default createStore({
   state: {
-    themetype: 'light'
+    themetype: 'light',
+    language: sessionStorage.getItem("localeLang") || "zhCn",
   },
   getters: {
   },
   mutations: {
     updatetheme(state, themetype) {
       state.themetype = themetype
-    }
+    },
+    updatelanguage(state, value) {
+      state.language = value;
+      sessionStorage.setItem("localeLang", value);
+    },
   },
   actions: {
   },

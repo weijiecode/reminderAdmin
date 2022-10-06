@@ -44,7 +44,7 @@
                 </el-button>
               </el-form-item>
             </el-form>
-            <div class="tip">* 温馨提示：建议使用谷歌、Microsoft Edge，版本 79.0.1072.62 及以上浏览器，360浏览器请使用极速模式</div>
+            <div class="tip">{{ $t("home.name") }}* 温馨提示：建议使用谷歌、Microsoft Edge，版本 79.0.1072.62 及以上浏览器，360浏览器请使用极速模式</div>
           </el-tab-pane>
         </transition>
       </el-tabs>
