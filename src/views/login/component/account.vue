@@ -1,50 +1,50 @@
 <template>
   <div class="login-content">
     <div class="content-box">
-      <h4 class="login-title">reminder后台管理系统</h4>
+      <h4 class="login-title">{{ $t("account.title") }}</h4>
       <el-tabs v-model="activeName" class="demo-tabs">
         <transition name="mytrans">
-          <el-tab-pane label="用户名登录" name="first">
+          <el-tab-pane :label="$t('account.userlogin')" name="first">
             <el-form ref="loginFormRef" :rules="loginRules" :model="loginForm" class="demo-dynamic">
               <el-form-item prop="username">
-                <el-input placeholder="请输入用户名" size="large" maxlength="8" clearable :prefix-icon="User"
+                <el-input :placeholder="$t('account.inputusername')" size="large" maxlength="8" clearable :prefix-icon="User"
                   v-model="loginForm.username" />
               </el-form-item>
               <el-form-item prop="password">
-                <el-input placeholder="请输入密码" size="large" maxlength="15" show-password :prefix-icon="Lock"
+                <el-input :placeholder="$t('account.inputpassword')" size="large" maxlength="15" show-password :prefix-icon="Lock"
                   v-model="loginForm.password" />
               </el-form-item>
               <el-form-item>
-                <el-input placeholder="请输入验证码" class="inputcode" size="large" maxlength="4" clearable
+                <el-input :placeholder="$t('account.inputcode')" class="inputcode" size="large" maxlength="4" clearable
                   :prefix-icon="Position" v-model="code" />
                 <el-button @click="changecode" size="large" class="codebtn">{{ subcode }}</el-button>
               </el-form-item>
               <el-form-item>
                 <el-button v-loading.fullscreen.lock="fullscreenLoading" size="large" class="loginbtn" round
-                  type="primary" @click="submitForm(loginFormRef)">登录
+                  type="primary" @click="submitForm(loginFormRef)">{{ $t("account.login") }}
                 </el-button>
               </el-form-item>
             </el-form>
-            <div class="tip">* 温馨提示：建议使用谷歌、Microsoft Edge，版本 79.0.1072.62 及以上浏览器，360浏览器请使用极速模式</div>
+            <div class="tip">* {{ $t("account.warning") }}</div>
           </el-tab-pane>
         </transition>
         <transition name="mytrans">
-          <el-tab-pane label="手机号登录" name="second">
+          <el-tab-pane :label="$t('account.phonelogin')" name="second">
             <el-form :rules="loginRules" :model="loginForm" class="demo-dynamic">
               <el-form-item>
-                <el-input placeholder="请输入手机号" size="large" maxlength="8" clearable :prefix-icon="Iphone" />
+                <el-input :placeholder="$t('account.inputphone')" size="large" maxlength="8" clearable :prefix-icon="Iphone" />
               </el-form-item>
               <el-form-item>
-                <el-input placeholder="请输入手机验证码" class="inputcode" size="large" maxlength="4" clearable
+                <el-input :placeholder="$t('account.inputcode')" class="inputcode" size="large" maxlength="4" clearable
                   :prefix-icon="Position" />
-                <el-button size="large" class="codebtn1">获取验证码</el-button>
+                <el-button size="large" class="codebtn1">{{ $t("account.getcode") }}</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button size="large" class="loginbtn" round type="primary">登录
+                <el-button size="large" class="loginbtn" round type="primary">{{ $t("account.login") }}
                 </el-button>
               </el-form-item>
             </el-form>
-            <div class="tip">{{ $t("home.name") }}* 温馨提示：建议使用谷歌、Microsoft Edge，版本 79.0.1072.62 及以上浏览器，360浏览器请使用极速模式</div>
+            <div class="tip">* {{ $t("account.warning") }}</div>
           </el-tab-pane>
         </transition>
       </el-tabs>
@@ -63,13 +63,27 @@ import { ElMessage } from 'element-plus'
 import { User, Lock, Position, Iphone } from '@element-plus/icons-vue';
 import { useRouter } from "vue-router";
 import { useStore } from 'vuex'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: "LoginBox",
   setup() {
+    const langtype = ref('zhCn')
     const activeName = ref('first');
     const router = useRouter();
     const loginFormRef = ref<FormInstance>();
+    // 获取vuex对象
+    let store = useStore()
+    langtype.value = store.state.language
+    // 刷新页面获取当前语言参数
+    const { locale, t } = useI18n();
+    if (langtype.value === 'en') {
+      locale.value = 'en';
+      store.commit("updatelanguage", 'en');
+    } else {
+      locale.value = 'zhCn';
+      store.commit("updatelanguage", 'zhCn');
+    }
     const loginForm = reactive({
       username: '',
       password: ''
@@ -90,17 +104,16 @@ export default defineComponent({
     // code.value = '123'
     const loginRules = reactive<FormRules>({
       username: [
-        { required: true, message: "请输入账号", trigger: "blur" },
-        { min: 4, max: 8, message: "账号长度需要在4-8位", trigger: "blur" },
+        { required: true, message: t("account.inputusername"), trigger: "blur" },
+        { min: 4, max: 8, message: t("account.lengthuser"), trigger: "blur" },
       ],
       password: [
-        { required: true, message: "请输入密码", trigger: "blur" },
-        { min: 6, max: 15, message: "密码长度需要在6-15位", trigger: "blur" },
+        { required: true, message: t("account.inputpassword"), trigger: "blur" },
+        { min: 6, max: 15, message: t("account.lengthpwd"), trigger: "blur" },
       ]
     })
     const fullscreenLoading = ref(false)
-    // 获取vuex对象
-    let store = useStore()
+
     // 登录提交
     const submitForm = async (formEl: FormInstance | undefined) => {
       if (!formEl) return
@@ -119,7 +132,7 @@ export default defineComponent({
                   admininfo.ip = JSON.parse(localStorage.getItem('adminIP') || '')
                   // 如果主题色未赋值则默认light
                   if (!store.state.themetype) {
-                    store.commit("updatetheme","light")
+                    store.commit("updatetheme", "light")
                   }
                   // 添加登录信息
                   adminLoginData(admininfo)
@@ -139,12 +152,12 @@ export default defineComponent({
                 // localStorage.setItem('token', res.data.token);
               } else {
                 subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
-                ElMessage.error('用户名或密码输入有误，请重新输入');
+                ElMessage.error(t("account.warninglogin"));
               }
             })
           } else {
             subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
-            ElMessage.error('验证码输入错误，请重新输入');
+            ElMessage.error(t("account.warningcode"));
           }
         } else {
           console.log('error submit!', fields)

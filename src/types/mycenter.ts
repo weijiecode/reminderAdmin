@@ -1,4 +1,3 @@
-
 export type PromiseResArray<T = {}> = Promise<ManageResArray<T>>
 export type PromiseRes<T = {}> = Promise<ManageRes<T>>
 

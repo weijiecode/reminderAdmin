@@ -4,7 +4,8 @@ import createPersistedstate from 'vuex-persistedstate'
 export default createStore({
   state: {
     themetype: 'light',
-    language: sessionStorage.getItem("localeLang") || "zhCn",
+    // language: sessionStorage.getItem("localeLang") || "zhCn",
+    language: 'zhCn'
   },
   getters: {
   },
@@ -14,7 +15,8 @@ export default createStore({
     },
     updatelanguage(state, value) {
       state.language = value;
-      sessionStorage.setItem("localeLang", value);
+      // sessionStorage.setItem("localeLang", value);
+      state.language = value;
     },
   },
   actions: {
@@ -27,7 +29,7 @@ export default createStore({
       // key: 存储数据的键名
       key: 'longStore',
       //paths:存储state中的那些数据
-      paths: ['themetype']
+      paths: ['themetype','language']
     })
   ]
 })

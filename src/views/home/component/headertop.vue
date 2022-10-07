@@ -18,20 +18,30 @@
     </div>
     <div class="rightbox">
       <!-- 修改背景色 -->
-      <el-icon :size="16" color="#606266" @click="changecolor">
-        <Sunny />
-      </el-icon>
       <el-icon :size="16" color="#606266">
         <Search />
       </el-icon>
-      <el-icon :size="16" color="#606266" @click="changelan">
+      <el-icon :size="16" color="#606266">
         <Bell />
       </el-icon>
       <!-- 全屏切换 -->
       <el-icon :size="16" color="#606266" @click="handleFullScreen">
         <FullScreen />
       </el-icon>
-
+      <el-switch v-model="themeBoole" class="mt-2" style="margin-left: 24px" inline-prompt @change="changecolor"
+        :active-icon="Sunny" :inactive-icon="Moon" />
+      <!-- 切换语言 -->
+      <el-dropdown>
+        <i class="iconfont icon-a-zhongyingwenzhongwen"
+          style="color: var(--langcolor);font-size:20px;cursor: pointer;margin-left: 20px;"></i>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="changelan('ch')">中文简体</el-dropdown-item>
+            <el-dropdown-item @click="changelan('en')">English</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      <!-- 切换主题 -->
       <el-dropdown>
         <div class="user">
           <img src="@/assets/t.jpeg" alt="">
@@ -57,7 +67,7 @@
 import { defineComponent, ref, onMounted, computed } from 'vue';
 import Cookies from "js-cookie"
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { Bell, Sunny, Search, FullScreen, ArrowDown, Expand, Fold, ArrowRight } from '@element-plus/icons-vue';
+import { Bell, Sunny, Search, FullScreen, ArrowDown, Expand, Fold, ArrowRight, Moon } from '@element-plus/icons-vue';
 import { useRouter, useRoute } from 'vue-router';
 import { addColor } from '../../../theme/configColor'
 import { useStore } from 'vuex'
@@ -66,7 +76,6 @@ import { useI18n } from "vue-i18n";
 export default defineComponent({
   name: 'HeaderTop',
   components: {
-    Sunny,
     Search,
     Bell,
     FullScreen,
@@ -79,24 +88,30 @@ export default defineComponent({
     // 获取vuex对象(用vuex存储，方便监听参数变化)
     let store = useStore()
     const themetype = ref('light')
+    const langtype = ref('zhCn')
+    const themeBoole = ref(true)
     themetype.value = store.state.themetype
+    langtype.value = store.state.language
     // themetype.value = localStorage.getItem('theme') || ''
+    // 刷新页面获取当前主题参数
     if (themetype.value === 'light') {
       addColor("light")
+      themeBoole.value = true
       document.documentElement.classList.remove("dark");
     } else if (themetype.value === 'dark') {
       addColor("dark")
+      themeBoole.value = false
       document.documentElement.classList.add("dark");
     }
     // 切换主题
     const changecolor = () => {
-      if (themetype.value === 'light') {
+      if (themeBoole.value === false) {
         addColor("dark")
         document.documentElement.classList.add("dark");
         themetype.value = 'dark'
         store.commit('updatetheme', 'dark')
         // localStorage.setItem('theme', 'dark')
-      } else if (themetype.value === 'dark') {
+      } else if (themeBoole.value === true) {
         addColor("light")
         document.documentElement.classList.remove("dark");
         themetype.value = 'light'
@@ -107,9 +122,24 @@ export default defineComponent({
     // 切换语言
     const language = computed(() => store.state.language);
     const { locale } = useI18n();
-    const changelan = () => {
+    const changelan = (value: string) => {
+      console.log(value)
+      if (value === 'en') {
+        locale.value = 'en';
+        store.commit("updatelanguage", 'en');
+      } else {
+        locale.value = 'zhCn';
+        store.commit("updatelanguage", 'zhCn');
+      }
+
+    }
+    // 刷新页面获取当前语言参数
+    if (langtype.value === 'en') {
       locale.value = 'en';
       store.commit("updatelanguage", 'en');
+    } else {
+      locale.value = 'zhCn';
+      store.commit("updatelanguage", 'zhCn');
     }
     const router = useRouter();
     const route = useRoute();
@@ -182,7 +212,10 @@ export default defineComponent({
       chmn,
       nickname,
       ArrowRight,
-      route
+      Sunny,
+      Moon,
+      route,
+      themeBoole
     }
   }
 });

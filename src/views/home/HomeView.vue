@@ -28,7 +28,7 @@ import { defineComponent, ref, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import HeaderTop from "@/views/home/component/headertop.vue";
 import MenuItem from "@/views/home/component/menuitem.vue";
-
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'HomeView',
@@ -43,10 +43,11 @@ export default defineComponent({
       isCollapse.value = data;
     };
     // tabs
+    const { t } = useI18n();
     const editableTabsValue = ref('/main')
     const editableTabs = ref([
       {
-        title: '首页',
+        title: t('router.home'),
         name: '/main',
       },
     ])
@@ -106,7 +107,7 @@ export default defineComponent({
       // 当当前路由是首页时，添加首页到store，并设置激活状态
       if (route.path !== '/main') {
         editableTabs.value = [{
-          title: '首页',
+          title: t('router.home'),
           name: '/main'
         }]
         editableTabs.value.push({

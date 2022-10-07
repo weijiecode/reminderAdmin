@@ -2,14 +2,14 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 // 引入封装的nprogress.ts
 import { start, close } from '@/utils/nprogress';
 import Cookies from 'js-cookie'
-
+import i18n from '../i18n/index'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/login',
     meta: {
-      title: '登录'
+      title: i18n.global.t('router.login')
     },
     component: () => import('@/views/login/LoginView.vue')
   },
@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'login',
     meta: {
-      title: '登录'
+      title: i18n.global.t('router.login')
     },
     component: () => import('@/views/login/LoginView.vue')
   },
@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/home',
     name: 'home',
     meta: {
-      title: '首页'
+      title: i18n.global.t('router.home')
     },
     component: () => import('@/views/home/HomeView.vue'),
     children: [
@@ -33,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/main',
         name: 'main',
         meta: {
-          title: '首页'
+          title: i18n.global.t('router.home')
         },
         component: () => import('@/views/main/MainView.vue')
       },
@@ -41,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/mycenter',
         name: 'mycenter',
         meta: {
-          title: '个人中心'
+          title: i18n.global.t('router.mycenter')
         },
         component: () => import('@/views/mycenter/MycenterView.vue')
       },

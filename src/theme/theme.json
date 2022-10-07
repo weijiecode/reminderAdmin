@@ -15,7 +15,9 @@
         "--iconbox3": "#fdf6ec",
         "--iconbox4": "#fef0f0",
         "--echartbg": "#ffffff",
-        "--leftmenubg": "#545c64"
+        "--leftmenubg": "#545c64",
+        "--langcolor": "#409EFF",
+        "--menuhover": "#6d7f94"
     },
     "dark": {
         "--themeColor": "#191919",
@@ -33,6 +35,8 @@
         "--iconbox3": "#847968",
         "--iconbox4": "#887070",
         "--echartbg": "#0f0d28",
-        "--leftmenubg": "#191919"
+        "--leftmenubg": "#191919",
+        "--langcolor": "#909399",
+        "--menuhover": "#4c4d4f"
     }
 }
