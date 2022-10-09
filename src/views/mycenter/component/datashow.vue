@@ -1,18 +1,18 @@
 <template>
   <div class="content">
-    <p class="toptitle">个人信息</p>
+    <p class="toptitle">{{ $t("mycenter.personaldata") }}</p>
     <div class="bottomcontent">
       <img class="imgphoto" src="../../../assets/t.jpeg" alt="">
       <div class="userdata">
-        <p>{{dataname}}，admin，生活变的再糟糕，也不妨碍我变得更好！</p>
+        <p>{{dataname}}，admin，{{ $t("mycenter.hint") }}</p>
         <div class="both">
           <div class="left">
-            <div>用户名：<span>{{ username }}</span></div>
-            <div>上次登录IP: <span>{{ ip }}</span></div>
+            <div>{{ $t("mycenter.username") }}<span>{{ username }}</span></div>
+            <div>{{ $t("mycenter.endip") }}<span>{{ ip }}</span></div>
           </div>
           <div class="right">
-            <div>身份：<span>超级管理员</span></div>
-            <div>上次登录时间: <span>{{ createtime }}</span></div>
+            <div>{{ $t("mycenter.identity") }}<span>{{ $t("mycenter.usernickname") }}</span></div>
+            <div>{{ $t("mycenter.endlogindatetime") }}<span>{{ createtime }}</span></div>
           </div>
         </div>
       </div>
@@ -21,41 +21,61 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, toRefs, ref } from 'vue';
+import { defineComponent, onMounted, reactive, toRefs, ref, computed, watch } from 'vue';
 import { dataLogin } from '@/api/mycenter';
 import useDate from '@/hooks/useDate';
+import { useI18n } from 'vue-i18n'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'DataShow',
   setup() {
     const logindata = reactive({
-        username: '',
-        createtime: '',
-        ip: '',
-        id: 0
+      username: '',
+      createtime: '',
+      ip: '',
+      id: 0
     });
+    const { t } = useI18n()
     const dataname = ref<string>('')
     const { hours } = useDate();
     const nowhour = ref(hours);
     onMounted(() => {
       dataLogin().then(res => {
-        console.log("登录基础信息", res.data)
+        // console.log("登录基础信息", res.data)
         if (nowhour.value >= 6 && nowhour.value < 12) {
-          dataname.value = '上午好';
+          dataname.value = t('mycenter.am');
         } else if (nowhour.value >= 12 && nowhour.value < 18) {
-          dataname.value = '下午好';
+          dataname.value = t('mycenter.pm');
         } else if (nowhour.value >= 18 && nowhour.value < 24) {
-          dataname.value = '晚上好';
+          dataname.value = t('mycenter.pm1');
         } else {
-          dataname.value = '凌晨好';
+          dataname.value = t('mycenter.am1');
         }
         if (res.code === 200) {
-          logindata.username = res.data[res.data.length-1].username
-          logindata.createtime = res.data[res.data.length-1].createtime
-          logindata.ip = res.data[res.data.length-1].ip
+          logindata.username = res.data[res.data.length - 1].username
+          logindata.createtime = res.data[res.data.length - 1].createtime
+          logindata.ip = res.data[res.data.length - 1].ip
         }
       })
     });
+
+    // 获取vuex对象
+    const store = useStore()
+
+    // 监听是否切换语言，重新渲染dataname数据
+    const getchangelang = computed(() => store.state.language)
+    watch(getchangelang, () => {
+      if (nowhour.value >= 6 && nowhour.value < 12) {
+        dataname.value = t('mycenter.am');
+      } else if (nowhour.value >= 12 && nowhour.value < 18) {
+        dataname.value = t('mycenter.pm');
+      } else if (nowhour.value >= 18 && nowhour.value < 24) {
+        dataname.value = t('mycenter.pm1');
+      } else {
+        dataname.value = t('mycenter.am1');
+      }
+    })
     return {
       ...toRefs(logindata),
       dataname

@@ -4,7 +4,7 @@ import zhCn from "./lang/zh-cn";
 import en from "./lang/en";
 const i18n = createI18n({
     legacy: false,
-    locale: sessionStorage.getItem("localeLang") || "zhCn",
+    locale: JSON.parse(localStorage.getItem('longStore') || '').language || "zhCn",
     messages: {
         zhCn,
         en,

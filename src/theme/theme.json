@@ -17,7 +17,8 @@
         "--echartbg": "#ffffff",
         "--leftmenubg": "#545c64",
         "--langcolor": "#409EFF",
-        "--menuhover": "#6d7f94"
+        "--menuhover": "#6d7f94",
+        "--maintitle": "#303133"
     },
     "dark": {
         "--themeColor": "#191919",
@@ -37,6 +38,7 @@
         "--echartbg": "#0f0d28",
         "--leftmenubg": "#191919",
         "--langcolor": "#909399",
-        "--menuhover": "#4c4d4f"
+        "--menuhover": "#4c4d4f",
+        "--maintitle": "#8D8D8D"
     }
 }

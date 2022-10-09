@@ -12,8 +12,9 @@
         <!-- <el-main><MainContent></MainContent></el-main> -->
         <el-main>
           <el-empty v-if="editableTabs.length == 0" description="description" />
-          <el-tabs v-if="editableTabs.length > 0" v-model="editableTabsValue" type="card" class="demo-tabs" closable @tab-remove="removeTab" @tab-click="tabClick">
-            <el-tab-pane v-for="item in editableTabs" :key="item.name" :label="item.title" :name="item.name">
+          <el-tabs v-if="editableTabs.length > 0" v-model="editableTabsValue" type="card" class="demo-tabs" closable
+            @tab-remove="removeTab" @tab-click="tabClick">
+            <el-tab-pane v-for="item in showeditableTabs" :key="item.name" :label="item.title" :name="item.name">
               <router-view v-if="item.name===editableTabsValue"></router-view>
             </el-tab-pane>
           </el-tabs>
@@ -24,11 +25,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, onMounted } from 'vue';
+import { defineComponent, ref, watch, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import HeaderTop from "@/views/home/component/headertop.vue";
 import MenuItem from "@/views/home/component/menuitem.vue";
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'HomeView',
@@ -42,14 +44,25 @@ export default defineComponent({
     const tochang = (data: boolean) => {
       isCollapse.value = data;
     };
+    // 获取vuex对象
+    const store = useStore()
     // tabs
     const { t } = useI18n();
+    const test = ref('mycenter')
     const editableTabsValue = ref('/main')
+    // 原始数据
     const editableTabs = ref([
       {
-        title: t('router.home'),
+        title: 'home',
         name: '/main',
-      },
+      }
+    ])
+    // 渲染数据（修改titl值）
+    const showeditableTabs = ref([
+      {
+        title: '',
+        name: '',
+      }
     ])
     // 移除关闭tab页
     const removeTab = (targetName: any) => {
@@ -69,6 +82,7 @@ export default defineComponent({
       }
       editableTabsValue.value = activeName
       editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
+      updaterouter()
     }
 
     const route: any = useRoute();
@@ -77,16 +91,12 @@ export default defineComponent({
     // 监测路由变化（点击菜单栏的改变），并改变其对应tab页
     watch(route, () => {
       flag.value = 0
-      //console.log(route.path, '1111')
       editableTabs.value.forEach(item => {
-        //console.log(item.name, '0000')
         if (item.name === route.path) {
           flag.value = 1;
           editableTabsValue.value = route.path;
         }
       })
-      //console.log(editableTabs.value,'666')
-      //console.log(flag.value)
       if (flag.value === 0) {
         editableTabs.value.push({
           title: route.meta.title,
@@ -94,7 +104,7 @@ export default defineComponent({
         })
         editableTabsValue.value = route.path
       }
-
+      updaterouter()
     });
     // tab页的切换
     const tabClick = (tab: any) => {
@@ -107,7 +117,7 @@ export default defineComponent({
       // 当当前路由是首页时，添加首页到store，并设置激活状态
       if (route.path !== '/main') {
         editableTabs.value = [{
-          title: t('router.home'),
+          title: 'home',
           name: '/main'
         }]
         editableTabs.value.push({
@@ -116,12 +126,31 @@ export default defineComponent({
         })
         editableTabsValue.value = route.path
       }
+      updaterouter()
     });
 
+    // 监听主题色是否已更改，重新渲染语言
+    const getchangelang = computed(() => store.state.language)
+    watch(getchangelang,() => {
+      // console.log('主题已更改')
+      updaterouter()
+    })
+
+    // 封装修改语言方法
+    const updaterouter = () => {
+      showeditableTabs.value = []
+      // 深拷贝对象数据
+      showeditableTabs.value = JSON.parse(JSON.stringify(editableTabs.value))
+      showeditableTabs.value.forEach((item, index) => {
+        showeditableTabs.value[index].title = t('router.' + item.title)
+      })
+      store.commit("updatetabs",JSON.stringify(showeditableTabs.value))
+    }
     return {
       tochang,
       isCollapse,
       editableTabsValue,
+      showeditableTabs,
       removeTab,
       editableTabs,
       tabClick
@@ -178,11 +207,11 @@ export default defineComponent({
 }
 
 ::v-deep .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
-    border-bottom-color: var(--themeColor);
+  border-bottom-color: var(--themeColor);
 }
 
 ::v-deep .el-tabs--card>.el-tabs__header {
-    border-bottom: 1px solid var(--themeColor);
+  border-bottom: 1px solid var(--themeColor);
 }
 
 ::v-deep .el-tabs__item {
@@ -194,9 +223,9 @@ export default defineComponent({
 }
 
 ::v-deep .el-tabs__item.is-active {
-    color: var(--el-color-primary) !important;
-    border-left-color: var(--tabborder) !important;
-    border-right-color: var(--tabborder) !important;
+  color: var(--el-color-primary) !important;
+  border-left-color: var(--tabborder) !important;
+  border-right-color: var(--tabborder) !important;
 }
 
 ::v-deep .el-tabs__header {

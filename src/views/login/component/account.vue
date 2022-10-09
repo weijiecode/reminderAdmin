@@ -68,22 +68,15 @@ import { useI18n } from 'vue-i18n'
 export default defineComponent({
   name: "LoginBox",
   setup() {
-    const langtype = ref('zhCn')
+    
     const activeName = ref('first');
     const router = useRouter();
     const loginFormRef = ref<FormInstance>();
     // 获取vuex对象
     let store = useStore()
-    langtype.value = store.state.language
+
     // 刷新页面获取当前语言参数
-    const { locale, t } = useI18n();
-    if (langtype.value === 'en') {
-      locale.value = 'en';
-      store.commit("updatelanguage", 'en');
-    } else {
-      locale.value = 'zhCn';
-      store.commit("updatelanguage", 'zhCn');
-    }
+    const { t } = useI18n();
     const loginForm = reactive({
       username: '',
       password: ''

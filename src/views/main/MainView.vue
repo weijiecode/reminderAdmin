@@ -5,7 +5,7 @@
         <div class="databox">
           <p class="pone">1039,63</p>
           <p class="ptwo">+12.10%</p>
-          <p class="pthree">平台总流量</p>
+          <p class="pthree">{{ $t("main.Totalflow") }}</p>
         </div>
         <div class="iconbox" style="background-color: var(--iconbox1);">
           <i class="iconfont icon-liuliangtongji" style="color: #409eff;font-size:34px;"></i>
@@ -15,7 +15,7 @@
         <div class="databox">
           <p class="pone">326</p>
           <p class="ptwo" style="color: #6690f9;">-12.10%</p>
-          <p class="pthree">今日总流量</p>
+          <p class="pthree">{{ $t("main.todayflow") }}</p>
         </div>
         <div class="iconbox" style="background-color: var(--iconbox2);">
           <i class="iconfont icon-liuliang" style="color: #67c23a;font-size:34px;"></i>
@@ -25,7 +25,7 @@
         <div class="databox">
           <p class="pone">237</p>
           <p class="ptwo">+8.10%</p>
-          <p class="pthree">用户数量</p>
+          <p class="pthree">{{ $t("main.usernum") }}</p>
         </div>
         <div class="iconbox" style="background-color: var(--iconbox3);">
           <i class="iconfont icon-ren-duoren" style="color: #e6a23c;font-size:34px;"></i>
@@ -35,7 +35,7 @@
         <div class="databox">
           <p class="pone">23</p>
           <p class="ptwo">+12.10%</p>
-          <p class="pthree">今日待办总数量</p>
+          <p class="pthree">{{ $t("main.todonum") }}</p>
         </div>
         <div class="iconbox" style="background-color: var(--iconbox4);">
           <i class="iconfont icon-daibantixing" style="color: #f56c6c;font-size:34px;"></i>
@@ -122,7 +122,7 @@ export default defineComponent({
 }
 
 .pone {
-  color: #303133;
+  color: var(--maintitle);
   font-size: 30px;
 }
 
@@ -133,7 +133,7 @@ export default defineComponent({
 
 .pthree {
   margin-top: 10px;
-  color: #303133;
+  color: var(--maintitle);
   font-size: 14px;
 }
 

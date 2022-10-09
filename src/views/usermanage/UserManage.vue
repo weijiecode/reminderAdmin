@@ -3,27 +3,27 @@
         <div class="tabheader">
             <!-- <el-input placeholder="请输入搜索内容" clearable /> -->
             <!-- <el-button type="primary" :icon="Search">查询</el-button> -->
-            <el-input style="width: 350px;" v-model="searchData" placeholder="请输入搜索内容" class="input-with-select">
+            <el-input style="width: 400px;" v-model="searchData" :placeholder="$t('usermanage.inputsearch')" class="input-with-select">
                 <template #prepend>
-                    <el-select v-model="searchType" placeholder="请选择搜索类别" style="width: 90px">
+                    <el-select v-model="searchType" :placeholder="$t('usermanage.selecttype')" style="width: 90px">
                         <el-option label="ID" value="ID" />
-                        <el-option label="用户名" value="username" />
-                        <el-option label="昵称" value="nickname" />
+                        <el-option :label="$t('usermanage.username')" value="username" />
+                        <el-option :label="$t('usermanage.nickname')" value="nickname" />
                     </el-select>
                 </template>
                 <template #append>
                     <el-button :icon="Search" @click="getSearchData" />
                 </template>
             </el-input>
-            <el-button type="success" :icon="CirclePlus" @click="dialogFormVisibleAdd = true">新增用户</el-button>
+            <el-button type="success" :icon="CirclePlus" @click="dialogFormVisibleAdd = true">{{ $t("usermanage.adduser") }}</el-button>
         </div>
         <el-table :data="userDatas" :cell-style="{ height: '70px', maxHeight: '70px' }">
-            <el-table-column type="index" prop="id" label="序号" width="60px" />
-            <el-table-column prop="id" label="用户ID" width="70px" />
-            <el-table-column prop="username" label="用户名" width="80px" />
-            <el-table-column prop="nickname" label="昵称" />
+            <el-table-column type="index" prop="id" :label="$t('usermanage.number')" width="60px" />
+            <el-table-column prop="id" :label="$t('usermanage.userid')" width="70px" />
+            <el-table-column prop="username" :label="$t('usermanage.username')" width="80px" />
+            <el-table-column prop="nickname" :label="$t('usermanage.nickname')" />
             <!-- <el-table-column prop="sex" label="性别" width="60px" /> -->
-            <el-table-column label="性别" width="60px">
+            <el-table-column :label="$t('usermanage.sex')" width="60px">
                 <template #default="scope">
                     <div style="display: flex; align-items: center">
                         <el-icon>
@@ -33,28 +33,28 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="phone" label="手机号码" width="110px" />
-            <el-table-column show-overflow-tooltip prop="email" label="邮箱" width="120px" />
-            <el-table-column sortable prop="createtime" label="创建时间" />
-            <el-table-column show-overflow-tooltip prop="introduction" label="简介" />
+            <el-table-column prop="phone" :label="$t('usermanage.phone')" width="110px" />
+            <el-table-column show-overflow-tooltip prop="email" :label="$t('usermanage.email')" width="120px" />
+            <el-table-column sortable prop="createtime" :label="$t('usermanage.createtime')" />
+            <el-table-column show-overflow-tooltip prop="introduction" :label="$t('usermanage.introduction')" />
             <!-- <el-table-column prop="status" label="状态" /> -->
-            <el-table-column label="状态">
+            <el-table-column :label="$t('usermanage.state')">
                 <template #default="scope">
                     <div style="display: flex; align-items: center">
                         <!-- <span style="margin-left: 10px">{{ scope.row.status }}</span> -->
-                        <el-button size="small" v-if="scope.row.status === true" type="success" link>启用</el-button>
-                        <el-button size="small" v-if="scope.row.status === false" type="danger" link>禁用</el-button>
+                        <el-button size="small" v-if="scope.row.status === true" type="success" link>{{ $t("usermanage.start") }}</el-button>
+                        <el-button size="small" v-if="scope.row.status === false" type="danger" link>{{ $t("usermanage.nostart") }}</el-button>
                     </div>
                 </template>
             </el-table-column>
             <!-- <el-table-column prop="statue" label="操作" /> -->
-            <el-table-column label="操作" width="180px">
+            <el-table-column :label="$t('usermanage.todo')" width="180px">
                 <template #default="scope">
                     <!-- <el-button size="small" type="primary" :icon="Edit" @click="handleEdit(scope.$index)" /> -->
-                    <el-button size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-                    <el-popconfirm @confirm="handleDelete(scope.row.id)" title="你确定删除该用户吗?">
+                    <el-button size="small" type="primary" @click="handleEdit(scope.row)">{{ $t("usermanage.edit") }}</el-button>
+                    <el-popconfirm @confirm="handleDelete(scope.row.id)" :title="$t('usermanage.warningdel')">
                         <template #reference>
-                            <el-button size="small" type="danger">删除</el-button>
+                            <el-button size="small" type="danger">{{ $t("usermanage.del") }}</el-button>
                         </template>
                     </el-popconfirm>
                 </template>
@@ -68,86 +68,86 @@
         <div class="components">
             <!-- 编辑用户 -->
             <el-dialog @close-auto-focus="closeAutoFocus" @close="editClose" width="750px"
-                v-model="dialogFormVisibleEdit" title="用户信息修改">
+                v-model="dialogFormVisibleEdit" :title="$t('usermanage.updateuser')">
                 <el-form ref="editFormRef" :rules="editRules" :model="userDatasForm">
                     <el-form-item style="float: left" label-width="90px" label="ID">
                         <el-input disabled v-model="userDatasForm.id" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item label-width="90px" label="用户名">
+                    <el-form-item label-width="90px" :label="$t('usermanage.username')">
                         <el-input disabled v-model="userDatasForm.username" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item prop="nickname" style="float: left" label-width="90px" label="昵称">
+                    <el-form-item prop="nickname" style="float: left" label-width="90px" :label="$t('usermanage.nickname')">
                         <el-input v-model="userDatasForm.nickname" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item style="float: left" label-width="90px" label="性别">
+                    <el-form-item style="float: left" label-width="90px" :label="$t('usermanage.sex')">
                         <!-- <el-input v-model="userDatasForm.sex" autocomplete="off" /> -->
-                        <el-select v-model="userDatasForm.sex" placeholder="请选择性别">
-                            <el-option value="男" label="男" />
-                            <el-option value="女" label="女" />
+                        <el-select v-model="userDatasForm.sex" :placeholder="$t('usermanage.selectsex')">
+                            <el-option value="男" :label="$t('usermanage.male')" />
+                            <el-option value="女" :label="$t('usermanage.female')" />
                         </el-select>
                     </el-form-item>
-                    <el-form-item label-width="90px" label="状态">
+                    <el-form-item label-width="90px" :label="$t('usermanage.state')">
                         <!-- <el-input v-model="userDatasForm.status" autocomplete="off" /> -->
                         <el-switch v-model="userDatasForm.status" class="mt-2" style="margin-left: 24px" inline-prompt
                             :active-icon="Check" :inactive-icon="Close" />
                     </el-form-item>
-                    <el-form-item prop="phone" style="float: left" label-width="90px" label="手机号码">
+                    <el-form-item prop="phone" style="float: left" label-width="90px" :label="$t('usermanage.phone')">
                         <el-input maxlength="11" v-model="userDatasForm.phone" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item prop="email" label-width="90px" label="邮箱">
+                    <el-form-item prop="email" label-width="90px" :label="$t('usermanage.email')">
                         <el-input v-model="userDatasForm.email" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item label-width="90px" label="简介">
+                    <el-form-item label-width="90px" :label="$t('usermanage.introduction')">
                         <!-- <el-input v-model="userDatasForm.introduction" autocomplete="off" /> -->
-                        <el-input v-model="userDatasForm.introduction" maxlength="30" placeholder="请输入简介"
+                        <el-input v-model="userDatasForm.introduction" maxlength="30" :placeholder="$t('usermanage.inputintroduction')"
                             show-word-limit type="textarea" />
                     </el-form-item>
 
                 </el-form>
                 <template #footer>
                     <span class="dialog-footer">
-                        <el-button @click="cancelEdit">取消</el-button>
-                        <el-button type="primary" @click="saveEdit(editFormRef)">保存修改</el-button>
+                        <el-button @click="cancelEdit">{{ $t("usermanage.cancel") }}</el-button>
+                        <el-button type="primary" @click="saveEdit(editFormRef)">{{ $t("usermanage.saveupdate") }}</el-button>
                     </span>
                 </template>
             </el-dialog>
             <!-- 添加用户 -->
             <el-dialog @close-auto-focus="closeAutoFocusAdd" @close="addClose" width="750px"
-                v-model="dialogFormVisibleAdd" title="添加新用户">
+                v-model="dialogFormVisibleAdd" :title="$t('usermanage.addnewuser')">
                 <el-form ref="addFormRef" :rules="addRules" :model="addState">
-                    <el-form-item prop="username" style="float: left" label-width="90px" label="用户名">
+                    <el-form-item prop="username" style="float: left" label-width="90px" :label="$t('usermanage.username')">
                         <el-input maxlength="8" v-model="addState.username" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item prop="password" label-width="90px" label="密码">
+                    <el-form-item prop="password" label-width="90px" :label="$t('usermanage.password')">
                         <el-input maxlength="15" show-password v-model="addState.password" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item prop="nickname" style="float: left" label-width="90px" label="昵称">
+                    <el-form-item prop="nickname" style="float: left" label-width="90px" :label="$t('usermanage.nickname')">
                         <el-input maxlength="8" v-model="addState.nickname" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item label-width="90px" label="性别">
+                    <el-form-item label-width="90px" :label="$t('usermanage.sex')">
                         <!-- <el-input v-model="userDatasForm.sex" autocomplete="off" /> -->
-                        <el-select style="width: 250px" v-model="addState.sex" placeholder="请选择性别">
-                            <el-option value="男" label="男" />
-                            <el-option value="女" label="女" />
+                        <el-select style="width: 250px" v-model="addState.sex" :placeholder="$t('usermanage.selectsex')">
+                            <el-option value="男" :label="$t('usermanage.male')" />
+                            <el-option value="女" :label="$t('usermanage.female')" />
                         </el-select>
                     </el-form-item>
-                    <el-form-item prop="phone" style="float: left" label-width="90px" label="手机号码">
+                    <el-form-item prop="phone" style="float: left" label-width="90px" :label="$t('usermanage.phone')">
                         <el-input maxlength="11" v-model="addState.phone" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item prop="email" label-width="90px" label="邮箱">
+                    <el-form-item prop="email" label-width="90px" :label="$t('usermanage.email')">
                         <el-input v-model="addState.email" autocomplete="off" />
                     </el-form-item>
-                    <el-form-item label-width="90px" label="简介">
+                    <el-form-item label-width="90px" :label="$t('usermanage.introduction')">
                         <!-- <el-input v-model="userDatasForm.introduction" autocomplete="off" /> -->
-                        <el-input v-model="addState.introduction" maxlength="30" placeholder="请输入简介" show-word-limit
+                        <el-input v-model="addState.introduction" maxlength="30" :placeholder="$t('usermanage.inputintroduction')" show-word-limit
                             type="textarea" />
                     </el-form-item>
 
                 </el-form>
                 <template #footer>
                     <span class="dialog-footer">
-                        <el-button @click="cancelAdd">取消</el-button>
-                        <el-button type="primary" @click="addUser(addFormRef)">添加</el-button>
+                        <el-button @click="cancelAdd">{{ $t("usermanage.cancel") }}</el-button>
+                        <el-button type="primary" @click="addUser(addFormRef)">{{ $t("usermanage.add") }}</el-button>
                     </span>
                 </template>
             </el-dialog>
@@ -162,6 +162,7 @@ import { getUserData, deluser, edituser, searchUser, addUserData } from '@/api/u
 import { ElMessage } from 'element-plus';
 import { userData, editUserData, search, addUserInt } from '@/types/usermanager';
 import type { FormInstance, FormRules } from 'element-plus';
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
     components: {
@@ -169,6 +170,7 @@ export default defineComponent({
         Female,
     },
     setup() {
+        const { t } = useI18n()
         // 分页参数
         const pageData = reactive({
             currentPage: 1,
@@ -197,7 +199,7 @@ export default defineComponent({
         // 封装获取用户列表的方法
         const getData = () => {
             getUserData(pageData).then(res => {
-                console.log('用户列表数据：', res)
+                // console.log('用户列表数据：', res)
                 if (res.code === 200) {
                     userDatas.value = res.data;
                     state.stateLength = res.count.num
@@ -233,16 +235,16 @@ export default defineComponent({
         // 编辑表单验证规则
         const editRules = reactive<FormRules>({
             nickname: [
-                { required: true, message: "请输入昵称", trigger: "blur" },
-                { min: 4, max: 8, message: "昵称需要在4-8位", trigger: "blur" },
+                { required: true, message: t('usermanage.inputnick'), trigger: "blur" },
+                { min: 4, max: 8, message: t('usermanage.nicklength'), trigger: "blur" },
             ],
             phone: [
-                { min: 11, message: "手机号长度为11位", trigger: "blur" },
+                { min: 11, message: t('usermanage.phonelength'), trigger: "blur" },
             ],
             email: [
                 {
                     type: 'email',
-                    message: '请输入正确的电子邮箱',
+                    message: t('usermanage.inputemail'),
                     trigger: ['blur', 'change'],
                 },
             ]
@@ -250,24 +252,24 @@ export default defineComponent({
         // 添加用户表单验证规则
         const addRules = reactive<FormRules>({
             username: [
-                { required: true, message: "请输入用户名", trigger: "blur" },
-                { min: 4, max: 8, message: "用户名需要在4-8位", trigger: "blur" },
+                { required: true, message: t('usermanage.inputuser'), trigger: "blur" },
+                { min: 4, max: 8, message: t('usermanage.userlength'), trigger: "blur" },
             ],
             password: [
-                { required: true, message: "请输入密码", trigger: "blur" },
-                { min: 6, max: 15, message: "密码需要在6-15位", trigger: "blur" },
+                { required: true, message: t('usermanage.inputpassword'), trigger: "blur" },
+                { min: 6, max: 15, message: t('usermanage.passwordlength'), trigger: "blur" },
             ],
             nickname: [
-                { required: true, message: "请输入昵称", trigger: "blur" },
-                { min: 4, max: 8, message: "昵称需要在4-8位", trigger: "blur" },
+                { required: true, message: t('usermanage.inputnick'), trigger: "blur" },
+                { min: 4, max: 8, message: t('usermanage.nicklength'), trigger: "blur" },
             ],
             phone: [
-                { min: 11, message: "手机号长度为11位", trigger: "blur" },
+                { min: 11, message: t('usermanage.phonelength'), trigger: "blur" },
             ],
             email: [
                 {
                     type: 'email',
-                    message: '请输入正确的电子邮箱',
+                    message: t('usermanage.inputemail'),
                     trigger: ['blur', 'change'],
                 },
             ]
@@ -321,7 +323,7 @@ export default defineComponent({
                 if (res.code === 200) {
                     ElMessage({
                         type: 'success',
-                        message: '删除该用户成功'
+                        message: t('usermanage.deluser')
                     });
                     // 跳转到第一页，防止最后一页只剩一个用户的情况下删除导致还在当前页
                     pageData.currentPage = 1;
@@ -330,7 +332,7 @@ export default defineComponent({
                 } else {
                     ElMessage({
                         type: 'error',
-                        message: '删除该用户失败，请重试'
+                        message: t('usermanage.nodeluser')
                     });
                 }
             });
@@ -366,10 +368,10 @@ export default defineComponent({
                             dialogFormVisibleEdit.value = false;
                             ElMessage({
                                 type: 'success',
-                                message: '修改成功'
+                                message: t('usermanage.updatesuccess')
                             });
                         } else {
-                            ElMessage.error('用户名或密码输入有误，请重新输入');
+                            ElMessage.error(t('usermanage.usererror'));
                         }
                     })
                 } else {
@@ -380,7 +382,7 @@ export default defineComponent({
         // 搜索
         const getSearchData = () => {
             searchUser().then(res => {
-                console.log("搜索数据：", res)
+                // console.log("搜索数据：", res)
                 if (res.code === 200) {
                     state.userDatas = res.data
                     // id为空时显示所有数据
@@ -424,7 +426,7 @@ export default defineComponent({
                 } else {
                     ElMessage({
                         type: 'error',
-                        message: '搜索失败，请重试'
+                        message: t('usermanage.searcherror')
                     })
                 }
             })
@@ -442,7 +444,7 @@ export default defineComponent({
                         if (res.code == -201) {
                             ElMessage({
                                 type: 'error',
-                                message: '该用户名已注册，请尝试输入其他用户名称后重试'
+                                message: t('usermanage.usernameed')
                             });
                         } else {
                             if (res.code == 200) {
@@ -450,10 +452,10 @@ export default defineComponent({
                                 dialogFormVisibleAdd.value = false;
                                 ElMessage({
                                     type: 'success',
-                                    message: '添加用户成功'
+                                    message: t('usermanage.addusersuccess')
                                 });
                             } else {
-                                ElMessage.error('添加用户失败，请重新输入');
+                                ElMessage.error(t('usermanage.addusererror'));
                             }
                         }
                     })

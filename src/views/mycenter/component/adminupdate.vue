@@ -1,93 +1,93 @@
 <template>
   <div class="content">
-    <p class="toptitle">更新信息</p>
+    <p class="toptitle">{{ $t("mycenter.updateinformation") }}</p>
     <div class="adminstate">
       <div class="bothtitle">
         <div class="block"></div>
-        <p class="subtitle">基本信息</p>
+        <p class="subtitle">{{ $t("mycenter.essentialinformation") }}</p>
       </div>
       <div class="adminform">
         <el-form :model="adminForm" class="demo-dynamic">
-          <el-form-item label="昵称">
-            <el-input v-model="adminForm.nickname" placeholder="请输入昵称" maxlength="8" clearable />
+          <el-form-item :label="$t('mycenter.nickname')">
+            <el-input v-model="adminForm.nickname" :placeholder="$t('mycenter.inputnickname')" maxlength="8" clearable />
           </el-form-item>
-          <el-form-item label="性别">
+          <el-form-item :label="$t('mycenter.sex')">
             <!-- <el-select v-model="sexvalue" placeholder="Select">
             <el-option label="男" :value="sexvalue"/>
             <el-option label="女" :value="sexvalue"/>
           </el-select> -->
-            <el-select v-model="adminForm.sex" placeholder="请选择性别">
-              <el-option value="1" label="男" />
-              <el-option value="0" label="女" />
+            <el-select v-model="adminForm.sex" :placeholder="$t('mycenter.inputsex')">
+              <el-option value="1" :label="$t('mycenter.male')" />
+              <el-option value="0" :label="$t('mycenter.female')" />
             </el-select>
           </el-form-item>
-          <el-form-item label="手机">
-            <el-input v-model="adminForm.phone" placeholder="请输入手机号" maxlength="11" clearable />
+          <el-form-item :label="$t('mycenter.phone')">
+            <el-input v-model="adminForm.phone" :placeholder="$t('mycenter.inputphone')" maxlength="11" clearable />
           </el-form-item>
-          <el-form-item label="邮箱">
-            <el-input v-model="adminForm.email" placeholder="请输入邮箱" maxlength="30" clearable />
+          <el-form-item :label="$t('mycenter.email')">
+            <el-input v-model="adminForm.email" :placeholder="$t('mycenter.inputemail')" maxlength="30" clearable />
           </el-form-item>
-          <el-form-item label="简介" style="float: none;">
-            <el-input v-model="adminForm.introduction" placeholder="请输入简介" maxlength="30" clearable />
+          <el-form-item :label="$t('mycenter.introduction')" style="float: none;">
+            <el-input v-model="adminForm.introduction" :placeholder="$t('mycenter.inputintroduction')" maxlength="30" clearable />
           </el-form-item>
           <el-form-item style="float: none;">
-            <el-button type="primary" :icon="EditPen" @click="submitAdminForm">更新信息</el-button>
+            <el-button type="primary" :icon="EditPen" @click="submitAdminForm">{{ $t("mycenter.updateinformation") }}</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="bothtitle">
         <div class="block"></div>
-        <p class="subtitle">账号安全</p>
+        <p class="subtitle">{{ $t("mycenter.accountsecurity") }}</p>
       </div>
       <div class="safe">
         <div class="safeitem">
           <div class="lefts">
-            <p class="onep">账户密码</p>
-            <p class="twop">当前密码强度： 中</p>
+            <p class="onep">{{ $t("mycenter.accountpassword") }}</p>
+            <p class="twop">{{ $t("mycenter.passwordstrength") }}</p>
           </div>
           <div class="rights">
-            <el-button type="primary" @click="dialogFormVisiblePass = true">立即修改</el-button>
+            <el-button type="primary" @click="dialogFormVisiblePass = true">{{ $t("mycenter.modifynow") }}</el-button>
           </div>
         </div>
         <div class="safeitem">
           <div class="lefts">
-            <p class="onep">密保手机</p>
+            <p class="onep">{{ $t("mycenter.accountphone") }}</p>
             <p class="twop">{{ phoneShow }}</p>
           </div>
           <div class="rights">
-            <el-button type="primary" @click="dialogFormVisiblePhone = true">立即绑定</el-button>
+            <el-button type="primary" @click="dialogFormVisiblePhone = true">{{ $t("mycenter.bindnow") }}</el-button>
           </div>
         </div>
         <div class="safeitem">
           <div class="lefts">
-            <p class="onep">密保问题</p>
+            <p class="onep">{{ $t("mycenter.accountquestion") }}</p>
             <p class="twop">{{ questionShow }}</p>
           </div>
           <div class="rights">
-            <el-button type="primary" @click="dialogFormVisibleQuestion = true">立即设置</el-button>
+            <el-button type="primary" @click="dialogFormVisibleQuestion = true">{{ $t("mycenter.settingnow") }}</el-button>
           </div>
         </div>
         <div class="safeitem">
           <div class="lefts">
-            <p class="onep">绑定QQ</p>
+            <p class="onep">{{ $t("mycenter.accountqq") }}</p>
             <p class="twop">{{ qqShow }}</p>
           </div>
           <div class="rights">
-            <el-button type="primary" @click="dialogFormVisibleQq = true">立即绑定</el-button>
+            <el-button type="primary" @click="dialogFormVisibleQq = true">{{ $t("mycenter.bindnow") }}</el-button>
           </div>
         </div>
       </div>
     </div>
     <!-- 修改密码 -->
-    <el-dialog v-model="dialogFormVisiblePass" title="密码修改">
+    <el-dialog v-model="dialogFormVisiblePass" :title="$t('mycenter.passwordupdate')">
       <el-form :model="passForm">
-        <el-form-item label="新密码">
+        <el-form-item :label="$t('mycenter.newpassword')">
           <el-input maxlength="15" v-model="passForm.newpassword" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="旧密码">
+        <el-form-item :label="$t('mycenter.oldpassword')">
           <el-input maxlength="15" v-model="passForm.oldpassword" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="验证码">
+        <el-form-item :label="$t('mycenter.code')">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
           <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode"
             class="codebtn">{{ subcode }}</el-button>
@@ -95,18 +95,18 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogFormVisiblePass = false">取消</el-button>
-          <el-button type="primary" @click="submitPass">确认修改</el-button>
+          <el-button @click="dialogFormVisiblePass = false">{{ $t("mycenter.cancel") }}</el-button>
+          <el-button type="primary" @click="submitPass">{{ $t("mycenter.confirmupdate") }}</el-button>
         </span>
       </template>
     </el-dialog>
     <!-- 修改密保手机 -->
-    <el-dialog v-model="dialogFormVisiblePhone" title="密码修改">
+    <el-dialog v-model="dialogFormVisiblePhone" :title="$t('mycenter.passwordupdate')">
       <el-form>
-        <el-form-item label="手机号">
+        <el-form-item :label="$t('mycenter.phone')">
           <el-input maxlength="11" v-model="phone" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="验证码">
+        <el-form-item :label="$t('mycenter.code')">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
           <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode"
             class="codebtn">{{ subcode }}</el-button>
@@ -114,21 +114,21 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogFormVisiblePhone = false">取消</el-button>
-          <el-button type="primary" @click="submitPhone">确认修改</el-button>
+          <el-button @click="dialogFormVisiblePhone = false">{{ $t("mycenter.cancel") }}</el-button>
+          <el-button type="primary" @click="submitPhone">{{ $t("mycenter.confirmupdate") }}</el-button>
         </span>
       </template>
     </el-dialog>
     <!-- 修改密保问题 -->
-    <el-dialog v-model="dialogFormVisibleQuestion" title="密码修改">
+    <el-dialog v-model="dialogFormVisibleQuestion" :title="$t('mycenter.questionupdate')">
       <el-form>
-        <el-form-item label-width="54px" label="问题">
+        <el-form-item :label="$t('mycenter.question')">
           <el-input maxlength="30" v-model="questionForm.question" autocomplete="off" />
         </el-form-item>
-        <el-form-item label-width="54px" label="答案">
+        <el-form-item :label="$t('mycenter.answer')">
           <el-input maxlength="30" v-model="questionForm.answer" autocomplete="off" />
         </el-form-item>
-        <el-form-item label-width="54px" label="验证码">
+        <el-form-item :label="$t('mycenter.code')">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
           <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode"
             class="codebtn">{{ subcode }}</el-button>
@@ -136,18 +136,18 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogFormVisibleQuestion = false">取消</el-button>
-          <el-button type="primary" @click="submitQuestion">确认修改</el-button>
+          <el-button @click="dialogFormVisibleQuestion = false">{{ $t("mycenter.cancel") }}</el-button>
+          <el-button type="primary" @click="submitQuestion">{{ $t("mycenter.confirmupdate") }}</el-button>
         </span>
       </template>
     </el-dialog>
     <!-- 修改qq -->
-    <el-dialog v-model="dialogFormVisibleQq" title="密码修改">
+    <el-dialog v-model="dialogFormVisibleQq" :title="$t('mycenter.passwordupdate')">
       <el-form>
-        <el-form-item label-width="70px" label="QQ号码">
+        <el-form-item label-width="70px" :label="$t('mycenter.qqnumber')">
           <el-input maxlength="13" v-model="qq" autocomplete="off" />
         </el-form-item>
-        <el-form-item label-width="70px" label="验证码">
+        <el-form-item label-width="70px" :label="$t('mycenter.code')">
           <el-input maxlength="4" class="inputcode" v-model="code" autocomplete="off" />
           <el-button style="backgroundColor:var(--themeColor);border: 2px solid var(--tabborder);" @click="changecode"
             class="codebtn">{{ subcode }}</el-button>
@@ -155,8 +155,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogFormVisibleQq = false">取消</el-button>
-          <el-button type="primary" @click="submitQq">确认修改</el-button>
+          <el-button @click="dialogFormVisibleQq = false">{{ $t("mycenter.cancel") }}</el-button>
+          <el-button type="primary" @click="submitQq">{{ $t("mycenter.confirmupdate") }}</el-button>
         </span>
       </template>
     </el-dialog>
@@ -168,6 +168,7 @@ import { defineComponent, reactive, onMounted, ref } from 'vue';
 import { EditPen } from '@element-plus/icons-vue';
 import { updateAdmin, selectSafe, updatepassword, addsafe, updatePhone, updateQuestion, updateQq } from '@/api/mycenter';
 import { ElMessage } from 'element-plus';
+import { useI18n } from "vue-i18n"
 // import { useStore } from 'vuex'
 
 
@@ -176,13 +177,14 @@ export default defineComponent({
   components: {
   },
   setup() {
+    const { t } = useI18n()
     const dialogFormVisiblePass = ref(false);
     const dialogFormVisiblePhone = ref(false);
     const dialogFormVisibleQuestion = ref(false);
     const dialogFormVisibleQq = ref(false);
-    const phoneShow = ref('暂无绑定手机');
-    const questionShow = ref('暂无设置密保问题');
-    const qqShow = ref('暂无设置QQ绑定');
+    const phoneShow = ref(t('mycenter.nophone'));
+    const questionShow = ref(t('mycenter.noquestion'));
+    const qqShow = ref(t('mycenter.noqq'));
     // 获取主题类型
     // const getTheme = computed(() => {
     //   return store.state.themetype
@@ -251,10 +253,10 @@ export default defineComponent({
       adminForm.email = JSON.parse(localStorage.getItem('admindata') || '').email
       adminForm.introduction = JSON.parse(localStorage.getItem('admindata') || '').introduction
       selectSafe().then(res => {
-        console.log("安全信息：", res)
+        // console.log("安全信息：", res)
         if (res.code === 201) {
           isaddsafe.value = false
-          phoneShow.value = '暂无绑定手机'
+          phoneShow.value = t('mycenter.nophone')
           console.log(isaddsafe.value, '1')
         } else {
           safeData.phone = res.data.phone || '';
@@ -262,21 +264,21 @@ export default defineComponent({
           safeData.answer = res.data.answer || '';
           safeData.qq = res.data.qq || '';
           isaddsafe.value = true
-          console.log(isaddsafe.value, '2')
+          // console.log(isaddsafe.value, '2')
           if (res.data.phone === null || res.data.phone === '') {
-            phoneShow.value = '暂无绑定手机';
+            phoneShow.value = t('mycenter.nophone');
           } else {
             phoneShow.value = res.data.phone.substring(0, 3) + '****' + res.data.phone.substring(7, 11);
           }
           if (res.data.question === null || res.data.question === '') {
-            questionShow.value = '暂无设置密保问题';
+            questionShow.value = t('mycenter.noquestion');
           } else {
-            questionShow.value = '已设置密保问题，账号安全大幅度提升';
+            questionShow.value = t('mycenter.questionhint');
           }
           if (res.data.qq === null || res.data.qq === '') {
-            qqShow.value = '暂无设置QQ绑定';
+            qqShow.value = t('mycenter.noqq');
           } else {
-            qqShow.value = '已绑定QQ：' + res.data.qq.substring(0, 4) + '*****';
+            qqShow.value = t('mycenter.qqed') + res.data.qq.substring(0, 4) + '*****';
           }
         }
       })
@@ -284,17 +286,16 @@ export default defineComponent({
     // 更新表单数据
     const submitAdminForm = () => {
       updateAdmin(adminForm).then(res => {
-        console.log("更新结果：", res)
+        // console.log("更新结果：", res)
         if (res.code === 200) {
-          console.log('@')
           ElMessage({
-            message: '更新信息成功',
+            message: t('mycenter.updatesuccess'),
             type: 'success',
           })
           localStorage.setItem('admindata', JSON.stringify(adminForm));
         } else {
           ElMessage({
-            message: '更新信息失败,请重试',
+            message: t('mycenter.updateerror'),
             type: 'error'
           })
         }
@@ -312,35 +313,35 @@ export default defineComponent({
     const submitPass = () => {
       if (code.value === subcode.value && passForm.newpassword !== '' && passForm.oldpassword !== '') {
         updatepassword(passForm).then(res => {
-          console.log(res)
+          // console.log(res)
           if (res.code === 200) {
             passForm.newpassword = '';
             passForm.oldpassword = '';
             code.value = '';
             dialogFormVisiblePass.value = false;
             ElMessage({
-              message: '修改密码成功',
+              message: t('mycenter.passwordsuccess'),
               type: 'success',
             })
           } else {
             subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
-            ElMessage.error('旧密码错误，请重新输入');
+            ElMessage.error(t('mycenter.olderror'));
           }
         });
       } else {
         subcode.value = (Math.floor(Math.random() * 4000 + 1000)).toString()
-        ElMessage.error('输入错误，请重新输入');
+        ElMessage.error(t('mycenter.passworderror'));
       }
     };
     // 修改绑定手机号
     const submitPhone = () => {
-      if (phone.value.length !== 11) { ElMessage.error('请输入正确的手机号'); } else {
+      if (phone.value.length !== 11) { ElMessage.error(t('mycenter.inputcheckphone')); } else {
         if (isaddsafe.value) {
           updatePhone({ phone: phone.value }).then(res => {
             console.log(res);
             if (res.code === 200) {
               ElMessage({
-                message: '修改密保手机成功',
+                message: t('mycenter.phonesuccess'),
                 type: 'success',
               });
               safeData.phone = phone.value
@@ -350,7 +351,7 @@ export default defineComponent({
               isaddsafe.value = true;
               dialogFormVisiblePhone.value = false
             } else {
-              ElMessage.error('绑定失败，请重试');
+              ElMessage.error(t('mycenter.binderror'));
             }
           })
         } else {
@@ -359,10 +360,10 @@ export default defineComponent({
           allForm.answer = safeData.answer;
           allForm.qq = safeData.qq;
           addsafe(allForm).then(res => {
-            console.log("添加返回信息：", res);
+            // console.log("添加返回信息：", res);
             if (res.code === 200) {
               ElMessage({
-                message: '绑定密保手机成功',
+                message: t('mycenter.bindsuccess'),
                 type: 'success',
               });
               safeData.phone = phone.value
@@ -379,25 +380,25 @@ export default defineComponent({
     };
     // 修改密保问题
     const submitQuestion = () => {
-      if (questionForm.question.length === 0 || questionForm.answer.length === 0) { ElMessage.error('请输入正确格式的问题和答案'); }
+      if (questionForm.question.length === 0 || questionForm.answer.length === 0) { ElMessage.error(t('mycenter.inputcheckquestion')); }
       if (isaddsafe.value && questionForm.question.length !== 0 && questionForm.answer.length !== 0) {
         updateQuestion(questionForm).then(res => {
           console.log(res);
           if (res.code === 200) {
             ElMessage({
-              message: '修改密保问题成功',
+              message: t('mycenter.questionsuccess'),
               type: 'success',
             });
             safeData.question = questionForm.question;
             safeData.answer = questionForm.answer;
-            questionShow.value = '已设置密保问题，账号安全大幅度提升';
+            questionShow.value = t('mycenter.questionhint');
             questionForm.question = '';
             questionForm.answer = '';
             code.value = '';
             isaddsafe.value = true;
             dialogFormVisibleQuestion.value = false;
           } else {
-            ElMessage.error('修改密保问题失败，请重试');
+            ElMessage.error(t('mycenter.questionerror'));
           }
         })
       } else {
@@ -409,10 +410,10 @@ export default defineComponent({
           console.log(res);
           if (res.code === 200) {
             ElMessage({
-              message: '设置密保问题成功',
+              message: t('mycenter.settingquestion'),
               type: 'success',
             });
-            questionShow.value = '已设置密保问题，账号安全大幅度提升';
+            questionShow.value = t('mycenter.questionhint');
             questionForm.question = '';
             questionForm.answer = '';
             code.value = ''
@@ -424,23 +425,23 @@ export default defineComponent({
     };
     // 修改qq
     const submitQq = () => {
-      if (qq.value.length === 0) { ElMessage.error('请输入正确的QQ号码'); } else {
+      if (qq.value.length === 0) { ElMessage.error(t('mycenter.checkqq')); } else {
         if (isaddsafe.value) {
           updateQq({ qq: qq.value }).then(res => {
             console.log(res);
             if (res.code === 200) {
               ElMessage({
-                message: '修改QQ号码绑定成功',
+                message: t('mycenter.updateqqsuccess'),
                 type: 'success',
               });
               safeData.qq = qq.value
-              qqShow.value = '已绑定QQ：' + qq.value.substring(0, 4) + '*****';
+              qqShow.value = t('mycenter.qqed')+ ':' + qq.value.substring(0, 4) + '*****';
               qq.value = ''
               code.value = ''
               isaddsafe.value = true;
               dialogFormVisibleQq.value = false
             } else {
-              ElMessage.error('绑定QQ号码失败，请重试');
+              ElMessage.error(t('mycenter.updateqqerror'));
             }
           })
         } else {
@@ -452,11 +453,11 @@ export default defineComponent({
             console.log(res);
             if (res.code === 200) {
               ElMessage({
-                message: '绑定QQ号码成功',
+                message: t('mycenter.updateqqsuccess'),
                 type: 'success',
               });
               safeData.phone = phone.value
-              qqShow.value = '已绑定QQ：' + qq.value.substring(0, 4) + '*****';
+              qqShow.value = t('mycenter.qqed') + qq.value.substring(0, 4) + '*****';
               qq.value = ''
               code.value = ''
               isaddsafe.value = true;

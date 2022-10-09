@@ -8,32 +8,43 @@
         <Fold />
       </el-icon>
       <el-breadcrumb :separator-icon="ArrowRight">
-        <el-breadcrumb-item :to="{ path: '/main' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="route.path == '/mycenter'">个人中心</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="route.path == '/setting'">设置</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="route.path == '/usermanage'">用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="route.path == '/message'">公告管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/main' }">{{ $t("herader.home") }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="route.path == '/mycenter'">{{ $t("herader.mycenter") }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="route.path == '/setting'">{{ $t("herader.setting") }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="route.path == '/usermanage'">{{ $t("herader.usermanagement") }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="route.path == '/message'">{{ $t("herader.informmanagement") }}</el-breadcrumb-item>
         <!-- <el-breadcrumb-item v-if="route.path == '/mycenter'"></el-breadcrumb-item> -->
       </el-breadcrumb>
     </div>
     <div class="rightbox">
-      <!-- 修改背景色 -->
-      <el-icon :size="16" color="#606266">
-        <Search />
-      </el-icon>
-      <el-icon :size="16" color="#606266">
-        <Bell />
-      </el-icon>
+      <!-- 搜索框 -->
+      <el-autocomplete v-model="state1" :fetch-suggestions="querySearch" clearable class="inline-input w-50"
+        placeholder="Please Input" @select="handleSelect" />
+      <!-- 搜索 -->
+      <div class="iconbox">
+        <el-icon class="subicon" :size="16" color="#606266">
+          <Search />
+        </el-icon>
+      </div>
+      <!-- 消息通知 -->
+      <div class="iconbox1">
+        <el-icon class="subicon1" :size="16" color="#606266">
+          <Bell />
+        </el-icon>
+      </div>
       <!-- 全屏切换 -->
-      <el-icon :size="16" color="#606266" @click="handleFullScreen">
-        <FullScreen />
-      </el-icon>
-      <el-switch v-model="themeBoole" class="mt-2" style="margin-left: 24px" inline-prompt @change="changecolor"
-        :active-icon="Sunny" :inactive-icon="Moon" />
+      <div class="iconbox2" @click="handleFullScreen">
+        <el-icon class="subicon2" :size="16" color="#606266">
+          <FullScreen />
+        </el-icon>
+      </div>
+      <!-- 修改背景色 -->
+      <el-switch v-model="themeBoole" size="small" class="mt-2" style="margin-left: 10px" inline-prompt
+        @change="changecolor" :active-icon="Sunny" :inactive-icon="Moon" />
       <!-- 切换语言 -->
       <el-dropdown>
         <i class="iconfont icon-a-zhongyingwenzhongwen"
-          style="color: var(--langcolor);font-size:20px;cursor: pointer;margin-left: 20px;"></i>
+          style="color: var(--langcolor);font-size:16px;cursor: pointer;margin-left: 20px;"></i>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item @click="changelan('ch')">中文简体</el-dropdown-item>
@@ -52,10 +63,10 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>首页</el-dropdown-item>
-            <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>代码仓库</el-dropdown-item>
-            <el-dropdown-item divided @click="outaccount">安全退出</el-dropdown-item>
+            <el-dropdown-item>{{ $t("herader.home") }}</el-dropdown-item>
+            <el-dropdown-item>{{ $t("herader.mycenter") }}</el-dropdown-item>
+            <el-dropdown-item>{{ $t("herader.codewarehouse") }}</el-dropdown-item>
+            <el-dropdown-item divided @click="outaccount">{{ $t("herader.logout") }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -72,6 +83,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { addColor } from '../../../theme/configColor'
 import { useStore } from 'vuex'
 import { useI18n } from "vue-i18n";
+import { AnyCnameRecord } from 'dns';
 
 export default defineComponent({
   name: 'HeaderTop',
@@ -203,6 +215,48 @@ export default defineComponent({
       // 改变当前全屏状态
       fullscreen.value = !fullscreen.value;
     }
+    // 菜单搜索数据过滤
+    interface RestaurantItem {
+      value: string
+      link: string
+    }
+
+    const state1 = ref('')
+
+    const restaurants = ref<RestaurantItem[]>([])
+    const querySearch = (queryString: string, cb: any) => {
+      const results = queryString
+        ? restaurants.value.filter(createFilter(queryString))
+        : restaurants.value
+      // call callback function to return suggestions
+      cb(results)
+    }
+    const createFilter = (queryString: string) => {
+      return (restaurant: RestaurantItem) => {
+        return (
+          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        )
+      }
+    }
+    const loadAll = () => {
+      return [
+        { value: 'vue', link: 'https://github.com/vuejs/vue' },
+        { value: 'element', link: 'https://github.com/ElemeFE/element' },
+        { value: 'cooking', link: 'https://github.com/ElemeFE/cooking' },
+        { value: 'mint-ui', link: 'https://github.com/ElemeFE/mint-ui' },
+        { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
+        { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
+        { value: 'babel', link: 'https://github.com/babel/babel' },
+      ]
+    }
+
+    const handleSelect = (item: any) => {
+      console.log(item)
+    }
+
+    onMounted(() => {
+      restaurants.value = loadAll()
+    })
     return {
       changecolor,
       changelan,
@@ -215,7 +269,10 @@ export default defineComponent({
       Sunny,
       Moon,
       route,
-      themeBoole
+      themeBoole,
+      querySearch,
+      handleSelect,
+      state1
     }
   }
 });
@@ -224,6 +281,43 @@ export default defineComponent({
 // ::v-deep .el-dropdown-menu__item:not(.is-disabled):focus {
 //   background-color: var(--menuli) !important;
 // }
+
+.iconbox,
+.iconbox1,
+.iconbox2 {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.iconbox:hover .subicon {
+  animation: logoAnimation 0.3s ease-in-out;
+}
+
+.iconbox1:hover .subicon1 {
+  animation: logoAnimation 0.3s ease-in-out;
+}
+
+.iconbox2:hover .subicon2 {
+  animation: logoAnimation 0.3s ease-in-out;
+}
+
+@keyframes logoAnimation {
+  0% {
+    transform: scale(0);
+  }
+
+  80% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
 
 .header {
   width: 100%;
@@ -257,6 +351,7 @@ img {
   height: 25px;
   width: 25px;
   border-radius: 50%;
+  margin-right: 5px;
 }
 
 .user {
@@ -270,5 +365,24 @@ img {
   .el-icon {
     margin-left: 2px;
   }
+}
+
+.my-autocomplete li {
+  line-height: normal;
+  padding: 7px;
+}
+
+.my-autocomplete li .name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.my-autocomplete li .addr {
+  font-size: 12px;
+  color: #b4b4b4;
+}
+
+.my-autocomplete li .highlighted .addr {
+  color: #ddd;
 }
 </style>

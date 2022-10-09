@@ -4,12 +4,13 @@ import { start, close } from '@/utils/nprogress';
 import Cookies from 'js-cookie'
 import i18n from '../i18n/index'
 
+// meta.title的值为i18n里面的变量，为了其它页面遍历翻译转换
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/login',
     meta: {
-      title: i18n.global.t('router.login')
+      title: "login"
     },
     component: () => import('@/views/login/LoginView.vue')
   },
@@ -17,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/login',
     name: 'login',
     meta: {
-      title: i18n.global.t('router.login')
+      title: "login"
     },
     component: () => import('@/views/login/LoginView.vue')
   },
@@ -25,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/home',
     name: 'home',
     meta: {
-      title: i18n.global.t('router.home')
+      title: "home"
     },
     component: () => import('@/views/home/HomeView.vue'),
     children: [
@@ -33,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/main',
         name: 'main',
         meta: {
-          title: i18n.global.t('router.home')
+          title: "home"
         },
         component: () => import('@/views/main/MainView.vue')
       },
@@ -41,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/mycenter',
         name: 'mycenter',
         meta: {
-          title: i18n.global.t('router.mycenter')
+          title: "mycenter"
         },
         component: () => import('@/views/mycenter/MycenterView.vue')
       },
@@ -49,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/message',
         name: 'message',
         meta: {
-          title: '公告管理'
+          title: 'informmanagement'
         },
         component: () => import('@/views/message/MessageView.vue')
       },
@@ -57,7 +58,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/usermanage',
         name: 'usermanage',
         meta: {
-          title: '用户管理'
+          title: 'usermanagement'
         },
         component: () => import('@/views/usermanage/UserManage.vue')
       },
@@ -65,7 +66,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/setting',
         name: 'setting',
         meta: {
-          title: '设置'
+          title: 'setting'
         },
         component: () => import('@/views/setting/SettingView.vue')
       },
@@ -73,7 +74,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/iframe',
         name: 'iframe',
         meta: {
-          title: 'iframe'
+          title: 'embeddediframe'
         },
         component: () => import('@/views/iframe/IframeView.vue')
       }
@@ -90,7 +91,7 @@ router.beforeEach((to, from, next) => {
   start();
   // 设置浏览器标题
   if (to.meta.title) {
-    document.title = String(to.meta.title);
+    document.title = i18n.global.t('router.'+String(to.meta.title));
   } else {
     document.title = 'reminderAdmin';
   }
