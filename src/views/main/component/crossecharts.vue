@@ -27,7 +27,7 @@ export default defineComponent({
       getcharts()
     });
     // 封装方法
-    const getcharts = () => {
+    const getcharts = () => {      
       type EChartsOption = echarts.EChartsOption;
       var chartDom = document.getElementById('echartone')!;
       var myChart = echarts.init(chartDom, themetype.value === 'dark' ? "dark" : "light");
@@ -44,7 +44,7 @@ export default defineComponent({
       }
       watch(getTheme, () => {
         myChart.resize();
-        console.log('!!!')
+        themetype.value = store.state.themetype
       })
 
       option = {

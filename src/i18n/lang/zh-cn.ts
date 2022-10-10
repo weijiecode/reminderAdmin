@@ -56,10 +56,10 @@ export default {
         personaldata: "个人信息",
         hint: "生活变的再糟糕，也不妨碍我变得更好！",
         username: "用户名：",
-        endip: "上次登录IP:",
+        endip: "上次登录IP：",
         identity: "身份：",
         usernickname: "超级管理员",
-        endlogindatetime: "上次登录时间:",
+        endlogindatetime: "上次登录时间：",
         am: "上午好",
         pm: "下午好",
         pm1: "晚上好",
@@ -190,9 +190,17 @@ export default {
         editerror: "修改失败，请重试"
     },
     main: {
-        Totalflow: "平台总流量",
+        totalflow: "平台总流量",
         todayflow: "今日总流量",
         usernum: "用户数量",
         todonum: "今日待办总数量"
+    },
+    header: {
+        inputmenu: "请输入菜单名称",
+        logoutwarning: "此操作将退出登录, 是否继续?",
+        warning: "提示",
+        confirm: "确定",
+        cancel: "取消",
+        safe: "账号已安全退出"
     }
 };

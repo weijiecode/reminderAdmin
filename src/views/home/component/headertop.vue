@@ -19,15 +19,15 @@
     <div class="rightbox">
       <!-- 搜索框 -->
       <el-autocomplete v-model="state1" :fetch-suggestions="querySearch" clearable class="inline-input w-50"
-        placeholder="Please Input" @select="handleSelect" />
+        :placeholder="$t('header.inputmenu')" @select="handleSelect" />
       <!-- 搜索 -->
-      <div class="iconbox">
+      <!-- <div class="iconbox">
         <el-icon class="subicon" :size="16" color="#606266">
           <Search />
         </el-icon>
-      </div>
+      </div> -->
       <!-- 消息通知 -->
-      <div class="iconbox1">
+      <div class="iconbox1" @click="tomessage">
         <el-icon class="subicon1" :size="16" color="#606266">
           <Bell />
         </el-icon>
@@ -83,12 +83,12 @@ import { useRouter, useRoute } from 'vue-router';
 import { addColor } from '../../../theme/configColor'
 import { useStore } from 'vuex'
 import { useI18n } from "vue-i18n";
-import { AnyCnameRecord } from 'dns';
+
 
 export default defineComponent({
   name: 'HeaderTop',
   components: {
-    Search,
+    // Search,
     Bell,
     FullScreen,
     ArrowDown,
@@ -133,7 +133,7 @@ export default defineComponent({
     };
     // 切换语言
     const language = computed(() => store.state.language);
-    const { locale } = useI18n();
+    const { locale, t } = useI18n();
     const changelan = (value: string) => {
       console.log(value)
       if (value === 'en') {
@@ -145,13 +145,29 @@ export default defineComponent({
       }
 
     }
+    const restaurants = ref<RestaurantItem[]>([])
+    const loadAll = () => {
+      return [
+        { value: t('menu.home'), link: '/main' },
+        { value: t('menu.personalcenter'), link: '/mycenter' },
+        { value: t('menu.usermanagement'), link: '/usermanage' },
+        { value: t('menu.informmanagement'), link: '/message' },
+        { value: t('menu.setting'), link: '/setting' },
+        { value: t('menu.embeddediframe'), link: '/iframe' },
+        { value: 'gitee', link: 'gitee' },
+        { value: 'github', link: 'github' },
+      ]
+    }
     // 刷新页面获取当前语言参数
     if (langtype.value === 'en') {
       locale.value = 'en';
       store.commit("updatelanguage", 'en');
+      // 刷新翻译搜索栏里的数据
+      restaurants.value = loadAll()
     } else {
       locale.value = 'zhCn';
       store.commit("updatelanguage", 'zhCn');
+      restaurants.value = loadAll()
     }
     const router = useRouter();
     const route = useRoute();
@@ -168,11 +184,11 @@ export default defineComponent({
     // 退出
     const outaccount = () => {
       ElMessageBox.confirm(
-        '此操作将退出登录, 是否继续?',
-        '提示',
+        t('header.logoutwarning'),
+        t('header.warning'),
         {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+          confirmButtonText: t('header.confirm'),
+          cancelButtonText: t('header.cancel'),
           type: 'warning',
         }
       )
@@ -183,7 +199,7 @@ export default defineComponent({
           router.push('/login');
           ElMessage({
             type: 'success',
-            message: '账号已安全退出',
+            message: t('header.safe'),
           })
         })
         .catch(() => {
@@ -217,13 +233,13 @@ export default defineComponent({
     }
     // 菜单搜索数据过滤
     interface RestaurantItem {
-      value: string
+      value: string,
       link: string
     }
 
     const state1 = ref('')
 
-    const restaurants = ref<RestaurantItem[]>([])
+
     const querySearch = (queryString: string, cb: any) => {
       const results = queryString
         ? restaurants.value.filter(createFilter(queryString))
@@ -238,25 +254,27 @@ export default defineComponent({
         )
       }
     }
-    const loadAll = () => {
-      return [
-        { value: 'vue', link: 'https://github.com/vuejs/vue' },
-        { value: 'element', link: 'https://github.com/ElemeFE/element' },
-        { value: 'cooking', link: 'https://github.com/ElemeFE/cooking' },
-        { value: 'mint-ui', link: 'https://github.com/ElemeFE/mint-ui' },
-        { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
-        { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
-        { value: 'babel', link: 'https://github.com/babel/babel' },
-      ]
-    }
+
 
     const handleSelect = (item: any) => {
-      console.log(item)
+      // console.log(item)
+      if (item.link === 'gitee') {
+        window.open("https://gitee.com/weijiebaby", "_blank")
+      } else if (item.link === 'github') {
+        window.open("https://github.com/weijiecode", "_blank")
+      } else {
+        router.push(item.link)
+      }
+
+      state1.value = ''
     }
 
     onMounted(() => {
       restaurants.value = loadAll()
     })
+    const tomessage = () => {
+      router.push('/message')
+    }
     return {
       changecolor,
       changelan,
@@ -272,7 +290,8 @@ export default defineComponent({
       themeBoole,
       querySearch,
       handleSelect,
-      state1
+      state1,
+      tomessage
     }
   }
 });

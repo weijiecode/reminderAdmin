@@ -46,8 +46,8 @@
                     <el-icon><Link /></el-icon>
                     <span>{{ $t("menu.externallink") }}</span>
                 </template>
-                <el-menu-item index="1-1">外链1</el-menu-item>
-                <el-menu-item index="1-2">外链2</el-menu-item>
+                <el-menu-item index="" @click="togitee()">gitee</el-menu-item>
+                <el-menu-item index="" @click="togithub()">github</el-menu-item>
             </el-sub-menu>
             <el-menu-item index="/message">
                 <el-icon><Bell /></el-icon>
@@ -111,8 +111,18 @@ export default defineComponent({
         onMounted(() => {
             console.log(route.path)
         });
+        const togitee = () => {
+            // window.location.href = "https://gitee.com/weijiebaby"
+            window.open("https://gitee.com/weijiebaby","_blank")
+        }
+        const togithub = () => {
+            // window.location.href = "https://github.com/weijiecode"
+            window.open("https://github.com/weijiecode","_blank")
+        }
         return {
-            route
+            route,
+            togitee,
+            togithub
         }
     }
 });

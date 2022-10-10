@@ -5,7 +5,7 @@
         <div class="databox">
           <p class="pone">1039,63</p>
           <p class="ptwo">+12.10%</p>
-          <p class="pthree">{{ $t("main.Totalflow") }}</p>
+          <p class="pthree">{{ $t("main.totalflow") }}</p>
         </div>
         <div class="iconbox" style="background-color: var(--iconbox1);">
           <i class="iconfont icon-liuliangtongji" style="color: #409eff;font-size:34px;"></i>

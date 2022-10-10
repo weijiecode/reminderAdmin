@@ -56,10 +56,10 @@ export default {
         personaldata: "personal information",
         hint: "No matter how bad life gets, it doesn't stop me from getting better!",
         username: "username：",
-        endip: "Last LoginIP:",
+        endip: "Last LoginIP：",
         identity: "identity：",
         usernickname: "Super administrator",
-        endlogindatetime: "Last logon time:",
+        endlogindatetime: "Last logon time：",
         am: "Good morning",
         pm: "Good afternoon",
         pm1: "Good evening",
@@ -190,9 +190,17 @@ export default {
         editerror: "Modification failed, please try again"
     },
     main: {
-        Totalflow: "Total Flow",
+        totalflow: "Total Flow",
         todayflow: "Today Flow",
         usernum: "Number Users",
         todonum: "Todo Quantity"
+    },
+    header: {
+        inputmenu: "Please enter a menu name",
+        logoutwarning: "This operation will exit the login. Do you want to continue?",
+        warning: "warning",
+        confirm: "confirm",
+        cancel: "cancel",
+        safe: "The account has been logged out safely"
     }
 };
