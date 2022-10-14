@@ -123,14 +123,14 @@ export default defineComponent({
                 if (localStorage.getItem('adminIP') !== null) {
                   admininfo.username = loginForm.username
                   admininfo.ip = JSON.parse(localStorage.getItem('adminIP') || '')
-                  // 如果主题色未赋值则默认light
-                  if (!store.state.themetype) {
-                    store.commit("updatetheme", "light")
-                  }
                   // 添加登录信息
                   adminLoginData(admininfo)
                 }
 
+                // 如果主题色未赋值则默认light
+                if (!store.state.themetype) {
+                    store.commit("updatetheme", "light")
+                  }
                 fullscreenLoading.value = true
                 setTimeout(() => {
                   // fullscreenLoading.value = false

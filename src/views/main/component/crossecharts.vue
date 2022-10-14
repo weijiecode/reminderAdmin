@@ -30,6 +30,8 @@ export default defineComponent({
     const getcharts = () => {      
       type EChartsOption = echarts.EChartsOption;
       var chartDom = document.getElementById('echartone')!;
+      // 清除Echarts默认添加的属性（解决切换路由后不渲染）
+      chartDom.removeAttribute("_echarts_instance_");
       var myChart = echarts.init(chartDom, themetype.value === 'dark' ? "dark" : "light");
       var option: EChartsOption;
       // 解决重新渲染时的变形

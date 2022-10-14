@@ -2,12 +2,13 @@ import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import Cookies from 'js-cookie'
 
-axios.defaults.baseURL = 'http://localhost:5001/'
-// axios.defaults.baseURL = 'http://101.37.91.171:8887/'
+// axios.defaults.baseURL = 'http://localhost:5001/'
+axios.defaults.baseURL = 'http://101.37.91.171:5001'
 
 // 配置新建一个 axios 实例
 const service = axios.create({
-	baseURL: 'http://localhost:5001/',
+	// baseURL: 'http://localhost:5001/',
+	baseURL: 'http://101.37.91.171:5001',
 	timeout: 50000,
 	headers: { 'Content-Type': 'application/json' },
 });
