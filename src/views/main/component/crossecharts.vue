@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed, watch, ref } from 'vue';
+import { defineComponent, onMounted, computed, watch, ref, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import { useStore } from "vuex"
 
@@ -27,7 +27,7 @@ export default defineComponent({
       getcharts()
     });
     // 封装方法
-    const getcharts = () => {      
+    const getcharts = () => {
       type EChartsOption = echarts.EChartsOption;
       var chartDom = document.getElementById('echartone')!;
       // 清除Echarts默认添加的属性（解决切换路由后不渲染）
@@ -37,18 +37,13 @@ export default defineComponent({
       // 解决重新渲染时的变形
       setTimeout(() => {
         myChart.resize();
-      })
+      }, 500)
       // 窗口宽度变化时图表不会变形
       window.onresize = () => {
         return (() => {
           myChart.resize();
         })()
       }
-      watch(getTheme, () => {
-        myChart.resize();
-        themetype.value = store.state.themetype
-      })
-
       option = {
         color: ['#80FFA5', '#00DDFF'],
         title: {
@@ -150,6 +145,15 @@ export default defineComponent({
       option && myChart.setOption(option);
     }
 
+    watch(getTheme, () => {
+        nextTick(() => {
+          setTimeout(() => {
+            getcharts()
+          })
+          themetype.value = store.state.themetype
+        })
+      })
+
     return {
     }
   }
@@ -180,7 +184,8 @@ export default defineComponent({
   .echarts {
     float: left;
     width: 100%;
-    min-width: 670px;
+    // min-width: 670px;
+    width: 100%;
   }
 }
 </style>

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, computed, watch } from 'vue';
+import { defineComponent, onMounted, ref, computed, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import { useStore } from "vuex"
 
@@ -34,11 +34,6 @@ export default defineComponent({
             chartDom.removeAttribute("_echarts_instance_");
             var myChart = echarts.init(chartDom, themetype.value === 'dark' ? "dark" : "light");
             var option: EChartsOption;
-            // 监听到主题切换，重新渲染
-            watch(getTheme, () => {
-                myChart.resize();
-                console.log('!!!')
-            })
             option = {
                 color: ['#7766E7', '#518BF1', '#FFCD00', '#1DBD84', '#FE738A', '#C4C4C4'],
                 tooltip: {
@@ -91,6 +86,16 @@ export default defineComponent({
             option && myChart.setOption(option);
         }
 
+        // 监听到主题切换，重新渲染
+        watch(getTheme, () => {
+            nextTick(() => {
+                setTimeout(() => {
+                    getcharts()
+                })
+                themetype.value = store.state.themetype
+            })
+        })
+
         return {
         }
     }
@@ -115,6 +120,13 @@ export default defineComponent({
 @media screen and (max-width: 1060px) {
     .echarts {
         float: left;
+        width: 100%;
+    }
+
+    #echarttwo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 }
 </style>
