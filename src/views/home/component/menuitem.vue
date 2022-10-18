@@ -24,8 +24,8 @@
                     <el-icon><Unlock /></el-icon>
                     <span>{{ $t("menu.authoritymanagement") }}</span>
                 </template>
-                <el-menu-item index="1-1">权限管理1</el-menu-item>
-                <el-menu-item index="1-2">权限管理2</el-menu-item>
+                <el-menu-item index="/jurmangement">权限管理</el-menu-item>
+                <el-menu-item index="/jurisdiction">{{ $t("menu.authoritylist") }}</el-menu-item>
             </el-sub-menu>
             <el-sub-menu index="4">
                 <template #title>

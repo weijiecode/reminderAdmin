@@ -13,6 +13,7 @@
         <el-breadcrumb-item v-if="route.path == '/setting'">{{ $t("herader.setting") }}</el-breadcrumb-item>
         <el-breadcrumb-item v-if="route.path == '/usermanage'">{{ $t("herader.usermanagement") }}</el-breadcrumb-item>
         <el-breadcrumb-item v-if="route.path == '/message'">{{ $t("herader.informmanagement") }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="route.path == '/jurisdiction'">{{ $t("herader.authoritylist") }}</el-breadcrumb-item>
         <!-- <el-breadcrumb-item v-if="route.path == '/mycenter'"></el-breadcrumb-item> -->
       </el-breadcrumb>
     </div>
@@ -154,6 +155,7 @@ export default defineComponent({
         { value: t('menu.informmanagement'), link: '/message' },
         { value: t('menu.setting'), link: '/setting' },
         { value: t('menu.embeddediframe'), link: '/iframe' },
+        { value: t('menu.authoritylist'), link: '/jurisdiction' },
         { value: 'gitee', link: 'gitee' },
         { value: 'github', link: 'github' },
       ]

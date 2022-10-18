@@ -47,6 +47,22 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/mycenter/MycenterView.vue')
       },
       {
+        path: '/jurisdiction',
+        name: 'jurisdiction',
+        meta: {
+          title: 'authoritylist'
+        },
+        component: () => import('@/views/jurisdiction/JurisdictionView.vue')
+      },
+      {
+        path: '/jurmangement',
+        name: 'jurmangement',
+        meta: {
+          title: 'jurmangement'
+        },
+        component: () => import('@/views/jurisdiction/JurmangementView.vue')
+      },
+      {
         path: '/message',
         name: 'message',
         meta: {

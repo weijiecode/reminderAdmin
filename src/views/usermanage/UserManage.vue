@@ -51,10 +51,10 @@
             <el-table-column :label="$t('usermanage.todo')" width="180px">
                 <template #default="scope">
                     <!-- <el-button size="small" type="primary" :icon="Edit" @click="handleEdit(scope.$index)" /> -->
-                    <el-button size="small" type="primary" @click="handleEdit(scope.row)">{{ $t("usermanage.edit") }}</el-button>
+                    <el-button :icon="Edit" size="small" type="primary" @click="handleEdit(scope.row)">{{ $t("usermanage.edit") }}</el-button>
                     <el-popconfirm @confirm="handleDelete(scope.row.id)" :title="$t('usermanage.warningdel')">
                         <template #reference>
-                            <el-button size="small" type="danger">{{ $t("usermanage.del") }}</el-button>
+                            <el-button :icon="Delete" size="small" type="danger">{{ $t("usermanage.del") }}</el-button>
                         </template>
                     </el-popconfirm>
                 </template>
@@ -157,7 +157,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, reactive, toRefs, ref } from 'vue';
-import { Search, CirclePlus, Male, Female, Check, Close } from '@element-plus/icons-vue';
+import { Search, CirclePlus, Male, Female, Check, Close, Edit, Delete } from '@element-plus/icons-vue';
 import { getUserData, deluser, edituser, searchUser, addUserData } from '@/api/usermanage';
 import { ElMessage } from 'element-plus';
 import { userData, editUserData, search, addUserInt } from '@/types/usermanager';
@@ -488,6 +488,8 @@ export default defineComponent({
         return {
             Search,
             CirclePlus,
+            Delete,
+            Edit,
             ...toRefs(state),
             ...toRefs(pageData),
             handleSizeChange,

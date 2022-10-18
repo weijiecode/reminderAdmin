@@ -85,7 +85,11 @@ export default defineComponent({
 
             option && myChart.setOption(option);
         }
-
+        nextTick(() => {
+            setTimeout(() => {
+                getcharts()
+            })
+        })
         // 监听到主题切换，重新渲染
         watch(getTheme, () => {
             nextTick(() => {
