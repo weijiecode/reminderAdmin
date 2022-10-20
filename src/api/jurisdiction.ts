@@ -1,5 +1,5 @@
 import request from './http'
-import { PromiseRes, jurisdiction, jueResult, jurItem, addjurItem } from '../types/jurisdiction'
+import { PromiseRes, jurisdiction, jueResult, jurItem, addjurItem, adminList } from '../types/jurisdiction'
 
 // 获取权限数据
 export const getjurisdiction = ():PromiseRes<jurisdiction> => request.get('admin/selectjuri')
@@ -12,4 +12,7 @@ export const deljurisdiction = (params: { id: number }):PromiseRes<jueResult> =>
 
 // 添加权限
 export const addjurisdiction = (params: addjurItem):PromiseRes<jueResult> => request.post('admin/addjuri', params)
+
+// 获取管理员列表数据
+export const getadmin = ():PromiseRes<adminList> => request.get('admin/selectadmin')
 
