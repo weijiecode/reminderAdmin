@@ -210,7 +210,7 @@ export default {
     jurisdiction: {
         select: "search",
         inputname: "Please enter the permission name",
-        warning: "This permission can only be modified by super administrator, and non administrator users have no permission to modify",
+        warning: "This permission can only be modified by super administrator, and non super administrator users have no permission to modify",
         addjur: "add permission",
         jurname: "name",
         path: "path",
@@ -239,6 +239,7 @@ export default {
         updateerror: "Modification failed, please try again",
         addsuccess: "Successfully added",
         adderror: "Failed to add, please try again",
-        warningdel: "Are you sure to delete this user?"
+        warningdel: "Are you sure to delete this user?",
+        juradminwarning: "You have no permission to modify, please contact the super administrator"
     }
 };

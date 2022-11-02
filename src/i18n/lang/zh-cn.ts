@@ -210,7 +210,7 @@ export default {
     jurisdiction: {
         select: "查询",
         inputname: "请输入权限名称",
-        warning: "该权限只限超级管理员修改，非管理员用户无权限修改",
+        warning: "该权限只限超级管理员修改，非超级管理员用户无权限修改",
         addjur: "添加权限",
         jurname: "权限名称",
         path: "路径",
@@ -239,6 +239,7 @@ export default {
         updateerror: "修改失败，请重试",
         addsuccess: "添加成功",
         adderror: "添加失败，请重试",
-        warningdel: "你确定删除该用户吗?"
+        warningdel: "你确定删除该用户吗?",
+        juradminwarning: "您无权限修改，请联系超级管理员"
     }
 };

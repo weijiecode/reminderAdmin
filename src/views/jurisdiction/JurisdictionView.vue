@@ -20,16 +20,19 @@
             <el-table-column prop="remark" :label="$t('jurisdiction.remark')" />
             <el-table-column :label="$t('jurisdiction.class')">
                 <template #default="scope">
-                    <el-button v-if="scope.row.class==='1'" size="small" type="success" plain>{{ $t("jurisdiction.one")
+                    <el-button v-if="scope.row.class === '1'" size="small" type="success" plain>{{
+                            $t("jurisdiction.one")
                     }}</el-button>
-                    <el-button v-if="scope.row.class==='2'" size="small" type="warning" plain>{{ $t("jurisdiction.two")
+                    <el-button v-if="scope.row.class === '2'" size="small" type="warning" plain>{{
+                            $t("jurisdiction.two")
                     }}</el-button>
                 </template>
             </el-table-column>
             <el-table-column :label="$t('jurisdiction.todo')" width="180">
                 <template #default="scope">
                     <el-button :icon="Edit" size="small" type="primary" @click="handleClick(scope.row)">{{
-                    $t("jurisdiction.edit") }}
+                            $t("jurisdiction.edit")
+                    }}
                     </el-button>
                     <el-popconfirm @confirm="handleDelete(scope.row.id)" :title="$t('jurisdiction.warningdel')">
                         <template #reference>
@@ -86,7 +89,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item :label="$t('jurisdiction.upclass')" label-width="80px">
-                    <el-select :disabled="isdisabled" v-model="addItem.uid" class="m-2" :placeholder="$t('jurisdiction.inputupclass')">
+                    <el-select :disabled="isdisabled" v-model="addItem.uid" class="m-2"
+                        :placeholder="$t('jurisdiction.inputupclass')">
                         <el-option v-for="item in uoptions" :key="item.value" :label="item.label" :value="item.value" />
                     </el-select>
                 </el-form-item>
@@ -214,6 +218,11 @@ export default defineComponent({
                         type: 'success',
                         message: t('jurisdiction.delsuccess')
                     })
+                } else if (res.code === 202) {
+                    ElMessage({
+                        type: 'error',
+                        message: t('jurisdiction.juradminwarning')
+                    })
                 } else {
                     ElMessage({
                         type: 'error',
@@ -239,6 +248,11 @@ export default defineComponent({
                             message: t('jurisdiction.updatesuccess')
                         })
                         getjur()
+                    } else if (res.code === 202) {
+                        ElMessage({
+                            type: 'error',
+                            message: t('jurisdiction.juradminwarning')
+                        })
                     } else {
                         ElMessage({
                             type: 'error',
@@ -258,7 +272,7 @@ export default defineComponent({
                     message: t('jurisdiction.inputall')
                 })
             } else {
-                if(addItem.value.uid == ''){addItem.value.uid = '0'}
+                if (addItem.value.uid == '') { addItem.value.uid = '0' }
                 addjurisdiction(addItem.value).then(res => {
                     console.log(addItem.value)
                     console.log(res)
@@ -274,6 +288,11 @@ export default defineComponent({
                         addItem.value.path = ''
                         addItem.value.remark = ''
                         isdisabled.value = true
+                    } else if (res.code === 202) {
+                        ElMessage({
+                            type: 'error',
+                            message: t('jurisdiction.juradminwarning')
+                        })
                     } else {
                         ElMessage({
                             type: 'error',

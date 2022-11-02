@@ -167,7 +167,7 @@ import { useI18n } from 'vue-i18n'
 export default defineComponent({
     components: {
         Male,
-        Female,
+        Female
     },
     setup() {
         const { t } = useI18n()
