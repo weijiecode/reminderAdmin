@@ -107,6 +107,7 @@ export default defineComponent({
 </script>
 <style scoped lang="scss">
 #echarttwo {
+    border-radius: 10px;
     margin-top: 20px;
     width: 360px;
     height: 400px;

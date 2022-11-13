@@ -83,6 +83,7 @@ export default defineComponent({
 }
 
 .subone {
+  border-radius: 10px;
   width: 25%;
   cursor: default;
   height: 130px;
@@ -100,6 +101,7 @@ export default defineComponent({
   }
 
   .subone {
+    border-radius: 10px;
     width: 47%;
     overflow: auto;
   }
@@ -111,6 +113,7 @@ export default defineComponent({
   }
 
   .subone {
+    border-radius: 10px;
     width: 97%;
     overflow: auto;
   }

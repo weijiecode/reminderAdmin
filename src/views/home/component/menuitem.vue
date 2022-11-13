@@ -24,10 +24,10 @@
                     <el-icon><Unlock /></el-icon>
                     <span>{{ $t("menu.authoritymanagement") }}</span>
                 </template>
-                <el-menu-item index="/jurmangement">权限管理</el-menu-item>
+                <el-menu-item index="/jurmangement">{{ $t("menu.authorityconfiguration") }}</el-menu-item>
                 <el-menu-item index="/jurisdiction">{{ $t("menu.authoritylist") }}</el-menu-item>
             </el-sub-menu>
-            <el-sub-menu index="4">
+            <!-- <el-sub-menu index="4">
                 <template #title>
                     <el-icon>
                         <document />
@@ -36,11 +36,11 @@
                 </template>
                 <el-menu-item index="1-1">统计视图1</el-menu-item>
                 <el-menu-item index="1-2">统计视图2</el-menu-item>
-            </el-sub-menu>
-            <el-menu-item index="">
+            </el-sub-menu> -->
+            <!-- <el-menu-item index="">
                     <el-icon><Guide /></el-icon>
                     <template #title>{{ $t("menu.routingparameters") }}</template>
-            </el-menu-item>
+            </el-menu-item> -->
             <el-sub-menu index="">
                 <template #title>
                     <el-icon><Link /></el-icon>
@@ -57,12 +57,16 @@
                 <el-icon><SetUp /></el-icon>
                 <template #title>{{ $t("menu.embeddediframe") }}</template>
             </el-menu-item>
-            <el-menu-item index="/setting">
+            <el-menu-item index="" @click="tofront">
+                <el-icon><Guide /></el-icon>
+                <template #title>{{ $t("menu.frontpage") }}</template>
+            </el-menu-item>
+            <!-- <el-menu-item index="/setting">
                 <el-icon>
                     <setting />
                 </el-icon>
                 <template #title>{{ $t("menu.setting") }}</template>
-            </el-menu-item>
+            </el-menu-item> -->
         </el-menu>
     </div>
 </template>
@@ -85,16 +89,15 @@ import {
 
 export default defineComponent({
     name: 'MenuItem',
+    // Document,Setting,Guide,
     components: {
         House,
-        Document,
-        Setting,
         Unlock,
+        Guide,
         User,
         SetUp,
         Link,
         Operation,
-        Guide,
         Bell
     },
     props: {
@@ -119,15 +122,25 @@ export default defineComponent({
             // window.location.href = "https://github.com/weijiecode"
             window.open("https://github.com/weijiecode","_blank")
         }
+        // 跳转前台页面
+        const tofront = () => {
+            window.open("http://152.136.15.238:999/","_blank")
+        }
         return {
             route,
             togitee,
-            togithub
+            togithub,
+            tofront
         }
     }
 });
 </script>
 <style scoped lang="scss">
+
+::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+}
 .menubox {
     height: 100%;
 }

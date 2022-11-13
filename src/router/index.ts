@@ -58,7 +58,7 @@ const routes: Array<RouteRecordRaw> = [
         path: '/jurmangement',
         name: 'jurmangement',
         meta: {
-          title: 'jurmangement'
+          title: 'authorityconfiguration'
         },
         component: () => import('@/views/jurisdiction/JurmangementView.vue')
       },

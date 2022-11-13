@@ -166,6 +166,7 @@ export default defineComponent({
 }
 
 #echartone {
+  border-radius: 10px;
   margin-top: 20px;
   width: 100%;
   height: 400px;

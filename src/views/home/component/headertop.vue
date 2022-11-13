@@ -13,7 +13,8 @@
         <el-breadcrumb-item v-if="route.path == '/setting'">{{ $t("herader.setting") }}</el-breadcrumb-item>
         <el-breadcrumb-item v-if="route.path == '/usermanage'">{{ $t("herader.usermanagement") }}</el-breadcrumb-item>
         <el-breadcrumb-item v-if="route.path == '/message'">{{ $t("herader.informmanagement") }}</el-breadcrumb-item>
-        <el-breadcrumb-item v-if="route.path == '/jurisdiction'">{{ $t("herader.authoritylist") }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="route.path == '/jurisdiction'">{{ $t("herader.authoritymanagement") }} / {{ $t("herader.authoritylist") }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="route.path == '/jurmangement'">{{ $t("herader.authoritymanagement") }} / {{ $t("herader.authorityconfiguration") }}</el-breadcrumb-item>
         <!-- <el-breadcrumb-item v-if="route.path == '/mycenter'"></el-breadcrumb-item> -->
       </el-breadcrumb>
     </div>
@@ -56,7 +57,7 @@
       <!-- 切换主题 -->
       <el-dropdown>
         <div class="user">
-          <img src="@/assets/t.jpeg" alt="">
+          <img :src="adminphoto" alt="">
           <div class="nickname">{{nickname}}</div>
           <el-icon :size="12" color="#606266">
             <ArrowDown />
@@ -64,9 +65,9 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>{{ $t("herader.home") }}</el-dropdown-item>
-            <el-dropdown-item>{{ $t("herader.mycenter") }}</el-dropdown-item>
-            <el-dropdown-item>{{ $t("herader.codewarehouse") }}</el-dropdown-item>
+            <el-dropdown-item @click="tohome">{{ $t("herader.home") }}</el-dropdown-item>
+            <el-dropdown-item @click="tomycenter">{{ $t("herader.mycenter") }}</el-dropdown-item>
+            <el-dropdown-item @click="tocode">{{ $t("herader.codewarehouse") }}</el-dropdown-item>
             <el-dropdown-item divided @click="outaccount">{{ $t("herader.logout") }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -98,6 +99,9 @@ export default defineComponent({
   },
   emit: ["changemenu"],
   setup(props, { emit }) {
+    // 获取头像地址
+    const adminphoto = ref('')
+    adminphoto.value = JSON.parse(localStorage.getItem('admindata') || '').photo
     // 获取vuex对象(用vuex存储，方便监听参数变化)
     let store = useStore()
     const themetype = ref('light')
@@ -257,7 +261,7 @@ export default defineComponent({
       }
     }
 
-
+    // 搜索栏git链接跳转
     const handleSelect = (item: any) => {
       // console.log(item)
       if (item.link === 'gitee') {
@@ -269,6 +273,18 @@ export default defineComponent({
       }
 
       state1.value = ''
+    }
+    // 跳转首页
+    const tohome = () => {
+      router.push('/main')
+    }
+    // 跳转git
+    const tocode = () => {
+      window.open("https://github.com/weijiecode", "_blank")
+    }
+    // 跳转个人中心
+    const tomycenter = () => {
+      router.push('/mycenter')
     }
 
     onMounted(() => {
@@ -282,6 +298,7 @@ export default defineComponent({
       changelan,
       outaccount,
       handleFullScreen,
+      adminphoto,
       isCollapse,
       chmn,
       nickname,
@@ -292,6 +309,9 @@ export default defineComponent({
       themeBoole,
       querySearch,
       handleSelect,
+      tocode,
+      tohome,
+      tomycenter,
       state1,
       tomessage
     }

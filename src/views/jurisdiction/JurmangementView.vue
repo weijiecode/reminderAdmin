@@ -3,15 +3,15 @@
         <el-alert :title="$t('jurisdiction.warning')" type="warning" show-icon />
         <div class="boxbtn">
             <div class="leftbox">
-                <el-input class="addbtn" v-model="jurinput" placeholder="请输入管理员名称" />
+                <el-input class="addbtn" v-model="jurinput" :placeholder="$t('jurmanage.inputadmin')" />
                 <el-button type="primary" :icon="Search" @click="searchData">
-                    搜索
+                    {{ $t("jurmanage.search") }}
                 </el-button>
                 <el-button @click="dialogFormVisibleAdd = true" type="success" :icon="CirclePlus">
-                    添加管理员
+                    {{ $t("jurmanage.addadmin") }}
                 </el-button>
             </div>
-            <div class="top">纵向边框：
+            <div class="top">{{ $t("jurmanage.border") }}
                 <el-switch v-model="parentBorder" />
             </div>
         </div>
@@ -20,7 +20,6 @@
             <el-table-column type="expand">
                 <template #default="scope">
                     <el-row v-for="item1 in jurisdictionList" :key="item1.id" class="bdbottom">
-
                         <el-col class="alltab" :span="8" v-show="scope.row.jurids?.split(',')">
                             <el-tag>{{ item1.name }}</el-tag>
                             <el-icon>
@@ -39,26 +38,28 @@
                     </el-row>
                 </template>
             </el-table-column>
-            <el-table-column label="管理员账户" prop="username" />
-            <el-table-column label="管理员类型" prop="type" />
-            <el-table-column label="描述" prop="introduction" />
-            <el-table-column width="265" label="操作">
+            <el-table-column :label="$t('jurmanage.adminaccount')" prop="username" />
+            <el-table-column :label="$t('jurmanage.admintype')" prop="type" />
+            <el-table-column :label="$t('jurmanage.detail')" prop="introduction" />
+            <el-table-column width="265" :label="$t('jurmanage.operation')">
                 <template #default="scope">
-                    <el-button :icon="Edit" size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-                    <el-popconfirm @confirm="handleDelete(scope.row.id)" title="您是否确认删除？">
+                    <el-button :icon="Edit" :disabled="scope.row.id == 1" size="small" type="primary"
+                        @click="handleEdit(scope.row)">{{$t("jurmanage.edit")}}</el-button>
+                    <el-popconfirm @confirm="handleDelete(scope.row.id)" :title="$t('jurmanage.delwarning')">
                         <template #reference>
-                            <el-button :icon="Delete" size="small" type="danger">删除
+                            <el-button :disabled="scope.row.id == 1" :icon="Delete" size="small" type="danger">{{ $t("jurmanage.delete") }}
                             </el-button>
                         </template>
                     </el-popconfirm>
-                    <el-button :icon="Setting" size="small" type="warning" @click="handleUpdate(scope.row.id)">分配角色
+                    <el-button :disabled="scope.row.id == 1" :icon="Setting" size="small" type="warning"
+                        @click="handleUpdate(scope.row.id)">{{ $t("jurmanage.distribution") }}
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
 
         <!-- 分配角色dialog框 -->
-        <el-dialog @close="clearjurcheck" v-model="jurVisible" title="分配角色" width="30%">
+        <el-dialog @close="clearjurcheck" v-model="jurVisible" :title="$t('jurmanage.distribution')" width="30%">
             <!-- 树形控件 -->
             <el-tree ref="treeRef" :data="jurisdictionList" show-checkbox node-key="id" :default-expand-all="true"
                 :default-checked-keys="jurcheck" :props="defaultProps" />
@@ -66,19 +67,19 @@
 
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="jurVisible = false">取消</el-button>
-                    <el-button type="primary" @click="savejur">分配角色</el-button>
+                    <el-button @click="jurVisible = false">{{ $t("jurmanage.cancel") }}</el-button>
+                    <el-button type="primary" @click="savejur">{{ $t("jurmanage.distribution") }}</el-button>
                 </span>
             </template>
         </el-dialog>
 
         <!-- 添加管理员dialog框 -->
-        <el-dialog width="650px" v-model="dialogFormVisibleAdd" title="添加管理员用户">
+        <el-dialog width="650px" v-model="dialogFormVisibleAdd" :title="$t('jurmanage.addadminaccount')">
             <el-form ref="addFormRef" :model="addForm" :rules="addrules" label-width="80px" class="demo-ruleForm"
                 size="default" status-icon>
-                <el-form-item style="float: left;" label="头像" prop="photo">
+                <el-form-item style="float: left;" :label="$t('jurmanage.photo')" prop="photo">
                     <el-upload class="avatar-uploader" :headers="headertoken"
-                        action="http://localhost:5001/admin/photouploadurl" :show-file-list="false"
+                        action="http://152.136.15.238:5001/admin/photouploadurl" :show-file-list="false"
                         :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                         <img v-if="addForm.photo" :src="addForm.photo" class="avatar" />
                         <el-icon v-else class="avatar-uploader-icon">
@@ -86,51 +87,52 @@
                         </el-icon>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="类型" prop="username">
+                <el-form-item :label="$t('jurmanage.type')" prop="username">
                     <el-input disabled v-model="addForm.type" />
                 </el-form-item>
                 <el-form-item>
-                    <el-alert style="height: 32px;" title="权限配置需添加管理员成功后在列表页进行配置" type="warning" show-icon />
+                    <el-alert style="height: 32px;" :title="$t('jurmanage.distributiondetail')" type="warning" show-icon />
                 </el-form-item>
-                <el-form-item style="clear: both;" label="管理员" prop="username">
-                    <el-input placeholder="请输入管理员用户名" v-model="addForm.username" />
+                <el-form-item style="clear: both;" :label="$t('jurmanage.admin')" prop="username">
+                    <el-input :placeholder="$t('jurmanage.inputadminpwd')" v-model="addForm.username" />
                 </el-form-item>
-                <el-form-item label="密码" prop="password">
-                    <el-input placeholder="请输入管理员密码" show-password type="password" v-model="addForm.password" />
+                <el-form-item :label="$t('jurmanage.password')" prop="password">
+                    <el-input :placeholder="$t('jurmanage.inputadminpwd')" show-password type="password" v-model="addForm.password" />
                 </el-form-item>
-                <el-form-item style="float: left;" label="昵称" prop="nickname">
-                    <el-input placeholder="请输入昵称" v-model="addForm.nickname" />
+                <el-form-item style="float: left;" :label="$t('jurmanage.nickname')" prop="nickname">
+                    <el-input :placeholder="$t('jurmanage.inputnickname')" v-model="addForm.nickname" />
                 </el-form-item>
-                <el-form-item label="性别" prop="sex">
+                <el-form-item :label="$t('jurmanage.sex')" prop="sex">
                     <el-radio-group v-model="addForm.sex" class="ml-4">
-                        <el-radio label="1" size="large">男</el-radio>
-                        <el-radio label="0" size="large">女</el-radio>
+                        <el-radio label="1" size="large">{{ $t("jurmanage.male") }}</el-radio>
+                        <el-radio label="0" size="large">{{ $t("jurmanage.female") }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item style="float: left;" label="手机号">
-                    <el-input placeholder="请输入手机号" v-model.number="addForm.phone" />
+                <el-form-item style="float: left;" :label="$t('jurmanage.phone')">
+                    <el-input :placeholder="$t('jurmanage.inputphone')" v-model.number="addForm.phone" />
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input placeholder="请输入邮箱" v-model="addForm.email" />
+                <el-form-item :label="$t('jurmanage.email')" prop="email">
+                    <el-input :placeholder="$t('jurmanage.inputemail')" v-model="addForm.email" />
                 </el-form-item>
-                <el-form-item label="个人简介">
-                    <el-input v-model="addForm.introduction" maxlength="30" placeholder="请输入简介" show-word-limit
+                <el-form-item :label="$t('jurmanage.introduction')">
+                    <el-input v-model="addForm.introduction" maxlength="30" :placeholder="$t('jurmanage.inputintroduction')" show-word-limit
                         type="textarea" />
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="submitAddForm(addFormRef)">确认添加</el-button>
-                    <el-button @click="resetAddForm(addFormRef)">重置表单</el-button>
+                    <el-button type="primary" @click="submitAddForm(addFormRef)">{{ $t("jurmanage.confirmadd") }}
+                    </el-button>
+                    <el-button @click="resetAddForm(addFormRef)">{{ $t("jurmanage.resetform") }}</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
         <!-- 修改管理员dialog框 -->
-        <el-dialog width="650px" v-model="dialogFormVisibleUpdate" title="修改管理员用户">
+        <el-dialog width="650px" v-model="dialogFormVisibleUpdate" :title="$t('jurmanage.updateadmin')">
             <el-form ref="addFormRef" :model="updateForm" :rules="addrules" label-width="80px" class="demo-ruleForm"
                 size="default" status-icon>
-                <el-form-item style="float: left;" label="头像" prop="photo">
+                <el-form-item style="float: left;" :label="$t('jurmanage.photo')" prop="photo">
                     <el-upload class="avatar-uploader" :headers="headertoken"
-                        action="http://localhost:5001/admin/photouploadurl" :show-file-list="false"
+                        action="http://152.136.15.238:5001/admin/photouploadurl" :show-file-list="false"
                         :on-success="uhandleAvatarSuccess" :before-upload="beforeAvatarUpload">
                         <img v-if="updateForm.photo" :src="updateForm.photo" class="avatar" />
                         <el-icon v-else class="avatar-uploader-icon">
@@ -138,38 +140,39 @@
                         </el-icon>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="类型" prop="username">
+                <el-form-item :label="$t('jurmanage.type')" prop="username">
                     <el-input disabled v-model="updateForm.type" />
                 </el-form-item>
-                <el-form-item style="clear: both;" label="管理员" prop="username">
-                    <el-input placeholder="请输入管理员用户名" v-model="updateForm.username" />
+                <el-form-item style="clear: both;" :label="$t('jurmanage.admin')" prop="username">
+                    <el-input :placeholder="$t('jurmanage.inputadmin')" v-model="updateForm.username" />
                 </el-form-item>
                 <!-- <el-form-item label="密码" prop="password">
                     <el-input placeholder="请输入管理员密码" show-password type="password" v-model="updateForm.password" />
                 </el-form-item> -->
-                <el-form-item style="float: left;" label="昵称" prop="nickname">
-                    <el-input placeholder="请输入昵称" v-model="updateForm.nickname" />
+                <el-form-item style="float: left;" :label="$t('jurmanage.nickname')" prop="nickname">
+                    <el-input :label="$t('jurmanage.inputnickname')" v-model="updateForm.nickname" />
                 </el-form-item>
-                <el-form-item label="性别" prop="sex">
+                <el-form-item :label="$t('jurmanage.sex')" prop="sex">
                     <el-radio-group v-model="updateForm.sex" class="ml-4">
-                        <el-radio label="1" size="large">男</el-radio>
-                        <el-radio label="0" size="large">女</el-radio>
+                        <el-radio label="1" size="large">{{ $t("jurmanage.male") }}</el-radio>
+                        <el-radio label="0" size="large">{{ $t("jurmanage.female") }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item style="float: left;" label="手机号">
-                    <el-input placeholder="请输入手机号" v-model.number="updateForm.phone" />
+                <el-form-item style="float: left;" :label="$t('jurmanage.phone')">
+                    <el-input :placeholder="$t('jurmanage.inputphone')" v-model.number="updateForm.phone" />
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input placeholder="请输入邮箱" v-model="updateForm.email" />
+                <el-form-item :label="$t('jurmanage.email')" prop="email">
+                    <el-input :placeholder="$t('jurmanage.inputemail')" v-model="updateForm.email" />
                 </el-form-item>
-                <el-form-item label="个人简介">
-                    <el-input v-model="updateForm.introduction" maxlength="30" placeholder="请输入简介" show-word-limit
+                <el-form-item :label="$t('jurmanage.introduction')">
+                    <el-input v-model="updateForm.introduction" maxlength="30" :placeholder="$t('jurmanage.inputintroduction')" show-word-limit
                         type="textarea" />
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="submitUpdateForm(addFormRef)">修改保存</el-button>
-                    <el-button @click="resetAddForm(addFormRef)">重置表单</el-button>
+                    <el-button type="primary" @click="submitUpdateForm(addFormRef)">{{ $t("jurmanage.updatesave") }}
+                    </el-button>
+                    <!-- <el-button @click="resetAddForm(addFormRef)">{{ $t("jurmanage.resetform") }}</el-button> -->
                 </el-form-item>
 
             </el-form>
@@ -184,10 +187,12 @@ import { ElMessage, ElTree, FormInstance, FormRules, UploadProps } from 'element
 import { getadmin, getjurisdiction, getadminjur, updateadminjur, addadminjur, deladmin, deladminjur, addadmin, updateadmin } from '@/api/jurisdiction'
 import { uadmin } from '@/types/jurisdiction'
 import Cookies from 'js-cookie'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
     components: { Plus, CaretRight },
     setup() {
+        const { t } = useI18n()
         const jurVisible = ref(false)
         const parentBorder = ref(true)
         const state = reactive({
@@ -293,7 +298,7 @@ export default defineComponent({
                 } else {
                     ElMessage({
                         type: 'error',
-                        message: '获取权限列表失败，请重试'
+                        message: t('jurmanage.jurlisterr')
                     })
                 }
             })
@@ -324,18 +329,18 @@ export default defineComponent({
                 if (res.code === 200) {
                     ElMessage({
                         type: 'success',
-                        message: '删除该管理员成功'
+                        message: t('jurmanage.deladminsuc')
                     })
                     getAdminData()
                 } else if (res.code === 202) {
                     ElMessage({
                         type: 'error',
-                        message: '您无权限修改，请联系超级管理员'
+                        message: t('jurmanage.noupdate')
                     })
                 } else {
                     ElMessage({
                         type: 'error',
-                        message: '删除该管理员失败，请重试'
+                        message: t('jurmanage.jurdelerr')
                     })
                 }
             })
@@ -399,17 +404,17 @@ export default defineComponent({
                         getAdminData()
                         ElMessage({
                             type: 'success',
-                            message: '修改权限信息成功'
+                            message: t('jurmanage.jurdelsuc')
                         })
                     } else if (res.code === 202) {
                         ElMessage({
                             type: 'error',
-                            message: '您无权限修改，请联系超级管理员'
+                            message: t('jurmanage.nodel')
                         })
                     } else {
                         ElMessage({
                             type: 'error',
-                            message: '权限修改失败，请重试'
+                            message: t('jurmanage.jurupdateerr')
                         })
                     }
 
@@ -426,17 +431,17 @@ export default defineComponent({
                         getAdminData()
                         ElMessage({
                             type: 'success',
-                            message: '修改权限信息成功'
+                            message: t('jurmanage.updatejursuc')
                         })
                     } else if (res.code === 202) {
                         ElMessage({
                             type: 'error',
-                            message: '您无权限修改，请联系超级管理员'
+                            message: t('jurmanage.nodel')
                         })
                     } else {
                         ElMessage({
                             type: 'error',
-                            message: '权限修改失败，请重试'
+                            message: t('jurmanage.jurupdateerr')
                         })
                     }
                 })
@@ -470,19 +475,19 @@ export default defineComponent({
         // 校验规则
         const addrules = reactive<FormRules>({
             username: [
-                { required: true, message: '请输入管理员用户名', trigger: 'blur' },
-                { min: 3, max: 8, message: '长度在 3 到 8 位', trigger: 'blur' },
+                { required: true, message: t('jurmanage.inputadmin'), trigger: 'blur' },
+                { min: 3, max: 8, message: t('jurmanage.userlen'), trigger: 'blur' },
             ], password: [
-                { required: true, message: '请输入管理员密码', trigger: 'blur' },
-                { min: 6, max: 15, message: '长度在 6 到 15 位', trigger: 'blur' },
+                { required: true, message: t('jurmanage.inputpwd'), trigger: 'blur' },
+                { min: 6, max: 15, message: t('jurmanage.pwdlen'), trigger: 'blur' },
             ], nickname: [
-                { required: true, message: '请输入昵称', trigger: 'blur' },
+                { required: true, message: t('jurmanage.inputnickname'), trigger: 'blur' },
             ], photo: [
-                { required: true, message: '请上传头像图片', trigger: 'blur' },
+                { required: true, message: t('jurmanage.uploadphoto'), trigger: 'blur' },
             ], sex: [
-                { required: true, message: '请输入性别', trigger: 'blur' },
+                { required: true, message: t('jurmanage.inputsex'), trigger: 'blur' },
             ], email: [
-                { type: 'email', message: '请输入正确格式的邮箱', trigger: ['blur', 'change'] }
+                { type: 'email', message: t('jurmanage.inputcheckemail'), trigger: ['blur', 'change'] }
             ]
         })
 
@@ -507,17 +512,17 @@ export default defineComponent({
                             getAdminData()
                             ElMessage({
                                 type: 'success',
-                                message: '添加管理员成功'
+                                message: t('jurmanage.addadminsuc')
                             })
                         } else if (res.code === 202) {
                             ElMessage({
                                 type: 'error',
-                                message: '您无权限添加，请联系超级管理员'
+                                message: t('jurmanage.nojuradmin')
                             })
                         } else {
                             ElMessage({
                                 type: 'error',
-                                message: '添加管理员失败，请重试'
+                                message: t('jurmanage.addadminerr')
                             })
                         }
                     })
@@ -542,17 +547,17 @@ export default defineComponent({
                             getAdminData()
                             ElMessage({
                                 type: 'success',
-                                message: '修改管理员成功'
+                                message: t('jurmanage.updateadminsuc')
                             })
                         } else if (res.code === 202) {
                             ElMessage({
                                 type: 'error',
-                                message: '您无权限修改，请联系超级管理员'
+                                message: t('jurmanage.noupdateadmin')
                             })
                         } else {
                             ElMessage({
                                 type: 'error',
-                                message: '修改管理员失败，请重试'
+                                message: t('jurmanage.updateadminerr')
                             })
                         }
                     })
@@ -583,10 +588,10 @@ export default defineComponent({
         // 上传之前的操作
         const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
             if (!(rawFile.type == 'image/jpeg' || rawFile.type == 'image/png')) {
-                ElMessage.error('请上传png或者jpeg的格式!')
+                ElMessage.error(t('jurmanage.inputpngjpeg'))
                 return false
             } else if (rawFile.size / 1024 / 1024 > 2) {
-                ElMessage.error('上传的图片不能超过 2MB!')
+                ElMessage.error(t('jurmanage.uploadoversize'))
                 return false
             }
             return true
@@ -698,8 +703,9 @@ export default defineComponent({
 }
 
 ::v-deep.el-table .success-row {
-  background-color: #f0f9eb !important;
+    background-color: #f0f9eb !important;
 }
+
 // 上传图片组件
 ::v-deep .avatar-uploader .avatar {
     width: 98px;
