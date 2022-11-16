@@ -3,12 +3,12 @@ import { ElMessage } from 'element-plus';
 import Cookies from 'js-cookie'
 
 // axios.defaults.baseURL = 'http://localhost:5001/'
-axios.defaults.baseURL = 'http://152.136.15.238:5001/'
+axios.defaults.baseURL = 'https://api.weijiebaby.cloud:5002/'
 
 // 配置新建一个 axios 实例
 const service = axios.create({
 	// baseURL: 'http://localhost:5001/',
-	baseURL: 'http://152.136.15.238:5001/',
+	baseURL: 'https://api.weijiebaby.cloud:5002/',
 	timeout: 50000,
 	headers: { 'Content-Type': 'application/json' },
 });
