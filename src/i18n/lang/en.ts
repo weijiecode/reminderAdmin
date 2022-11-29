@@ -202,7 +202,22 @@ export default {
         totalflow: "Total Flow",
         todayflow: "Today Flow",
         usernum: "Number Users",
-        todonum: "Todo Quantity"
+        todonum: "All Quantity",
+        weekcount: "Platform user visits",
+        pc: "PC device",
+        mobile: "Mobile Devices",
+        loginuser: "Recently visited users",
+        username: "username",
+        dev: "device",
+        adduser: "Add user",
+        time: "time",
+        Mon: "Mon",
+        Tue: "Tue",
+        Wed: "Wed",
+        Thu: "Thu",
+        Fri: "Fri",
+        Sat: "Sat",
+        Sun: "Sun"
     },
     header: {
         inputmenu: "Please enter a menu name",

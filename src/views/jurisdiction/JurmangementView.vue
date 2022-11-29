@@ -79,7 +79,7 @@
                 size="default" status-icon>
                 <el-form-item style="float: left;" :label="$t('jurmanage.photo')" prop="photo">
                     <el-upload class="avatar-uploader" :headers="headertoken"
-                        action="http://152.136.15.238:5001/admin/photouploadurl" :show-file-list="false"
+                        action="https://api.weijiebaby.cloud:5002/admin/photouploadurl" :show-file-list="false"
                         :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                         <img v-if="addForm.photo" :src="addForm.photo" class="avatar" />
                         <el-icon v-else class="avatar-uploader-icon">
@@ -132,7 +132,7 @@
                 size="default" status-icon>
                 <el-form-item style="float: left;" :label="$t('jurmanage.photo')" prop="photo">
                     <el-upload class="avatar-uploader" :headers="headertoken"
-                        action="http://152.136.15.238:5001/admin/photouploadurl" :show-file-list="false"
+                        action="https://api.weijiebaby.cloud:5002/admin/photouploadurl" :show-file-list="false"
                         :on-success="uhandleAvatarSuccess" :before-upload="beforeAvatarUpload">
                         <img v-if="updateForm.photo" :src="updateForm.photo" class="avatar" />
                         <el-icon v-else class="avatar-uploader-icon">

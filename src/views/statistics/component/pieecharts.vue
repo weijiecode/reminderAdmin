@@ -44,7 +44,10 @@ export default defineComponent({
                     left: 'center'
                 },
                 title: {
-                    text: '待办各分类'
+                    text: '待办各分类',
+                    textStyle: {
+                        fontSize: 15
+                    }
                 },
                 series: [
                     {

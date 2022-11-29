@@ -49,15 +49,15 @@
           style="color: var(--langcolor);font-size:16px;cursor: pointer;margin-left: 20px;"></i>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="changelan('ch')">中文简体</el-dropdown-item>
-            <el-dropdown-item @click="changelan('en')">English</el-dropdown-item>
+            <el-dropdown-item @click="changelan('ch')"><img class="langimg" src="../../../assets/zh.png" alt="" srcset="">&nbsp; 中文简体</el-dropdown-item>
+            <el-dropdown-item @click="changelan('en')"><img class="langimg" src="../../../assets/en.png" alt="" srcset="">&nbsp; English</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
       <!-- 切换主题 -->
       <el-dropdown>
         <div class="user">
-          <img :src="adminphoto" alt="">
+          <img class="photoimg" :src="adminphoto" alt="">
           <div class="nickname">{{nickname}}</div>
           <el-icon :size="12" color="#606266">
             <ArrowDown />
@@ -388,7 +388,7 @@ export default defineComponent({
   margin: 0 10px;
 }
 
-img {
+.photoimg {
   height: 25px;
   width: 25px;
   border-radius: 50%;
@@ -425,5 +425,10 @@ img {
 
 .my-autocomplete li .highlighted .addr {
   color: #ddd;
+}
+
+.langimg {
+  width: 21px;
+  height: 14px;
 }
 </style>

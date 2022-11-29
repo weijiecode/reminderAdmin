@@ -202,7 +202,22 @@ export default {
         totalflow: "平台总流量",
         todayflow: "今日总流量",
         usernum: "用户数量",
-        todonum: "今日待办总数量"
+        todonum: "待办总数量",
+        weekcount: "平台用户访问量",
+        pc: "PC设备",
+        mobile: "移动设备",
+        loginuser: "近期访问用户",
+        username: "用户名",
+        dev: "设备",
+        adduser: "新增用户",
+        time: "时间",
+        Mon: "周一",
+        Tue: "周二",
+        Wed: "周三",
+        Thu: "周四",
+        Fri: "周五",
+        Sat: "周六",
+        Sun: "周日"
     },
     header: {
         inputmenu: "请输入菜单名称",

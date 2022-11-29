@@ -2,7 +2,7 @@
   <div class="content">
     <p class="toptitle">{{ $t("mycenter.personaldata") }}</p>
     <div class="bottomcontent">
-      <img class="imgphoto" src="../../../assets/t.jpeg" alt="">
+      <img class="imgphoto" :src="adminphoto" alt="">
       <div class="userdata">
         <p>{{dataname}}，admin，{{ $t("mycenter.hint") }}</p>
         <div class="both">
@@ -40,6 +40,9 @@ export default defineComponent({
     const dataname = ref<string>('')
     const { hours } = useDate();
     const nowhour = ref(hours);
+    // 获取头像地址
+    const adminphoto = ref('')
+    adminphoto.value = JSON.parse(localStorage.getItem('admindata') || '').photo
     onMounted(() => {
       dataLogin().then(res => {
         // console.log("登录基础信息", res.data)
@@ -78,7 +81,8 @@ export default defineComponent({
     })
     return {
       ...toRefs(logindata),
-      dataname
+      dataname,
+      adminphoto
     }
   }
 });

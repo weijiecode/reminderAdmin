@@ -5,15 +5,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed, watch, ref, nextTick } from 'vue';
+import { defineComponent, onMounted, computed, toRefs, reactive, watch, ref, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import { useStore } from "vuex"
+import { useI18n } from 'vue-i18n'
+import { sevenData } from '@/api/main'
 
 export default defineComponent({
   name: 'CrossEcharts',
   components: {
   },
   setup() {
+    const { t } = useI18n()
+    const state = reactive({
+      sData: [0,0,0,0,0,0,0],
+      sData1: [0,0,0,0,0,0,0],
+    })
+
+    const { sData, sData1 } = toRefs(state)
+    const getuserData = async() => {
+      await sevenData().then(res => {
+        console.log(res)
+        if (res.code === 200) {
+          sData.value = [res.data.s1, res.data.s2, res.data.s3, res.data.s4, res.data.s5, res.data.s6, res.data.s7]
+          sData1.value = [res.data.s8, res.data.s9, res.data.s10, res.data.s11, res.data.s12, res.data.s13, res.data.s14]
+        }
+      })
+    }
     // 获取vuex对象
     let store = useStore()
     const themetype = ref('')
@@ -22,9 +40,17 @@ export default defineComponent({
     const getTheme = computed(() => {
       return store.state.themetype
     })
+    // 监听vuex的language参数
+    const getlang = computed(() => {
+      return store.state.language
+    })
     // 渲染页面时加载图表
     onMounted(() => {
-      getcharts()
+      // 获取数据
+      getuserData().then( () => {
+        getcharts()
+      })
+      
     });
     // 封装方法
     const getcharts = () => {
@@ -47,7 +73,10 @@ export default defineComponent({
       option = {
         color: ['#80FFA5', '#00DDFF'],
         title: {
-          text: '平台用户增长量'
+          text: t('main.weekcount'),
+          textStyle: {
+            fontSize: 15
+          }
         },
         tooltip: {
           trigger: 'axis',
@@ -59,7 +88,7 @@ export default defineComponent({
           }
         },
         legend: {
-          data: ['PC设备', '移动设备']
+          data: [t('main.pc'), t('main.mobile')]
         },
         toolbox: {
           feature: {
@@ -77,7 +106,7 @@ export default defineComponent({
           {
             type: 'category',
             boundaryGap: false,
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: [t('main.Mon'), t('main.Tue'), t('main.Wed'), t('main.Thu'), t('main.Fri'), t('main.Sat'), t('main.Sun')]
           }
         ],
         yAxis: [
@@ -87,7 +116,7 @@ export default defineComponent({
         ],
         series: [
           {
-            name: 'PC设备',
+            name: t('main.pc'),
             type: 'line',
             stack: 'Total',
             smooth: true,
@@ -111,10 +140,10 @@ export default defineComponent({
             emphasis: {
               focus: 'series'
             },
-            data: [140, 232, 101, 264, 90, 340, 250]
+            data: sData.value
           },
           {
-            name: '移动设备',
+            name: t('main.mobile'),
             type: 'line',
             stack: 'Total',
             smooth: true,
@@ -138,7 +167,7 @@ export default defineComponent({
             emphasis: {
               focus: 'series'
             },
-            data: [120, 282, 111, 234, 220, 340, 310]
+            data: sData1.value
           }
         ]
       };
@@ -146,13 +175,19 @@ export default defineComponent({
     }
 
     watch(getTheme, () => {
-        nextTick(() => {
-          setTimeout(() => {
-            getcharts()
-          })
-          themetype.value = store.state.themetype
+      nextTick(() => {
+        setTimeout(() => {
+          getcharts()
         })
+        themetype.value = store.state.themetype
       })
+    })
+
+    watch(getlang, () => {
+      nextTick(() => {
+        getcharts()
+      })
+    })
 
     return {
     }
@@ -167,7 +202,7 @@ export default defineComponent({
 
 #echartone {
   border-radius: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
   height: 400px;
   background-color: var(--echartbg);

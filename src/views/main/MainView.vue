@@ -3,8 +3,8 @@
     <div class="oneitem">
       <div class="subone">
         <div class="databox">
-          <p class="pone">1039,63</p>
-          <p class="ptwo">+12.10%</p>
+          <p class="pone">{{countAll.s1}}</p>
+          <p class="ptwo">{{'+'+countAll.allc+'%'}}</p>
           <p class="pthree">{{ $t("main.totalflow") }}</p>
         </div>
         <div class="iconbox" style="background-color: var(--iconbox1);">
@@ -13,8 +13,9 @@
       </div>
       <div class="subone">
         <div class="databox">
-          <p class="pone">326</p>
-          <p class="ptwo" style="color: #6690f9;">-12.10%</p>
+          <p class="pone">{{countAll.s2}}</p>
+          <p v-if="(countAll.todayc+'').indexOf('-')!=-1" class="ptwo" style="color: #6690f9;">{{'-'+countAll.todayc+'%'}}</p>
+          <p v-if="(countAll.todayc+'').indexOf('-')==-1" class="ptwo">{{'+'+countAll.todayc+'%'}}</p>
           <p class="pthree">{{ $t("main.todayflow") }}</p>
         </div>
         <div class="iconbox" style="background-color: var(--iconbox2);">
@@ -23,8 +24,8 @@
       </div>
       <div class="subone">
         <div class="databox">
-          <p class="pone">237</p>
-          <p class="ptwo">+8.10%</p>
+          <p class="pone">{{countAll.s3}}</p>
+          <p class="ptwo">{{'+'+countAll.regc+'%'}}</p>
           <p class="pthree">{{ $t("main.usernum") }}</p>
         </div>
         <div class="iconbox" style="background-color: var(--iconbox3);">
@@ -33,8 +34,8 @@
       </div>
       <div class="subone">
         <div class="databox">
-          <p class="pone">23</p>
-          <p class="ptwo">+12.10%</p>
+          <p class="pone">{{countAll.s4}}</p>
+          <p class="ptwo">{{'+'+countAll.blockc+'%'}}</p>
           <p class="pthree">{{ $t("main.todonum") }}</p>
         </div>
         <div class="iconbox" style="background-color: var(--iconbox4);">
@@ -44,25 +45,87 @@
     </div>
     <div class="oneechartsview">
       <CrossEcharts></CrossEcharts>
-      <PieEcharts></PieEcharts>
+      <UserList :tableData="tableData" :userData="userData"></UserList>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, reactive, toRefs } from 'vue';
 import CrossEcharts from '@/views/main/component/crossecharts.vue';
-import PieEcharts from '@/views/main/component/pieecharts.vue';
-
+import UserList from '@/views/main/component/userlist.vue';
+import { countData, loginData, newuserData } from '@/api/main'
+import { logininfo, newuser } from "@/types/main";
 
 export default defineComponent({
   name: 'MainView',
   components: {
     CrossEcharts,
-    PieEcharts
+    UserList
   },
   setup() {
+    const state = reactive({
+      countAll: {
+        s1: 0,
+        s2: 0,
+        s3: 0,
+        s4: 0,
+        todayc: 0,
+        allc: 0,
+        regc: 0,
+        blockc: 0
+      },
+      tableData: [] as logininfo[],
+      userData: [] as newuser[]
+    })
+
+    const { countAll, tableData, userData } = toRefs(state)
+    const getCountData = () => {
+      countData().then( res => {
+        // console.log(res)
+        if(res.code === 200){
+          countAll.value = res.data
+        }
+      })
+    }
+    // 获取首页统计数据
+    getCountData()
+    const getLoginInfo = () => {
+      loginData().then( res => {
+        if(res.code === 200){
+          let arruser = [] as string[]
+          tableData.value = []
+          for(let i in res.data){
+            if(arruser.indexOf(res.data[i].username) == -1){
+              tableData.value.push(res.data[i])
+              arruser.push(res.data[i].username)
+            }
+          }
+          // 截取前4条数据
+          tableData.value = tableData.value.slice(0,4)
+          // 处理访问时间
+          tableData.value.forEach((item, index) => {
+            tableData.value[index].createtime = item.createtime.substring(5,item.createtime.length)
+          })
+          
+        }
+      })
+    }
+    // 获取用户登录数据
+    getLoginInfo()
+    const getNewUser = () => {
+      newuserData().then( res => {
+        if(res.code === 200){
+          userData.value = res.data
+        }
+      })
+    }
+    // 获取前十条最新注册的用户数据
+    getNewUser()
     return {
+      countAll,
+      tableData,
+      userData
     }
   }
 });
@@ -86,9 +149,9 @@ export default defineComponent({
   border-radius: 10px;
   width: 25%;
   cursor: default;
-  height: 130px;
+  height: 120px;
   background-color: var(--themeColor);
-  margin: 10px;
+  margin: 0 10px 10px 10px;
   display: flex;
   border: 1px solid var(--tabborder);
   align-items: center;
