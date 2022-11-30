@@ -117,6 +117,7 @@ export default defineComponent({
       newuserData().then( res => {
         if(res.code === 200){
           userData.value = res.data
+          // console.log(res.data)
         }
       })
     }

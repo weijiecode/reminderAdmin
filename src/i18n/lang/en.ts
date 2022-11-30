@@ -132,6 +132,7 @@ export default {
         selecttype: "Please select a search category",
         username: "user",
         nickname: "nick",
+        photo: "photo",
         adduser: "New User",
         number: "num",
         userid: "ID",

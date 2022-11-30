@@ -131,6 +131,7 @@ export default {
         inputsearch: "请输入搜索内容",
         selecttype: "请选择搜索类别",
         username: "用户名",
+        photo: "头像",
         nickname: "昵称",
         adduser: "新增用户",
         number: "序号",

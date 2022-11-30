@@ -4,8 +4,8 @@
             <p class="newonline">{{ $t("main.loginuser") }}</p>
             <div class="userlist">
                 <el-table :data="tableData" stripe style="width: 100%;font-size: 12px;">
-                    <el-table-column prop="username" :label="$t('main.username')" />
-                    <el-table-column prop="devinfo" :label="$t('main.dev')" />
+                    <el-table-column show-overflow-tooltip width="80" prop="username" :label="$t('main.username')" />
+                    <el-table-column show-overflow-tooltip width="100" prop="devinfo" :label="$t('main.dev')" />
                     <el-table-column prop="createtime" :label="$t('main.time')" />
                 </el-table>
             </div>
@@ -14,7 +14,7 @@
             <div class="newonline">{{ $t("main.adduser") }}</div>
             <div class="showphoto">
                 <div class="oneuser" v-for="item in userData" :key="item.username">
-                    <el-tooltip class="box-item" effect="dark" :content="item.username" placement="top">
+                    <el-tooltip class="box-item" effect="dark" :content="item.nickname" placement="top">
                         <img class="newimg" :src="item.photo">
                     </el-tooltip>
                 </div>

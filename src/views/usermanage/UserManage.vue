@@ -18,9 +18,14 @@
             <el-button type="success" :icon="CirclePlus" @click="dialogFormVisibleAdd = true">{{ $t("usermanage.adduser") }}</el-button>
         </div>
         <el-table :data="userDatas" :cell-style="{ height: '70px', maxHeight: '70px' }">
-            <el-table-column type="index" prop="id" :label="$t('usermanage.number')" width="60px" />
+            <!-- <el-table-column type="index" prop="id" :label="$t('usermanage.number')" width="60px" /> -->
             <el-table-column prop="id" :label="$t('usermanage.userid')" width="70px" />
-            <el-table-column prop="username" :label="$t('usermanage.username')" width="80px" />
+            <el-table-column :label="$t('usermanage.photo')" >
+                <template #default="scope">
+                    <img :src="scope.row.photo" class="userphoto">
+                </template>
+            </el-table-column>
+            <el-table-column prop="username" :label="$t('usermanage.username')" />
             <el-table-column prop="nickname" :label="$t('usermanage.nickname')" />
             <!-- <el-table-column prop="sex" label="性别" width="60px" /> -->
             <el-table-column :label="$t('usermanage.sex')" width="60px">
@@ -34,7 +39,7 @@
                 </template>
             </el-table-column>
             <el-table-column prop="phone" :label="$t('usermanage.phone')" width="110px" />
-            <el-table-column show-overflow-tooltip prop="email" :label="$t('usermanage.email')" width="120px" />
+            <!-- <el-table-column show-overflow-tooltip prop="email" :label="$t('usermanage.email')" width="120px" /> -->
             <el-table-column sortable prop="createtime" :label="$t('usermanage.createtime')" />
             <el-table-column show-overflow-tooltip prop="introduction" :label="$t('usermanage.introduction')" />
             <!-- <el-table-column prop="status" label="状态" /> -->
@@ -185,6 +190,7 @@ export default defineComponent({
                     id: 0,
                     username: '',
                     nickname: '',
+                    photo: '',
                     sex: 0,
                     email: '',
                     phone: '',
@@ -199,7 +205,7 @@ export default defineComponent({
         // 封装获取用户列表的方法
         const getData = () => {
             getUserData(pageData).then(res => {
-                // console.log('用户列表数据：', res)
+                console.log('用户列表数据：', res)
                 if (res.code === 200) {
                     userDatas.value = res.data;
                     state.stateLength = res.count.num
@@ -539,6 +545,11 @@ export default defineComponent({
         width: 240px;
         margin-right: 20px;
     }
+}
+
+.userphoto {
+    width: 50px;
+    height: 50px;
 }
 
 .pagination-block {

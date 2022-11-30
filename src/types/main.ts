@@ -31,6 +31,7 @@ export interface logininfo {
 export interface newuser {
     photo: string;
     username: string;
+    nickname: string;
 }
 
 export interface sevendata {

@@ -124,7 +124,7 @@ export default defineComponent({
         }
         // 跳转前台页面
         const tofront = () => {
-            window.open("http://152.136.15.238:999/","_blank")
+            window.open("https://weijiebaby.cloud","_blank")
         }
         return {
             route,
