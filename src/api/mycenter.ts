@@ -23,4 +23,4 @@ export const updateQuestion = (params: question):Promise<updateInfo> => request.
 export const updateQq = (params: qq):Promise<updateInfo> => request.post("adminsafe/updateqq", params)
 
 // 修改管理员密码
-export const updatepassword = (params: password):Promise<updateInfo> => request.post("adminsafe/updateqq", params)
+export const updatepassword = (params: password):Promise<updateInfo> => request.post("adminsafe/updatepassword", params)

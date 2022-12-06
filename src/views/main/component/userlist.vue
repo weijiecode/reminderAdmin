@@ -15,7 +15,8 @@
             <div class="showphoto">
                 <div class="oneuser" v-for="item in userData" :key="item.username">
                     <el-tooltip class="box-item" effect="dark" :content="item.nickname" placement="top">
-                        <img class="newimg" :src="item.photo">
+                        <img v-if="item.photo" class="newimg" :src="item.photo"/>
+                        <img v-if="!item.photo" class="newimg" src="https://api.weijiebaby.cloud:5002/public/image/sharelogo.png"/>
                     </el-tooltip>
                 </div>
                 <div class="newimg zhanwei">...</div>

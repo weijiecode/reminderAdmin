@@ -22,22 +22,23 @@
             <el-table-column prop="id" :label="$t('usermanage.userid')" width="70px" />
             <el-table-column :label="$t('usermanage.photo')" >
                 <template #default="scope">
-                    <img :src="scope.row.photo" class="userphoto">
+                    <img v-if="scope.row.photo" :src="scope.row.photo" class="userphoto">
+                    <img v-if="!scope.row.photo" class="userphoto" src="https://api.weijiebaby.cloud:5002/public/image/sharelogo.png"/>
                 </template>
             </el-table-column>
             <el-table-column prop="username" :label="$t('usermanage.username')" />
             <el-table-column prop="nickname" :label="$t('usermanage.nickname')" />
             <!-- <el-table-column prop="sex" label="性别" width="60px" /> -->
-            <el-table-column :label="$t('usermanage.sex')" width="60px">
+            <!-- <el-table-column :label="$t('usermanage.sex')" width="60px">
                 <template #default="scope">
                     <div style="display: flex; align-items: center">
                         <el-icon>
-                            <Male color="#1296db" v-if="scope.row.sex === '男'" />
-                            <Female color="#d4237a" v-if="scope.row.sex === '女'" />
+                            <Male color="#1296db" v-if="scope.row.sex !== '男'" />
+                            <Female color="#d4237a" v-if="scope.row.sex !== '女'" />
                         </el-icon>
                     </div>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="phone" :label="$t('usermanage.phone')" width="110px" />
             <!-- <el-table-column show-overflow-tooltip prop="email" :label="$t('usermanage.email')" width="120px" /> -->
             <el-table-column sortable prop="createtime" :label="$t('usermanage.createtime')" />
@@ -66,7 +67,7 @@
             </el-table-column>
         </el-table>
         <div class="pagination-block">
-            <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[5, 10, 20, 30]"
+            <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 30, 40, 50]"
                 background layout="total, sizes, prev, pager, next, jumper" :total="stateLength"
                 @size-change="handleSizeChange" @current-change="handleCurrentChange" />
         </div>
@@ -171,15 +172,15 @@ import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
     components: {
-        Male,
-        Female
+        // Male,
+        // Female
     },
     setup() {
         const { t } = useI18n()
         // 分页参数
         const pageData = reactive({
             currentPage: 1,
-            pageSize: 5
+            pageSize: 10
         });
         const editFormRef = ref<FormInstance>();
         const addFormRef = ref<FormInstance>();
