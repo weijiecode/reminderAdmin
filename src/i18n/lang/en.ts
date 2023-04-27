@@ -189,6 +189,7 @@ export default {
         inputtype: "Please select a type",
         inputcontent: "Please enter the content",
         cancel: "cancel",
+        todo: "operation",
         save: "save",
         messagetype: "【notice】",
         messagetype1: "【official】",

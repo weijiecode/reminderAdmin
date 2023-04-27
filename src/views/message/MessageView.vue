@@ -15,7 +15,7 @@
             <el-table-column prop="content" :label="$t('message.content')" width="320" />
             <el-table-column prop="datetime" :label="$t('message.createtime')" />
             <el-table-column prop="username" :label="$t('message.createpeople')" />
-            <el-table-column label="Operations" width="180">
+            <el-table-column :label="$t('message.todo')" width="180">
                 <template #default="scope">
                     <el-button size="small" :icon="Edit" type="primary" @click="handleClick(scope.row)">{{ $t("message.edit") }}
                     </el-button>

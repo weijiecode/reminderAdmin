@@ -183,6 +183,7 @@ export default {
         warningdel: "你确定删除该公告吗?",
         createtime: "发布时间",
         createpeople: "发布人",
+        todo: "操作",
         edit: "编辑",
         delete: "删除",
         msgedit: "公告编辑",
